@@ -1,0 +1,14 @@
+{
+  "name": "@aw/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server/index.ts"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4",
+    "zod": "^4.6.7"
+  }
+}

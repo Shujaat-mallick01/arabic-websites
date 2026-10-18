@@ -1,0 +1,7 @@
+packages:
+  - "packages/*"
+  - "sites/*"
+  - "hub"
+allowBuilds:
+  sharp: true
+  esbuild: true

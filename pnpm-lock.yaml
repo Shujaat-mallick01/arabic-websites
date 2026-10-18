@@ -188,6 +188,24 @@ importers:
         specifier: ^4.6.7
         version: 4.6.7
 
+  packages/booking:
+    dependencies:
+      '@aw/core':
+        specifier: workspace:*
+        version: link:../core
+      '@aw/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+
+  packages/commerce:
+    dependencies:
+      '@aw/core':
+        specifier: workspace:*
+        version: link:../core
+      '@aw/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+
   packages/core:
     dependencies:
       '@netlify/blobs':

@@ -1,0 +1,69 @@
+---
+// Booking confirmation: the appointment "in the mirror", with a WhatsApp share and Hijri date.
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+const labels = { held: '…', pending_payment: ctx.tr('order.status.pending_payment'), confirmed: ctx.tr('booking.confirmed'), completed: ctx.tr('order.status.completed'), cancelled: ctx.tr('order.status.cancelled'), no_show: '—', expired: ctx.tr('pay.pending') };
+---
+<aw-booking-view class="block container-page py-10 max-w-xl" data-labels={JSON.stringify(labels)} data-hijri={ctx.site.locale.hijri.show !== 'never' ? '1' : '0'}>
+  <p data-loading class="text-muted">{ctx.tr('loading')}</p>
+  <div data-missing hidden><h1 class="text-h1">{ctx.tr('order.notFound')}</h1></div>
+  <div data-found hidden class="flex flex-col gap-4">
+    <h1 class="text-h1" data-status></h1>
+    <div class="p-6 rounded-card bg-surface border border-line flex flex-col gap-2 aw-frame-arch pt-14 text-center items-center">
+      <p class="m-0 text-h3" data-service></p>
+      <p class="m-0" data-when></p>
+      <p class="m-0 text-small text-muted" data-hijri></p>
+      <p class="m-0 text-small text-muted tabular" dir="ltr" data-id></p>
+    </div>
+    <dl class="m-0 grid grid-cols-[1fr_auto] gap-x-4 gap-y-2">
+      <dt class="text-muted">{ctx.tr('booking.deposit')}</dt><dd class="m-0 price" data-deposit></dd>
+      <dt class="text-muted">{ctx.tr('booking.balance')}</dt><dd class="m-0 price" data-balance></dd>
+    </dl>
+    <a class="aw-btn aw-btn-ink self-start" data-wa target="_blank" rel="noopener">{ctx.tr('cta.shareWhatsapp')}</a>
+  </div>
+</aw-booking-view>
+
+<script>
+  import { formatHijri, formatTime } from '@aw/i18n';
+  import { waLink } from '@aw/whatsapp';
+  import { date, money, siteBlob, str } from '../client/runtime.ts';
+  import { formatDate } from '@aw/i18n';
+  class AwBookingView extends HTMLElement {
+    async connectedCallback() {
+      const q = new URLSearchParams(location.search);
+      const s = siteBlob();
+      const labels = JSON.parse(this.dataset.labels ?? '{}');
+      const $ = (sel: string) => this.querySelector<HTMLElement>(sel)!;
+      try {
+        const res = await fetch(`/api/booking?b=${encodeURIComponent(q.get('b') ?? '')}&t=${encodeURIComponent(q.get('t') ?? '')}`);
+        if (!res.ok) throw new Error();
+        const b = await res.json();
+        $('[data-status]').textContent = labels[b.status] ?? b.status;
+        $('[data-service]').textContent = b.serviceTitle[s.lang] || b.serviceTitle.ar;
+        const next = (() => {
+          const [y, m, d] = b.businessDate.split('-').map(Number);
+          return new Date(Date.UTC(y, m - 1, d + 1)).toISOString().slice(0, 10);
+        })();
+        const late = b.startMin >= 1440 ? ` · ${str('booking.afterMidnight', { day: formatDate(next, s.lang, s.locale, 'weekday') })}` : '';
+        const when = `${date(b.businessDate)} · ${formatTime(b.startMin, s.lang, s.locale)}${late}`;
+        $('[data-when]').textContent = when;
+        if (this.dataset.hijri === '1') $('[data-hijri]').textContent = formatHijri(b.businessDate, s.lang, s.locale);
+        $('[data-id]').textContent = b.id;
+        $('[data-deposit]').textContent = money(b.deposit);
+        $('[data-balance]').textContent = money(b.balance);
+        const brand = s.brand[s.lang] || s.brand.ar;
+        const text = s.lang === 'ar' ? `حجزت في ${brand}: ${b.serviceTitle.ar} · ${when} · رقم الحجز ${b.id}` : `Booked at ${brand}: ${b.serviceTitle.en} · ${when} · booking ${b.id}`;
+        ($('[data-wa]') as HTMLAnchorElement).href = waLink(null, text);
+        $('[data-found]').hidden = false;
+      } catch {
+        $('[data-missing]').hidden = false;
+      }
+      $('[data-loading]').hidden = true;
+    }
+  }
+  if (!customElements.get('aw-booking-view')) customElements.define('aw-booking-view', AwBookingView);
+</script>

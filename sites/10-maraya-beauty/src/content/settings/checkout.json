@@ -1,0 +1,14 @@
+{
+  "notesMaxLength": 200,
+  "termsPage": "terms",
+  "confirmationNote": {
+    "ar": "تمام يا قمر، وصلنا طلبك.",
+    "en": "All set, we have your order."
+  },
+  "giftCards": {
+    "terms": {
+      "ar": "بطاقة الإهداء صالحة ١٢ شهراً، ولا تُسترد نقداً، وتُستخدم في اللاونج أو لعربون الحجز.",
+      "en": "Gift cards are valid for 12 months, are not refundable for cash, and can be used at the lounge or towards a booking deposit."
+    }
+  }
+}

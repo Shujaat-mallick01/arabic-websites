@@ -1,0 +1,10 @@
+id: nail-room
+kind: room
+name:
+  ar: غرفة الأظافر
+  en: Nail room
+capacity: 4
+skills: []
+daysOff: []
+active: true
+order: 22

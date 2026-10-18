@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: مراية جناح العروس المقوّسة
+  alt: مراية جناح العروس المقوّسة
+  style: lounge
+  featured: true
+  order: 1
+en:
+  caption: The bridal suite’s arched mirror
+  alt: The bridal suite’s arched mirror

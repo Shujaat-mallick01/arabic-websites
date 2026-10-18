@@ -1,0 +1,35 @@
+id: nouf
+kind: staff
+name:
+  ar: نوف
+  en: Nouf
+role:
+  ar: القص والسشوار
+  en: Cuts and blow-dry
+capacity: 1
+skills:
+  - cuts
+  - blowdry
+weekly:
+  sat:
+    - open: 18:00
+      close: 02:00
+  sun:
+    - open: 18:00
+      close: 02:00
+  mon:
+    - open: 18:00
+      close: 02:00
+  tue:
+    - open: 18:00
+      close: 02:00
+  wed:
+    - open: 18:00
+      close: 02:00
+  thu:
+    - open: 18:00
+      close: 02:00
+  fri: []
+daysOff: []
+active: true
+order: 7

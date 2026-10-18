@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import ServicesLedger from '@aw/ui/booking/ServicesLedger.astro';
+import { pageContext } from '@aw/ui/context';
+import { getCategories, getServices } from '@aw/ui/data';
+
+const ctx = pageContext(Astro.url);
+const services = await getServices();
+const categories = await getCategories();
+const title = ctx.tr('nav.services');
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/services/' }} primaryAction={{ label: ctx.tr('cta.book'), href: ctx.href('/book/') }}>
+  <div class="container-page pt-8 md:pt-12"><h1 class="text-h1 mb-8">{title}</h1></div>
+  <ServicesLedger ctx={ctx} services={services} categories={categories} full />
+  <div class="h-16"></div>
+</BaseLayout>

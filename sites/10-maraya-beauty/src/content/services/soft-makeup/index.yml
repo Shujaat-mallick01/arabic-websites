@@ -1,0 +1,33 @@
+ar:
+  id: soft-makeup
+  _slug: soft-makeup
+  title: مكياج ناعم
+  summary: لمسة خفيفة للعزايم الصغيرة والتصوير.
+  description: |-
+    لمسة خفيفة للعزايم الصغيرة والتصوير.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: makeup
+  durationMinutes: 45
+  priceKind: fixed
+  price: "320.00"
+  bookableOnline: true
+  featured: false
+  order: 23
+  requires:
+    - kind: staff
+      skill: evening-makeup
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: مكياج ناعم
+      alt_en: Soft makeup
+en:
+  title: Soft makeup
+  summary: A light touch for small gatherings and photos.
+  description: |-
+    A light touch for small gatherings and photos.
+
+    Prices include VAT.

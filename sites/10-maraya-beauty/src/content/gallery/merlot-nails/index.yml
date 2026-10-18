@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: مناكير جل نود ومارون
+  alt: مناكير جل نود ومارون
+  style: lounge
+  featured: true
+  order: 3
+en:
+  caption: Nude and merlot gel nails
+  alt: Nude and merlot gel nails

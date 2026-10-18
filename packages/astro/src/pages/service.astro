@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import Breadcrumbs from '@aw/ui/primitives/Breadcrumbs.astro';
+import Price from '@aw/ui/primitives/Price.astro';
+import ArchFrame from '@aw/ui/signature/ArchFrame.astro';
+import { Picture } from 'astro:assets';
+import { marked } from '@aw/ui/sections/markdown.ts';
+import { pageContext } from '@aw/ui/context';
+import { getBookingRules, getServices } from '@aw/ui/data';
+import { computeDeposit } from '@aw/booking';
+import { serviceJsonLd, breadcrumbsJsonLd } from '@aw/seo';
+
+export async function getStaticPaths() {
+  return (await getServices()).map((s) => ({ params: { slug: s.slug } }));
+}
+const ctx = pageContext(Astro.url);
+const sv = (await getServices()).find((s) => s.slug === Astro.params.slug)!;
+const rules = await getBookingRules();
+const deposit = computeDeposit(sv.price.amount, sv.deposit ?? rules.deposit);
+const title = ctx.pick(sv.title);
+const path = `/services/${sv.slug}/`;
+const trail = [{ name: ctx.tr('nav.home'), path: '/' }, { name: ctx.tr('nav.services'), path: '/services/' }, { name: title, path }];
+const img = sv.images[0];
+const mins = ctx.lang === 'ar' ? `${ctx.num(sv.durationMinutes)} دقيقة` : `${sv.durationMinutes} min`;
+---
+<BaseLayout ctx={ctx} meta={{ title, description: ctx.pick(sv.summary), path }} jsonLd={[serviceJsonLd(ctx.site, { title: sv.title, summary: sv.summary, slug: sv.slug, price: sv.price.amount, durationMinutes: sv.durationMinutes }, ctx.lang), breadcrumbsJsonLd(ctx.site, trail, ctx.lang)]} primaryAction={{ label: ctx.tr('cta.book'), href: ctx.href(`/book/?service=${sv.id}`) }}>
+  <div class="container-page py-8 md:py-12 grid gap-8 md:grid-cols-12">
+    <div class="md:col-span-5">
+      {img ? <ArchFrame aspect="3 / 4"><Picture src={img.src} alt={ctx.pick(img.alt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 720]} sizes="(min-width: 768px) 40vw, 100vw" loading="eager" class="h-full w-full object-cover" /></ArchFrame> : null}
+    </div>
+    <div class="md:col-span-6 md:col-start-7 flex flex-col gap-4">
+      <Breadcrumbs ctx={ctx} trail={trail} />
+      <h1 class="text-h1">{title}</h1>
+      <p class="m-0 text-muted">{ctx.pick(sv.summary)}</p>
+      <dl class="m-0 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2">
+        <dt class="text-muted">{ctx.tr('booking.duration')}</dt><dd class="m-0 tabular">{mins}</dd>
+        <dt class="text-muted">{ctx.tr('product.price')}</dt><dd class="m-0"><Price ctx={ctx} value={sv.price.amount} from={sv.price.kind === 'from'} /></dd>
+        {deposit.minor > 0 && <><dt class="text-muted">{ctx.tr('booking.deposit')}</dt><dd class="m-0"><Price ctx={ctx} value={deposit} /></dd></>}
+      </dl>
+      {ctx.pick(sv.description) && <div class="aw-prose text-muted" set:html={marked(ctx.pick(sv.description))} />}
+      {sv.bookableOnline && <a href={ctx.href(`/book/?service=${sv.id}`)} class="aw-btn aw-btn-primary self-start">{ctx.tr('cta.book')}</a>}
+    </div>
+  </div>
+</BaseLayout>

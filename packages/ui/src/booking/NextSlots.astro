@@ -1,0 +1,25 @@
+---
+// Defines <aw-next-slots>: "أقرب مواعيد اليوم" chips, computed live (never at build time).
+// Static HTML keeps the row's height and a neutral label, so there is no layout shift.
+---
+<script>
+  import { formatTime } from '@aw/i18n';
+  import { href, siteBlob } from '../client/runtime.ts';
+  class AwNextSlots extends HTMLElement {
+    async connectedCallback() {
+      const service = this.dataset.service;
+      if (!service) return;
+      const s = siteBlob();
+      try {
+        const data = await (await fetch(`/api/availability?service=${encodeURIComponent(service)}&next=${this.dataset.limit ?? 3}`)).json();
+        if (!data.next?.length) return;
+        this.innerHTML = `<span class="block mb-2">${s.lang === 'ar' ? 'أقرب المواعيد' : 'Next free times'}</span><span class="flex flex-wrap gap-2">${data.next
+          .map((n: { date: string; start: number }) => `<a class="aw-chip tabular no-underline text-ink" href="${href(`/book/?service=${encodeURIComponent(service)}`)}">${formatTime(n.start, s.lang, s.locale)}</a>`)
+          .join('')}</span>`;
+      } catch {
+        /* keep the static label */
+      }
+    }
+  }
+  if (!customElements.get('aw-next-slots')) customElements.define('aw-next-slots', AwNextSlots);
+</script>

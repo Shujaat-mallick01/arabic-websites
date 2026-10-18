@@ -1,0 +1,10 @@
+id: lash-room
+kind: room
+name:
+  ar: غرفة الرموش والحواجب
+  en: Lash and brow room
+capacity: 2
+skills: []
+daysOff: []
+active: true
+order: 23

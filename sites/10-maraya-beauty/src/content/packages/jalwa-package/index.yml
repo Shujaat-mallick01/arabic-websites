@@ -1,0 +1,26 @@
+ar:
+  id: jalwa-package
+  _slug: jalwa-package
+  title: باقة الجَلوة
+  summary: مكياج وتسريحة العروس وتثبيت الطرحة ورموش وشنطة تعديل، في جناح العروس.
+  price: "3800.00"
+  inclusions_ar:
+    - مكياج العروس
+    - تسريحة العروس
+    - تثبيت الطرحة
+    - رموش كلاسيك
+    - شنطة تعديل للّيلة
+  inclusions_en:
+    - Bridal makeup
+    - Bridal hair
+    - Veil fitting
+    - Classic lashes
+    - Touch-up kit for the night
+  services:
+    - jalwa-package
+  durationMinutes: 240
+  featured: true
+  order: 1
+en:
+  title: The Jalwa package
+  summary: Bridal makeup and hair, veil fitting, lashes and a touch-up kit, in the bridal suite.

@@ -1,0 +1,36 @@
+id: jumana
+kind: staff
+name:
+  ar: جُمانة
+  en: Jumana
+role:
+  ar: مكياج السهرة والرموش والحواجب
+  en: Evening makeup, lashes and brows
+capacity: 1
+skills:
+  - evening-makeup
+  - lashes
+  - brows
+weekly:
+  sat:
+    - open: 16:00
+      close: 00:00
+  sun:
+    - open: 16:00
+      close: 00:00
+  mon:
+    - open: 16:00
+      close: 00:00
+  tue:
+    - open: 16:00
+      close: 00:00
+  wed:
+    - open: 16:00
+      close: 00:00
+  thu: []
+  fri:
+    - open: 16:00
+      close: 00:00
+daysOff: []
+active: true
+order: 6

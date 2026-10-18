@@ -90,7 +90,7 @@ export function awIntegration(opts: AwSiteOptions, r: ResolvedPreset): AstroInte
         }
         injectRoute({ pattern: '/404', entrypoint: '@aw/astro/pages/not-found.astro', prerender: true });
         injectRoute({ pattern: '/robots.txt', entrypoint: '@aw/astro/pages/robots.txt.ts', prerender: true });
-        if (r.tier === 'full') injectRoute({ pattern: '/_aw/catalog.json', entrypoint: '@aw/astro/pages/catalog.json.ts', prerender: true });
+        if (r.tier === 'full' && r.collections.includes('products')) injectRoute({ pattern: '/_aw/catalog.json', entrypoint: '@aw/astro/pages/catalog.json.ts', prerender: true });
 
         // The site's stylesheet (Tailwind + brand theme + tokens) on every page.
         const css = join(dir, 'src', 'styles', 'site.css').replace(/\\/g, '/');

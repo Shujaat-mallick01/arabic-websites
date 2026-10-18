@@ -1,0 +1,33 @@
+ar:
+  id: hair-treatment
+  _slug: hair-treatment
+  title: حمام زيت مغذّي
+  summary: ترطيب عميق للشعر الجاف بعد الصبغة.
+  description: |-
+    ترطيب عميق للشعر الجاف بعد الصبغة.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: hair
+  durationMinutes: 45
+  priceKind: fixed
+  price: "160.00"
+  bookableOnline: true
+  featured: false
+  order: 7
+  requires:
+    - kind: staff
+      skill: blowdry
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: حمام زيت مغذّي
+      alt_en: Nourishing oil treatment
+en:
+  title: Nourishing oil treatment
+  summary: Deep moisture for dry, coloured hair.
+  description: |-
+    Deep moisture for dry, coloured hair.
+
+    Prices include VAT.

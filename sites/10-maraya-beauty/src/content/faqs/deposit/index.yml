@@ -1,0 +1,8 @@
+ar:
+  question: كم العربون؟ وينخصم من الحساب؟
+  answer: العربون ٣٠٪ من سعر الخدمة (أقل شي 50 ريال)، وينخصم من الحساب لما تجين. باقات العرايس لها عربون ثابت.
+  featured: true
+  order: 1
+en:
+  question: How much is the deposit, and is it deducted?
+  answer: The deposit is 30% of the price (at least SAR 50) and is deducted when you come in. Bridal packages have a fixed deposit.

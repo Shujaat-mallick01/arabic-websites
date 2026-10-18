@@ -1,0 +1,33 @@
+ar:
+  id: highlights
+  _slug: highlights
+  title: هايلايت
+  summary: خصل ناعمة تعطي إضاءة للوجه.
+  description: |-
+    خصل ناعمة تعطي إضاءة للوجه.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: hair
+  durationMinutes: 180
+  priceKind: from
+  price: "650.00"
+  bookableOnline: true
+  featured: false
+  order: 5
+  requires:
+    - kind: staff
+      skill: colour
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: هايلايت
+      alt_en: Highlights
+en:
+  title: Highlights
+  summary: Soft highlights that light up the face.
+  description: |-
+    Soft highlights that light up the face.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

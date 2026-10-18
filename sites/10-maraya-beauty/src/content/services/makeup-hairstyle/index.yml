@@ -1,0 +1,35 @@
+ar:
+  id: makeup-hairstyle
+  _slug: makeup-hairstyle
+  title: مكياج وتسريحة سهرة
+  summary: خبيرتين يشتغلون معاً، وتطلعين بساعتين.
+  description: |-
+    خبيرتين يشتغلون معاً، وتطلعين بساعتين.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: makeup
+  durationMinutes: 120
+  priceKind: fixed
+  price: "690.00"
+  bookableOnline: true
+  featured: true
+  order: 22
+  requires:
+    - kind: staff
+      skill: evening-makeup
+    - kind: staff
+      skill: styling
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: مكياج وتسريحة سهرة
+      alt_en: Evening makeup and hairstyle
+en:
+  title: Evening makeup and hairstyle
+  summary: Two stylists work together; you’re ready in two hours.
+  description: |-
+    Two stylists work together; you’re ready in two hours.
+
+    Prices include VAT.

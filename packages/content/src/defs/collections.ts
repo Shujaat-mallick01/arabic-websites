@@ -180,6 +180,7 @@ export const resourceFields: Field[] = [
   f.i18nText('role', 'الوصف', 'Role'),
   f.number('capacity', 'عدد الحجوزات في نفس الوقت', 'Parallel bookings', { int: true, min: 1, default: 1 }),
   f.list('skills', 'المهارات', 'Skills', 'string', { hint: { ar: 'مثل bridal-makeup و nails. تُستخدم لربط الخدمات.', en: 'Used to match services.' } }),
+  f.object('weekly', 'ساعات الدوام (إذا تختلف عن ساعات المحل)', 'Own working hours', weeklyHoursFields(), { collapsed: true }),
   f.list('daysOff', 'أيام الإجازة', 'Days off', 'date'),
   f.boolean('active', 'متاح للحجز', 'Active', { default: true }),
   common.order,

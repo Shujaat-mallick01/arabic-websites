@@ -1,0 +1,33 @@
+ar:
+  id: evening-hairstyle
+  _slug: evening-hairstyle
+  title: تسريحة سهرة
+  summary: رفعة أو ويفي حسب فستانك وطرحتك.
+  description: |-
+    رفعة أو ويفي حسب فستانك وطرحتك.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: hair
+  durationMinutes: 60
+  priceKind: fixed
+  price: "280.00"
+  bookableOnline: true
+  featured: false
+  order: 8
+  requires:
+    - kind: staff
+      skill: styling
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: تسريحة سهرة
+      alt_en: Evening hairstyle
+en:
+  title: Evening hairstyle
+  summary: An updo or waves to suit your dress and veil.
+  description: |-
+    An updo or waves to suit your dress and veil.
+
+    Prices include VAT.

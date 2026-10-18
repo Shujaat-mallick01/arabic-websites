@@ -3,6 +3,7 @@
 // (headline, tabs, duration + price columns, next slots, booking CTA) overlapping it on phones.
 import { Picture } from 'astro:assets';
 import ArchFrame from '../signature/ArchFrame.astro';
+import NextSlots from '../booking/NextSlots.astro';
 import Price from '../primitives/Price.astro';
 import type { PageContext } from '../context.ts';
 import type { Category, Raw, ServiceItem } from '../data.ts';
@@ -43,7 +44,8 @@ const mins = (n: number) => (ctx.lang === 'ar' ? `${ctx.num(n)} د` : `${n} min`
           </li>
         ))}
       </ul>
-      <aw-next-slots class="block mt-4 min-h-11 text-small text-muted" data-limit="3">{ctx.lang === 'ar' ? 'شوفي المواعيد المتاحة' : 'See available times'}</aw-next-slots>
+      <NextSlots />
+      <aw-next-slots class="block mt-4 min-h-11 text-small text-muted" data-limit="3" data-service={featured[0]?.id}>{ctx.lang === 'ar' ? 'شوفي المواعيد المتاحة' : 'See available times'}</aw-next-slots>
       <a href={ctx.href(s.ctaHref || '/book/')} class="aw-btn aw-btn-primary aw-btn-block mt-4">{ctx.pick(s.ctaLabel) || ctx.tr('cta.book')}</a>
     </div>
   </div>

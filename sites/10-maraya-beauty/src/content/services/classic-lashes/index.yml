@@ -1,0 +1,33 @@
+ar:
+  id: classic-lashes
+  _slug: classic-lashes
+  title: رموش كلاسيك
+  summary: رمش على رمش، شكل طبيعي يكمّل عينك.
+  description: |-
+    رمش على رمش، شكل طبيعي يكمّل عينك.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: lashes
+  durationMinutes: 90
+  priceKind: fixed
+  price: "350.00"
+  bookableOnline: true
+  featured: true
+  order: 15
+  requires:
+    - kind: staff
+      skill: lashes
+    - kind: room
+      resourceIds:
+        - lash-room
+  images:
+    - src: ./cover.webp
+      alt_ar: رموش كلاسيك
+      alt_en: Classic lashes
+en:
+  title: Classic lashes
+  summary: One-to-one lashes for a natural look.
+  description: |-
+    One-to-one lashes for a natural look.
+
+    Prices include VAT.

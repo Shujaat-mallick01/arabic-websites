@@ -1,0 +1,33 @@
+ar:
+  id: lash-lift
+  _slug: lash-lift
+  title: رفع رموش
+  summary: رفع رموشك الطبيعية بدون تركيب.
+  description: |-
+    رفع رموشك الطبيعية بدون تركيب.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: lashes
+  durationMinutes: 60
+  priceKind: fixed
+  price: "250.00"
+  bookableOnline: true
+  featured: false
+  order: 20
+  requires:
+    - kind: staff
+      skill: lashes
+    - kind: room
+      resourceIds:
+        - lash-room
+  images:
+    - src: ./cover.webp
+      alt_ar: رفع رموش
+      alt_en: Lash lift
+en:
+  title: Lash lift
+  summary: Lifts your natural lashes, no extensions.
+  description: |-
+    Lifts your natural lashes, no extensions.
+
+    Prices include VAT.

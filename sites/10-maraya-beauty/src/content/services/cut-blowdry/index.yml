@@ -1,0 +1,33 @@
+ar:
+  id: cut-blowdry
+  _slug: cut-blowdry
+  title: قص وسشوار
+  summary: قصّة تناسب وجهك وطول شعرك، مع سشوار.
+  description: |-
+    قصّة تناسب وجهك وطول شعرك، مع سشوار.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: hair
+  durationMinutes: 75
+  priceKind: from
+  price: "220.00"
+  bookableOnline: true
+  featured: false
+  order: 2
+  requires:
+    - kind: staff
+      skill: cuts
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: قص وسشوار
+      alt_en: Cut and blow-dry
+en:
+  title: Cut and blow-dry
+  summary: A cut that suits your face and length, finished with a blow-dry.
+  description: |-
+    A cut that suits your face and length, finished with a blow-dry.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

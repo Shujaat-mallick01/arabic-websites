@@ -1,0 +1,33 @@
+ar:
+  id: blowdry
+  _slug: blowdry
+  title: سشوار (بلوّر)
+  summary: سشوار ناعم بلفّات خفيفة، يثبت للسهرة.
+  description: |-
+    سشوار ناعم بلفّات خفيفة، يثبت للسهرة.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: hair
+  durationMinutes: 45
+  priceKind: from
+  price: "120.00"
+  bookableOnline: true
+  featured: true
+  order: 1
+  requires:
+    - kind: staff
+      skill: blowdry
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: سشوار (بلوّر)
+      alt_en: Blow-dry
+en:
+  title: Blow-dry
+  summary: A smooth blow-dry with soft waves that lasts the night.
+  description: |-
+    A smooth blow-dry with soft waves that lasts the night.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

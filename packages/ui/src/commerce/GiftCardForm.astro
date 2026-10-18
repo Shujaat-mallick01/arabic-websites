@@ -23,7 +23,7 @@ const ar = ctx.lang === 'ar';
   {ctx.pick(checkout.giftCards?.terms) && <p class="m-0 mb-8 text-muted">{ctx.pick(checkout.giftCards.terms)}</p>}
   <form novalidate class="flex flex-col gap-6">
     <div data-errors class="hidden p-4 rounded-control border-2 border-danger" role="alert" tabindex="-1"><ul class="m-0 ps-5 text-small" data-errors-list></ul></div>
-    <fieldset class="m-0 p-0 border-0">
+    <fieldset class="m-0 p-0 border-0 min-w-0">
       <legend class="aw-label mb-3">{ar ? 'المبلغ' : 'Amount'}</legend>
       <div class="flex flex-wrap gap-2">
         {denoms.map((d, i) => <label class="aw-chip price min-w-24"><input type="radio" name="amount" value={d} checked={i === 1} /><span>{ctx.money(mk(d, cur), { trimZeroFraction: true })}</span></label>)}

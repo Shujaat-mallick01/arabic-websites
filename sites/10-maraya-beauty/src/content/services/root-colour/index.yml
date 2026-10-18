@@ -1,0 +1,33 @@
+ar:
+  id: root-colour
+  _slug: root-colour
+  title: صبغة جذور
+  summary: تغطية الجذور بلون مطابق لصبغتك.
+  description: |-
+    تغطية الجذور بلون مطابق لصبغتك.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: hair
+  durationMinutes: 90
+  priceKind: from
+  price: "280.00"
+  bookableOnline: true
+  featured: true
+  order: 3
+  requires:
+    - kind: staff
+      skill: colour
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: صبغة جذور
+      alt_en: Root colour
+en:
+  title: Root colour
+  summary: Roots matched to your current colour.
+  description: |-
+    Roots matched to your current colour.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

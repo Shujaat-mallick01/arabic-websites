@@ -1,0 +1,35 @@
+id: hatoon
+kind: staff
+name:
+  ar: هتون
+  en: Hatoon
+role:
+  ar: تسريحات العرايس والسهرة
+  en: Bridal and evening hair
+capacity: 1
+skills:
+  - bridal-hair
+  - styling
+weekly:
+  sat:
+    - open: 14:00
+      close: 22:00
+  sun:
+    - open: 14:00
+      close: 22:00
+  mon: []
+  tue:
+    - open: 14:00
+      close: 22:00
+  wed:
+    - open: 14:00
+      close: 22:00
+  thu:
+    - open: 14:00
+      close: 22:00
+  fri:
+    - open: 16:00
+      close: 22:00
+daysOff: []
+active: true
+order: 2

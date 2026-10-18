@@ -1,0 +1,33 @@
+ar:
+  id: classic-pedicure
+  _slug: classic-pedicure
+  title: باديكير كلاسيك
+  summary: عناية كاملة بالقدمين مع طلاء عادي.
+  description: |-
+    عناية كاملة بالقدمين مع طلاء عادي.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: nails
+  durationMinutes: 60
+  priceKind: fixed
+  price: "140.00"
+  bookableOnline: true
+  featured: false
+  order: 11
+  requires:
+    - kind: staff
+      skill: nails
+    - kind: room
+      resourceIds:
+        - nail-room
+  images:
+    - src: ./cover.webp
+      alt_ar: باديكير كلاسيك
+      alt_en: Classic pedicure
+en:
+  title: Classic pedicure
+  summary: Full foot care with a classic polish.
+  description: |-
+    Full foot care with a classic polish.
+
+    Prices include VAT.

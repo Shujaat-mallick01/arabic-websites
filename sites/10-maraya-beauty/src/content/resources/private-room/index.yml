@@ -1,0 +1,10 @@
+id: private-room
+kind: room
+name:
+  ar: الغرفة الخاصة
+  en: Private room
+capacity: 1
+skills: []
+daysOff: []
+active: true
+order: 24

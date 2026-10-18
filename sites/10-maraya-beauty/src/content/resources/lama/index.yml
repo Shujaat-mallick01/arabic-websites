@@ -1,0 +1,36 @@
+id: lama
+kind: staff
+name:
+  ar: لمى
+  en: Lama
+role:
+  ar: الصبغات والكيراتين
+  en: Colour and keratin
+capacity: 1
+skills:
+  - colour
+  - keratin
+  - blowdry
+weekly:
+  sat:
+    - open: 16:00
+      close: 00:00
+  sun:
+    - open: 16:00
+      close: 00:00
+  mon:
+    - open: 16:00
+      close: 00:00
+  tue: []
+  wed:
+    - open: 16:00
+      close: 00:00
+  thu:
+    - open: 16:00
+      close: 00:00
+  fri:
+    - open: 16:00
+      close: 00:00
+daysOff: []
+active: true
+order: 3

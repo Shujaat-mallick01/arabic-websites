@@ -1,0 +1,100 @@
+{
+  "weekly": {
+    "sat": [
+      {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    ],
+    "sun": [
+      {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    ],
+    "mon": [
+      {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    ],
+    "tue": [
+      {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    ],
+    "wed": [
+      {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    ],
+    "thu": [
+      {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    ],
+    "fri": [
+      {
+        "open": "16:00",
+        "close": "02:00"
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "id": "ramadan-1448",
+      "label": {
+        "ar": "رمضان",
+        "en": "Ramadan"
+      },
+      "from": "2027-02-08",
+      "to": "2027-03-07",
+      "all": [
+        {
+          "open": "21:00",
+          "close": "03:00"
+        }
+      ],
+      "approximate": true
+    }
+  ],
+  "exceptions": [
+    {
+      "date": "2027-03-08",
+      "closed": false,
+      "ranges": [
+        {
+          "open": "20:00",
+          "close": "04:00"
+        }
+      ],
+      "note": {
+        "ar": "ليلة العيد",
+        "en": "Eid eve"
+      }
+    },
+    {
+      "date": "2027-03-09",
+      "closed": true,
+      "note": {
+        "ar": "أول أيام عيد الفطر",
+        "en": "First day of Eid al-Fitr"
+      }
+    },
+    {
+      "date": "2027-05-16",
+      "closed": true,
+      "note": {
+        "ar": "يوم عيد الأضحى",
+        "en": "Eid al-Adha"
+      }
+    }
+  ],
+  "note": {
+    "ar": "نرد على الواتساب من الساعة ١٢ الظهر لحد الإغلاق.",
+    "en": "WhatsApp replies from noon until closing."
+  }
+}

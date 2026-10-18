@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: تفصيل غُمرة حجازية مطرّزة
+  alt: تفصيل غُمرة حجازية مطرّزة
+  style: lounge
+  featured: true
+  order: 6
+en:
+  caption: Detail of an embroidered Hijazi ghumra
+  alt: Detail of an embroidered Hijazi ghumra

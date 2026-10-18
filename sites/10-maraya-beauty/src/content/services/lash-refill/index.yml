@@ -1,0 +1,33 @@
+ar:
+  id: lash-refill
+  _slug: lash-refill
+  title: تعبئة رموش
+  summary: خلال ٣ أسابيع من التركيب.
+  description: |-
+    خلال ٣ أسابيع من التركيب.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: lashes
+  durationMinutes: 60
+  priceKind: fixed
+  price: "200.00"
+  bookableOnline: true
+  featured: false
+  order: 17
+  requires:
+    - kind: staff
+      skill: lashes
+    - kind: room
+      resourceIds:
+        - lash-room
+  images:
+    - src: ./cover.webp
+      alt_ar: تعبئة رموش
+      alt_en: Lash refill
+en:
+  title: Lash refill
+  summary: Within three weeks of your set.
+  description: |-
+    Within three weeks of your set.
+
+    Prices include VAT.

@@ -1,0 +1,33 @@
+ar:
+  id: spa-pedicure
+  _slug: spa-pedicure
+  title: باديكير سبا
+  summary: تقشير ومساج وماسك للقدمين.
+  description: |-
+    تقشير ومساج وماسك للقدمين.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: nails
+  durationMinutes: 75
+  priceKind: fixed
+  price: "190.00"
+  bookableOnline: true
+  featured: false
+  order: 14
+  requires:
+    - kind: staff
+      skill: nails
+    - kind: room
+      resourceIds:
+        - nail-room
+  images:
+    - src: ./cover.webp
+      alt_ar: باديكير سبا
+      alt_en: Spa pedicure
+en:
+  title: Spa pedicure
+  summary: Scrub, massage and mask for the feet.
+  description: |-
+    Scrub, massage and mask for the feet.
+
+    Prices include VAT.

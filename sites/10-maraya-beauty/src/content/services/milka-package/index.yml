@@ -1,0 +1,38 @@
+ar:
+  id: milka-package
+  _slug: milka-package
+  title: باقة المِلكة
+  summary: مكياج ناعم وتسريحة لليلة الملكة.
+  description: |-
+    مكياج ناعم وتسريحة لليلة الملكة.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: bridal
+  durationMinutes: 150
+  priceKind: fixed
+  price: "1700.00"
+  deposit:
+    kind: fixed
+    amount: "500.00"
+  bookableOnline: true
+  featured: false
+  order: 28
+  requires:
+    - kind: staff
+      skill: bridal-makeup
+    - kind: staff
+      skill: bridal-hair
+    - kind: room
+      resourceIds:
+        - bridal-suite
+  images:
+    - src: ./cover.webp
+      alt_ar: باقة المِلكة
+      alt_en: The Milka package
+en:
+  title: The Milka package
+  summary: Soft makeup and hair for the contract night.
+  description: |-
+    Soft makeup and hair for the contract night.
+
+    Prices include VAT.

@@ -228,6 +228,7 @@ export function toResource(raw: Raw): Resource & { role: I18nText; order: number
     role: inline(raw.role),
     capacity: Number(raw.capacity ?? 1),
     skills: raw.skills ?? [],
+    ...(raw.weekly && WEEKDAYS.some((d) => ranges(raw.weekly[d]).length) ? { weekly: Object.fromEntries(WEEKDAYS.map((d) => [d, ranges(raw.weekly[d])])) as Resource['weekly'] } : {}),
     daysOff: raw.daysOff ?? [],
     active: raw.active !== false,
     order: Number(raw.order ?? 0),

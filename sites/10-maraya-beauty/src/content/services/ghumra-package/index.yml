@@ -1,0 +1,38 @@
+ar:
+  id: ghumra-package
+  _slug: ghumra-package
+  title: باقة الغُمرة
+  summary: مكياج وتسريحة تناسب الغُمرة الحجازية ليلة الغمرة.
+  description: |-
+    مكياج وتسريحة تناسب الغُمرة الحجازية ليلة الغمرة.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: bridal
+  durationMinutes: 180
+  priceKind: fixed
+  price: "2400.00"
+  deposit:
+    kind: fixed
+    amount: "600.00"
+  bookableOnline: true
+  featured: false
+  order: 27
+  requires:
+    - kind: staff
+      skill: bridal-makeup
+    - kind: staff
+      skill: bridal-hair
+    - kind: room
+      resourceIds:
+        - bridal-suite
+  images:
+    - src: ./cover.webp
+      alt_ar: باقة الغُمرة
+      alt_en: The Ghumra package
+en:
+  title: The Ghumra package
+  summary: Makeup and hair styled for the Hijazi ghumra headdress.
+  description: |-
+    Makeup and hair styled for the Hijazi ghumra headdress.
+
+    Prices include VAT.

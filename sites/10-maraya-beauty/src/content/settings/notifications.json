@@ -1,0 +1,10 @@
+{
+  "ownerEmails": [
+    "owner@jalwa.example"
+  ],
+  "ownerWhatsapp": "+966500000000",
+  "notifyOn": [
+    "booking.confirmed",
+    "order.paid"
+  ]
+}

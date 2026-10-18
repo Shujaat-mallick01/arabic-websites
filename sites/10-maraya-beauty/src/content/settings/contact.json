@@ -1,0 +1,12 @@
+{
+  "whatsapp": "+966500000000",
+  "email": "hello@jalwa.example",
+  "instagram": "jalwa.demo",
+  "address": {
+    "ar": "حي الشاطئ، جدة (مدخل نسائي وخدمة صف السيارات)",
+    "en": "Al Shati, Jeddah (women’s entrance and valet)"
+  },
+  "area": "Al Shati",
+  "lat": 21.585,
+  "lng": 39.11
+}

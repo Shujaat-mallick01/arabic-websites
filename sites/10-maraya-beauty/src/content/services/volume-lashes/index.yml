@@ -1,0 +1,33 @@
+ar:
+  id: volume-lashes
+  _slug: volume-lashes
+  title: رموش فوليوم
+  summary: كثافة أكثر للسهرات والمناسبات.
+  description: |-
+    كثافة أكثر للسهرات والمناسبات.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: lashes
+  durationMinutes: 120
+  priceKind: fixed
+  price: "480.00"
+  bookableOnline: true
+  featured: false
+  order: 16
+  requires:
+    - kind: staff
+      skill: lashes
+    - kind: room
+      resourceIds:
+        - lash-room
+  images:
+    - src: ./cover.webp
+      alt_ar: رموش فوليوم
+      alt_en: Volume lashes
+en:
+  title: Volume lashes
+  summary: Fuller lashes for evenings and occasions.
+  description: |-
+    Fuller lashes for evenings and occasions.
+
+    Prices include VAT.

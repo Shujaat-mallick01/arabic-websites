@@ -1,0 +1,33 @@
+ar:
+  id: full-colour
+  _slug: full-colour
+  title: صبغة كاملة
+  summary: لون جديد من الجذور للأطراف مع استشارة قبلها.
+  description: |-
+    لون جديد من الجذور للأطراف مع استشارة قبلها.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: hair
+  durationMinutes: 150
+  priceKind: from
+  price: "480.00"
+  bookableOnline: true
+  featured: false
+  order: 4
+  requires:
+    - kind: staff
+      skill: colour
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: صبغة كاملة
+      alt_en: Full colour
+en:
+  title: Full colour
+  summary: A new colour root to tip, with a consultation first.
+  description: |-
+    A new colour root to tip, with a consultation first.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

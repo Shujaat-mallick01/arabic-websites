@@ -1,0 +1,22 @@
+ar:
+  id: milka-package
+  _slug: milka-package
+  title: باقة المِلكة
+  summary: مكياج ناعم وتسريحة لليلة الملكة.
+  price: "1700.00"
+  inclusions_ar:
+    - مكياج ناعم
+    - تسريحة
+    - رموش لاصقة
+  inclusions_en:
+    - Soft makeup
+    - Hairstyle
+    - Strip lashes
+  services:
+    - milka-package
+  durationMinutes: 150
+  featured: true
+  order: 3
+en:
+  title: The Milka package
+  summary: Soft makeup and hair for the contract night.

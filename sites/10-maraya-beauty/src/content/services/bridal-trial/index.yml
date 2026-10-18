@@ -1,0 +1,33 @@
+ar:
+  id: bridal-trial
+  _slug: bridal-trial
+  title: تجربة مكياج العروس
+  summary: تُخصم من الباقة إذا حجزتِ خلال ٣٠ يوماً.
+  description: |-
+    تُخصم من الباقة إذا حجزتِ خلال ٣٠ يوماً.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: makeup
+  durationMinutes: 120
+  priceKind: fixed
+  price: "600.00"
+  bookableOnline: true
+  featured: false
+  order: 24
+  requires:
+    - kind: staff
+      skill: bridal-makeup
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: تجربة مكياج العروس
+      alt_en: Bridal makeup trial
+en:
+  title: Bridal makeup trial
+  summary: Deducted from a package booked within 30 days.
+  description: |-
+    Deducted from a package booked within 30 days.
+
+    Prices include VAT.

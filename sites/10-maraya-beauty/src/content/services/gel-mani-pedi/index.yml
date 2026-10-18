@@ -1,0 +1,33 @@
+ar:
+  id: gel-mani-pedi
+  _slug: gel-mani-pedi
+  title: مناكير وباديكير جل
+  summary: جل يثبت أسبوعين، بألوان النود والمارون.
+  description: |-
+    جل يثبت أسبوعين، بألوان النود والمارون.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: nails
+  durationMinutes: 105
+  priceKind: fixed
+  price: "290.00"
+  bookableOnline: true
+  featured: true
+  order: 9
+  requires:
+    - kind: staff
+      skill: nails
+    - kind: room
+      resourceIds:
+        - nail-room
+  images:
+    - src: ./cover.webp
+      alt_ar: مناكير وباديكير جل
+      alt_en: Gel manicure and pedicure
+en:
+  title: Gel manicure and pedicure
+  summary: Gel that lasts two weeks, in nudes and merlots.
+  description: |-
+    Gel that lasts two weeks, in nudes and merlots.
+
+    Prices include VAT.

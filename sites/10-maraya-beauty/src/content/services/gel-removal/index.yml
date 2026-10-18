@@ -1,0 +1,33 @@
+ar:
+  id: gel-removal
+  _slug: gel-removal
+  title: إزالة جل
+  summary: إزالة آمنة بدون برد قوي للظفر.
+  description: |-
+    إزالة آمنة بدون برد قوي للظفر.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: nails
+  durationMinutes: 20
+  priceKind: fixed
+  price: "50.00"
+  bookableOnline: true
+  featured: false
+  order: 13
+  requires:
+    - kind: staff
+      skill: nails
+    - kind: room
+      resourceIds:
+        - nail-room
+  images:
+    - src: ./cover.webp
+      alt_ar: إزالة جل
+      alt_en: Gel removal
+en:
+  title: Gel removal
+  summary: Safe removal without harsh filing.
+  description: |-
+    Safe removal without harsh filing.
+
+    Prices include VAT.

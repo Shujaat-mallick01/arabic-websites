@@ -1,0 +1,33 @@
+ar:
+  id: evening-makeup
+  _slug: evening-makeup
+  title: مكياج سهرة
+  summary: مكياج يثبت للصبح، مع رموش لاصقة.
+  description: |-
+    مكياج يثبت للصبح، مع رموش لاصقة.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: makeup
+  durationMinutes: 60
+  priceKind: fixed
+  price: "450.00"
+  bookableOnline: true
+  featured: true
+  order: 21
+  requires:
+    - kind: staff
+      skill: evening-makeup
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: مكياج سهرة
+      alt_en: Evening makeup
+en:
+  title: Evening makeup
+  summary: Makeup that lasts till morning, with strip lashes.
+  description: |-
+    Makeup that lasts till morning, with strip lashes.
+
+    Prices include VAT.

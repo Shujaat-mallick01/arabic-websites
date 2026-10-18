@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import PackagesLedger from '@aw/ui/booking/PackagesLedger.astro';
+import { pageContext } from '@aw/ui/context';
+import { getPackages } from '@aw/ui/data';
+
+const ctx = pageContext(Astro.url);
+const packages = await getPackages();
+const title = ctx.tr('nav.packages');
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/packages/' }}>
+  <div class="container-page pt-8 md:pt-12"><h1 class="text-h1 mb-8">{title}</h1></div>
+  <PackagesLedger ctx={ctx} packages={packages} full />
+  <div class="h-16"></div>
+</BaseLayout>

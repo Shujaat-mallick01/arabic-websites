@@ -1,0 +1,33 @@
+ar:
+  id: keratin
+  _slug: keratin
+  title: كيراتين / بروتين
+  summary: شعر ناعم ومرتب لأشهر، بدون حرارة كل يوم.
+  description: |-
+    شعر ناعم ومرتب لأشهر، بدون حرارة كل يوم.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: hair
+  durationMinutes: 180
+  priceKind: from
+  price: "850.00"
+  bookableOnline: true
+  featured: false
+  order: 6
+  requires:
+    - kind: staff
+      skill: keratin
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: كيراتين / بروتين
+      alt_en: Keratin / protein
+en:
+  title: Keratin / protein
+  summary: Smooth, tidy hair for months without daily heat.
+  description: |-
+    Smooth, tidy hair for months without daily heat.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

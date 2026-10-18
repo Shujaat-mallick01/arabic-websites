@@ -36,7 +36,7 @@ const field = (f: (typeof localFields)[number], prefix: string) => ({ id: `${pre
 <aw-checkout class="block container-page py-6 md:py-10" data-primary={p.primary}>
   <h1 class="text-h1 mb-6">{ctx.tr('checkout.title')}</h1>
   <form novalidate class="grid gap-8 md:grid-cols-12 md:gap-12" aria-label={ctx.tr('checkout.title')}>
-    <div class="md:col-span-7 flex flex-col gap-8">
+    <div class="md:col-span-7 min-w-0 flex flex-col gap-8">
       <div data-errors class="hidden p-4 rounded-control border-2 border-danger" role="alert" tabindex="-1">
         <p class="m-0 mb-2" data-errors-title></p>
         <ul class="m-0 ps-5 text-small" data-errors-list></ul>

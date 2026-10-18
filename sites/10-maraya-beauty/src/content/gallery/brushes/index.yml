@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: فرش وباليت على حرير شامبين
+  alt: فرش وباليت على حرير شامبين
+  style: lounge
+  featured: true
+  order: 5
+en:
+  caption: Brushes and a palette on champagne silk
+  alt: Brushes and a palette on champagne silk

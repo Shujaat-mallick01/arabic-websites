@@ -1,0 +1,33 @@
+ar:
+  id: nail-art
+  _slug: nail-art
+  title: رسم أظافر
+  summary: خطوط ونقاط وأشكال بسيطة فوق الجل.
+  description: |-
+    خطوط ونقاط وأشكال بسيطة فوق الجل.
+
+    السعر شامل ضريبة القيمة المضافة. السعر يختلف حسب طول الشعر أو التصميم، ونأكّد لك قبل البدء.
+  category: nails
+  durationMinutes: 30
+  priceKind: from
+  price: "60.00"
+  bookableOnline: true
+  featured: false
+  order: 12
+  requires:
+    - kind: staff
+      skill: nails
+    - kind: room
+      resourceIds:
+        - nail-room
+  images:
+    - src: ./cover.webp
+      alt_ar: رسم أظافر
+      alt_en: Nail art
+en:
+  title: Nail art
+  summary: Lines, dots and simple shapes over gel.
+  description: |-
+    Lines, dots and simple shapes over gel.
+
+    Prices include VAT. The price depends on hair length or design; we confirm it before we start.

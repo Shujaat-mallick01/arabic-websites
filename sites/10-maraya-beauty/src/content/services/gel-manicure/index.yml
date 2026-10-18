@@ -1,0 +1,33 @@
+ar:
+  id: gel-manicure
+  _slug: gel-manicure
+  title: مناكير جل
+  summary: تنظيف وتشكيل مع جل بلون من اختيارك.
+  description: |-
+    تنظيف وتشكيل مع جل بلون من اختيارك.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: nails
+  durationMinutes: 60
+  priceKind: fixed
+  price: "160.00"
+  bookableOnline: true
+  featured: false
+  order: 10
+  requires:
+    - kind: staff
+      skill: nails
+    - kind: room
+      resourceIds:
+        - nail-room
+  images:
+    - src: ./cover.webp
+      alt_ar: مناكير جل
+      alt_en: Gel manicure
+en:
+  title: Gel manicure
+  summary: Cleaning, shaping and gel in your choice of colour.
+  description: |-
+    Cleaning, shaping and gel in your choice of colour.
+
+    Prices include VAT.

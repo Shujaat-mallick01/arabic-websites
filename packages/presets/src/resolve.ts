@@ -109,7 +109,6 @@ const COLLECTIONS: Partial<Record<ModuleId, CollectionId[]>> = {
   stockists: ['stockists'],
   pages: ['pages'],
   offers: ['offers'],
-  giftCards: ['products'],
 };
 
 const SETTINGS: Partial<Record<ModuleId, SettingsId[]>> = {
@@ -120,6 +119,7 @@ const SETTINGS: Partial<Record<ModuleId, SettingsId[]>> = {
   bookingRequest: ['booking'],
   bookingCalendar: ['booking'],
   orderNotifications: ['notifications'],
+  giftCards: ['checkout'],
 };
 
 const RL = { windowLimit: 30, windowSize: 60 };
@@ -259,6 +259,14 @@ export function resolvePreset(site: SiteConfig): ResolvedPreset {
       fseen.add(f.name);
       functions.push(f);
     }
+  }
+  // Gift cards sold online need checkout and order functions even on a site without a cart.
+  if (mods.has('giftCards') && mods.has('payments') && !fseen.has('checkout')) {
+    for (const f of FUNCTIONS.checkout!) if (f.name !== 'quote' && !fseen.has(f.name)) {
+      fseen.add(f.name);
+      functions.push(f);
+    }
+    if (!routes.some((x) => x.page === 'order')) routes.push({ page: 'order', pattern: '/order', private: true });
   }
   if (mods.has('corporateEnquiry') && tier === 'full') {
     functions.push({ name: 'enquiry', path: '/api/enquiry', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createEnquiryHandler' }, rateLimit: { windowLimit: 5, windowSize: 60 } });

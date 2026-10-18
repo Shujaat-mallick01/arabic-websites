@@ -84,6 +84,33 @@ try {
     await shot('owner');
     ok((await page.locator('[data-order]').count()) > 1, 'owner dashboard lists orders');
   }
+  if (r.routes.some((x) => x.page === 'book')) {
+    await page.goto(`${url}/`, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(800);
+    await shot('home');
+    await page.goto(`${url}/book/`, { waitUntil: 'networkidle' });
+    await page.waitForSelector('[data-days] input:not([disabled])');
+    await page.locator('[data-days] input:not([disabled])').first().check({ force: true });
+    await page.waitForSelector('[data-slots] input[name=slot]');
+    const slots = await page.locator('[data-slots] input[name=slot]').count();
+    ok(slots > 0, `first open day offers ${slots} times`);
+    await page.locator('[data-slots] input[name=slot]').last().check({ force: true });
+    await page.fill('#bk-name', 'رهف');
+    const phones: Record<string, string> = { BH: '36001234', KW: '55001234', SA: '0551234567', IQ: '07701234567' };
+    await page.fill('#bk-phone', phones[s.site.locale.country] ?? '36001234');
+    await shot('book-filled');
+    await page.waitForTimeout(3100);
+    await page.locator('[data-submit]').click();
+    await page.waitForURL(/\/pay\/mock\//, { timeout: 15000 });
+    await page.waitForFunction(() => document.querySelector('[data-amount]')?.textContent !== '—');
+    await shot('deposit-gateway');
+    await page.locator('[data-go]').click();
+    await page.waitForURL(/\/booking\//, { timeout: 15000 });
+    await page.waitForSelector('[data-found]:not([hidden])');
+    await shot('booking-confirmed');
+    const st = await page.locator('[data-status]').textContent();
+    ok(st && st !== '…', `booking status shown (${st})`);
+  }
   if (errors.length) console.log(`console errors:\n  ${[...new Set(errors)].join('\n  ')}`);
   console.log(`screens: ${out}`);
 } finally {

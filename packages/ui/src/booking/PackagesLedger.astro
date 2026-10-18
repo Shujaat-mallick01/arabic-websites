@@ -41,7 +41,7 @@ const { ctx, section: s = {}, packages, full = false } = Astro.props;
             <ul class="m-0 p-0 list-none flex flex-col gap-1.5 text-small">
               {(ctx.lang === 'ar' ? p.inclusions.ar : p.inclusions.en).map((inc) => <li class="flex gap-2"><span aria-hidden="true" class="text-accent">—</span><span>{inc}</span></li>)}
             </ul>
-            <a href={ctx.href(`/book/?package=${p.id}`)} class="aw-btn aw-btn-secondary mt-auto">{ctx.tr('cta.book')}</a>
+            <a href={ctx.href(`/book/?service=${p.id}`)} class="aw-btn aw-btn-secondary mt-auto">{ctx.tr('cta.book')}</a>
           </li>
         ))}
       </ol>

@@ -1,0 +1,76 @@
+/* GENERATED from brand/tokens.ts by pnpm site:sync. Do not edit. */
+:root {
+  --brand-bg: #2B131A;
+  --brand-surface: #3B1E27;
+  --brand-ink: #F6ECE7;
+  --brand-muted: #CDB3B1;
+  --brand-line: #633A47;
+  --brand-accent: #E2C2A8;
+  --brand-accent-ink: #1C0B10;
+  --brand-accent-press: #ECD3BE;
+  --brand-deep: #1C0B10;
+  --brand-deep-ink: #F6ECE7;
+  --brand-deep-muted: #CDB3B1;
+  --brand-deep-accent: #E2C2A8;
+  --brand-highlight: #E2C2A8;
+  --brand-danger: #FFA89E;
+  --brand-success: #A9D3B4;
+  --brand-focus: #F6ECE7;
+  --brand-scrim: rgb(28 11 16 / 0.72);
+  --brand-font-display: var(--font-ar-display), var(--font-latin-display), sans-serif;
+  --brand-font-body: var(--font-ar-body), var(--font-latin-body), sans-serif;
+  --brand-font-features-display: "cv02" 1;
+  --brand-fs-display: clamp(41.98px, 39.63px + 0.6vw, 48.32px);
+  --brand-fs-h1: clamp(33.87px, 32.43px + 0.37vw, 37.75px);
+  --brand-fs-h2: clamp(27.85px, 27.24px + 0.16vw, 29.49px);
+  --brand-fs-h3: clamp(21.76px, 21.28px + 0.12vw, 23.04px);
+  --brand-fs-body: clamp(17px, 16.63px + 0.1vw, 18px);
+  --brand-fs-small: clamp(13.28px, 12.99px + 0.07vw, 14.06px);
+  --brand-fs-ui: clamp(15.98px, 15.9px + 0.02vw, 16.2px);
+  --brand-lh-display: 1.3;
+  --brand-lh-heading: 1.35;
+  --brand-lh-body: 1.8;
+  --brand-lh-ui: 1.5;
+  --brand-fw-display: 500;
+  --brand-fw-heading: 500;
+  --brand-fw-body: 400;
+  --brand-fw-ui: 500;
+  --brand-fw-price: 400;
+  --brand-latin-scale: 1;
+  --brand-radius-control: 6px;
+  --brand-radius-card: 6px;
+  --brand-radius-image: 6px;
+  --brand-radius-pill: 6px;
+  --brand-border-width: 1px;
+  --brand-border-style: solid;
+  --brand-shadow-card: none;
+  --brand-shadow-overlay: none;
+  --brand-gutter: clamp(16px, -1.83px + 4.57vw, 64px);
+  --brand-max-width: 1312px;
+  --brand-section-gap: clamp(64.8px, 40.73px + 6.17vw, 129.6px);
+  --brand-stack-gap: clamp(21.6px, 17.59px + 1.03vw, 32.4px);
+  --brand-motion-ms: 240ms;
+  --brand-motion-ease: cubic-bezier(.2,.8,.2,1);
+  --brand-aspect-card: 3 / 4;
+  --brand-aspect-hero: 3 / 4;
+  --brand-aspect-hero-desktop: 4 / 5;
+}
+:root:lang(en) {
+  --brand-font-display: var(--font-latin-display), var(--font-ar-display), serif;
+  --brand-font-body: var(--font-latin-body), var(--font-ar-body), sans-serif;
+  --brand-font-features-display: normal;
+  --brand-lh-display: 1.12;
+  --brand-lh-heading: 1.15;
+  --brand-lh-body: 1.6;
+  --brand-fw-display: 400;
+  --brand-fw-heading: 400;
+  --brand-fw-body: 400;
+  --brand-fw-ui: 500;
+  --brand-fw-price: 400;
+  --brand-tracking-caps: 0.12em;
+  --brand-tracking-body: 0;
+  --brand-display-case: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --brand-motion-ms: 0ms; }
+}

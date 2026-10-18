@@ -1,0 +1,22 @@
+ar:
+  id: ghumra-package
+  _slug: ghumra-package
+  title: باقة الغُمرة
+  summary: مكياج وتسريحة تناسب الغُمرة الحجازية ليلة الغمرة.
+  price: "2400.00"
+  inclusions_ar:
+    - مكياج الغمرة
+    - تسريحة تناسب الغمرة
+    - رموش لاصقة
+  inclusions_en:
+    - Ghumra makeup
+    - Hair for the ghumra
+    - Strip lashes
+  services:
+    - ghumra-package
+  durationMinutes: 180
+  featured: true
+  order: 2
+en:
+  title: The Ghumra package
+  summary: Makeup and hair styled for the Hijazi ghumra headdress.

@@ -1,0 +1,33 @@
+ar:
+  id: mother-makeup
+  _slug: mother-makeup
+  title: مكياج أم العروس
+  summary: مكياج راقي يناسب ليلة الزواج.
+  description: |-
+    مكياج راقي يناسب ليلة الزواج.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: makeup
+  durationMinutes: 60
+  priceKind: fixed
+  price: "480.00"
+  bookableOnline: true
+  featured: false
+  order: 25
+  requires:
+    - kind: staff
+      skill: evening-makeup
+    - kind: room
+      resourceIds:
+        - salon-hall
+  images:
+    - src: ./cover.webp
+      alt_ar: مكياج أم العروس
+      alt_en: Mother of the bride makeup
+en:
+  title: Mother of the bride makeup
+  summary: Elegant makeup for the wedding night.
+  description: |-
+    Elegant makeup for the wedding night.
+
+    Prices include VAT.

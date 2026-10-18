@@ -44,6 +44,15 @@ describe('resolvePreset', () => {
     expect(r.settings).toContain('booking');
   });
 
+  it('gives a salon selling gift cards the checkout and order functions', () => {
+    const r = resolvePreset(
+      defineSite({ ...fixtureSite, preset: { primary: 'booking.full', niche: 'beauty' }, booking: { bookingPrefix: 'JL', granularity: 'slot', resourceModel: 'staff+rooms', staffChoice: 'optional' }, features: { giftCards: true, resources: true } }),
+    );
+    expect(r.functions.map((f) => f.name)).toEqual(expect.arrayContaining(['availability', 'booking', 'giftcard', 'checkout', 'order']));
+    expect(r.functions.map((f) => f.name)).not.toContain('quote');
+    expect(r.routes.map((x) => x.page)).toEqual(expect.arrayContaining(['book', 'booking', 'gift-cards', 'order', 'owner']));
+  });
+
   it('refuses modules the presets do not allow', () => {
     expect(() => resolvePreset(defineSite(lite({ features: { cart: true } })))).toThrow(PresetError);
   });

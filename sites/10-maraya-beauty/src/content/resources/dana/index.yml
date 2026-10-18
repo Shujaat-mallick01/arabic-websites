@@ -1,0 +1,35 @@
+id: dana
+kind: staff
+name:
+  ar: دانة
+  en: Dana
+role:
+  ar: الأظافر والرموش
+  en: Nails and lashes
+capacity: 1
+skills:
+  - nails
+  - lashes
+weekly:
+  sat: []
+  sun:
+    - open: 18:00
+      close: 02:00
+  mon:
+    - open: 18:00
+      close: 02:00
+  tue:
+    - open: 18:00
+      close: 02:00
+  wed:
+    - open: 18:00
+      close: 02:00
+  thu:
+    - open: 18:00
+      close: 02:00
+  fri:
+    - open: 18:00
+      close: 02:00
+daysOff: []
+active: true
+order: 5

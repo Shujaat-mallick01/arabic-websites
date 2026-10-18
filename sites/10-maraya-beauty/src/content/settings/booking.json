@@ -1,0 +1,28 @@
+{
+  "slotStepMinutes": "15",
+  "leadMinutes": 120,
+  "horizonDays": 45,
+  "bufferBefore": 0,
+  "bufferAfter": 10,
+  "blackouts": [
+    {
+      "from": "2026-12-01",
+      "to": "2026-12-01",
+      "reason": {
+        "ar": "صيانة اللاونج",
+        "en": "Lounge maintenance"
+      }
+    }
+  ],
+  "fullDates": [],
+  "windows": [],
+  "deposit": {
+    "kind": "percent",
+    "percent": 30,
+    "min": "50.00",
+    "roundUpTo": "1.00"
+  },
+  "freeCancelHours": 24,
+  "depositRefundable": false,
+  "holdMinutes": 15
+}

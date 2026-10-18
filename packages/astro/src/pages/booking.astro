@@ -1,0 +1,10 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import BookingView from '@aw/ui/booking/BookingView.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
+---
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('booking.title'), description: '', path: '/booking/', noindex: true }} hideFab>
+  <BookingView ctx={ctx} />
+</BaseLayout>

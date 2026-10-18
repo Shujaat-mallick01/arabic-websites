@@ -1,0 +1,10 @@
+id: salon-hall
+kind: room
+name:
+  ar: الصالة
+  en: Salon hall
+capacity: 4
+skills: []
+daysOff: []
+active: true
+order: 21

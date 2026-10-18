@@ -1,0 +1,33 @@
+ar:
+  id: brow-lamination
+  _slug: brow-lamination
+  title: لامينيشن حواجب
+  summary: حواجب مرتبة ومرفوعة لستة أسابيع.
+  description: |-
+    حواجب مرتبة ومرفوعة لستة أسابيع.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: lashes
+  durationMinutes: 45
+  priceKind: fixed
+  price: "220.00"
+  bookableOnline: true
+  featured: false
+  order: 19
+  requires:
+    - kind: staff
+      skill: brows
+    - kind: room
+      resourceIds:
+        - lash-room
+  images:
+    - src: ./cover.webp
+      alt_ar: لامينيشن حواجب
+      alt_en: Brow lamination
+en:
+  title: Brow lamination
+  summary: Brushed-up, tidy brows for six weeks.
+  description: |-
+    Brushed-up, tidy brows for six weeks.
+
+    Prices include VAT.

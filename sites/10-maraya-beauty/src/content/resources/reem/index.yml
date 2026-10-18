@@ -1,0 +1,35 @@
+id: reem
+kind: staff
+name:
+  ar: ريم
+  en: Reem
+role:
+  ar: مكياج العرايس والسهرة
+  en: Bridal and evening makeup
+capacity: 1
+skills:
+  - bridal-makeup
+  - evening-makeup
+weekly:
+  sat:
+    - open: 14:00
+      close: 22:00
+  sun: []
+  mon:
+    - open: 14:00
+      close: 22:00
+  tue:
+    - open: 14:00
+      close: 22:00
+  wed:
+    - open: 14:00
+      close: 22:00
+  thu:
+    - open: 14:00
+      close: 22:00
+  fri:
+    - open: 16:00
+      close: 22:00
+daysOff: []
+active: true
+order: 1

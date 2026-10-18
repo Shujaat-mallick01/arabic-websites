@@ -1,0 +1,81 @@
+{
+  "sections": [
+    {
+      "type": "hero",
+      "enabled": true,
+      "title": {
+        "ar": "اتجلّي على مهلك، الليل لسّه طويل",
+        "en": "Take your time. The night’s still young."
+      },
+      "subtitle": {
+        "ar": "كل خدمة قدّامك بوقتها وسعرها. اختاري خبيرتك وغرفتك، واحجزي بعربون بسيط. فاتحين كل يوم لحد الساعة 2 بالليل.",
+        "en": "Every service with its time and price up front. Choose your stylist and room, and book with a small deposit. Open daily until 2 am."
+      },
+      "ctaLabel": {
+        "ar": "احجزي موعدك",
+        "en": "Book your appointment"
+      },
+      "ctaHref": "/book/",
+      "image": "./media/hero.webp",
+      "imageAlt": {
+        "ar": "مراية مقوّسة بإضاءة دافية في جناح العروس",
+        "en": "An arched mirror with warm bulbs in the bridal suite"
+      }
+    },
+    {
+      "type": "packages",
+      "enabled": true,
+      "title": {
+        "ar": "العرايس",
+        "en": "Brides"
+      },
+      "subtitle": {
+        "ar": "باقات بعربون ثابت، ونحجز لك الجناح والخبيرتين بنفس الوقت.",
+        "en": "Packages with a fixed deposit; we book the suite and both stylists together."
+      }
+    },
+    {
+      "type": "reviews",
+      "enabled": true,
+      "title": {
+        "ar": "قالوا عنّا",
+        "en": "Kind words"
+      }
+    },
+    {
+      "type": "services",
+      "enabled": true,
+      "title": {
+        "ar": "قائمة الخدمات",
+        "en": "Service menu"
+      },
+      "limit": 4
+    },
+    {
+      "type": "gallery",
+      "enabled": true,
+      "title": {
+        "ar": "من داخل جَلوة",
+        "en": "Inside Jalwa"
+      },
+      "limit": 9
+    },
+    {
+      "type": "hours",
+      "enabled": true,
+      "title": {
+        "ar": "أوقات العمل",
+        "en": "Opening hours"
+      }
+    },
+    {
+      "type": "faq-teaser",
+      "enabled": true,
+      "title": {
+        "ar": "أسئلة تتكرر",
+        "en": "Questions"
+      },
+      "limit": 6
+    }
+  ]
+}

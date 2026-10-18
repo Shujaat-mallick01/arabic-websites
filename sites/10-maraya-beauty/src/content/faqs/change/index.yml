@@ -1,0 +1,8 @@
+ar:
+  question: أقدر أغيّر موعدي أو ألغيه؟
+  answer: إيوه، مجاناً لحد ٢٤ ساعة قبل الموعد، والعربون يصير رصيد لمدة ٦٠ يوم. بعدها أو إذا ما جيتي يروح العربون.
+  featured: true
+  order: 2
+en:
+  question: Can I change or cancel my appointment?
+  answer: Yes, free until 24 hours before; the deposit becomes credit for 60 days. After that, or if you don’t show, the deposit is kept.

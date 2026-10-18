@@ -143,7 +143,10 @@ export async function getServices(): Promise<ServiceItem[]> {
 }
 
 export async function getResources(): Promise<Array<Resource & { role: I18nText; order: number; photo?: Img }>> {
-  return once('resources', async () => (await entries('resources')).map((e) => ({ ...toResource(e.data.ar), ...(e.data.ar.photo ? { photo: e.data.ar.photo as Img } : {}) })).sort(byOrder));
+  return once('resources', async () => (await entries('resources')).map((e) => {
+      const d = (e.data.ar ?? e.data) as Record<string, any>;
+      return { ...toResource(d), ...(d.photo ? { photo: d.photo as Img } : {}) };
+    }).sort(byOrder));
 }
 
 export async function getPackages() {

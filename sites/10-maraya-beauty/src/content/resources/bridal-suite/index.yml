@@ -1,0 +1,10 @@
+id: bridal-suite
+kind: room
+name:
+  ar: جناح العروس
+  en: Bridal suite
+capacity: 1
+skills: []
+daysOff: []
+active: true
+order: 20

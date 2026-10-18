@@ -1,0 +1,33 @@
+ar:
+  id: brow-shaping
+  _slug: brow-shaping
+  title: تحديد حواجب
+  summary: تحديد بالخيط أو الشمع حسب بشرتك.
+  description: |-
+    تحديد بالخيط أو الشمع حسب بشرتك.
+
+    السعر شامل ضريبة القيمة المضافة.
+  category: lashes
+  durationMinutes: 20
+  priceKind: fixed
+  price: "60.00"
+  bookableOnline: true
+  featured: false
+  order: 18
+  requires:
+    - kind: staff
+      skill: brows
+    - kind: room
+      resourceIds:
+        - lash-room
+  images:
+    - src: ./cover.webp
+      alt_ar: تحديد حواجب
+      alt_en: Brow shaping
+en:
+  title: Brow shaping
+  summary: Threading or wax, whichever suits your skin.
+  description: |-
+    Threading or wax, whichever suits your skin.
+
+    Prices include VAT.

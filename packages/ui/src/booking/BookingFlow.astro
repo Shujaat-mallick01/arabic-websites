@@ -1,0 +1,275 @@
+---
+// Calendar booking (full tier): service → stylist (optional) → day → time → details → deposit.
+// Availability comes from /api/availability, computed in the site's zone against live bookings.
+import { computeDeposit } from '@aw/booking';
+import { COUNTRY_INFO } from '@aw/core';
+import type { PageContext } from '../context.ts';
+import { getBookingRules, getCategories, getResources, getServices } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+const services = (await getServices()).filter((s) => s.bookableOnline);
+const categories = await getCategories();
+const staff = (await getResources()).filter((r) => r.kind === 'staff' && r.active);
+const rules = await getBookingRules();
+const ar = ctx.lang === 'ar';
+const staffChoice = ctx.site.booking?.staffChoice ?? 'none';
+const showHijri = ctx.site.locale.hijri.show !== 'never';
+const svcData = services.map((s) => ({
+  id: s.id,
+  title: s.title,
+  duration: s.durationMinutes,
+  price: s.price.amount,
+  from: s.price.kind === 'from',
+  deposit: computeDeposit(s.price.amount, s.deposit ?? rules.deposit),
+  skills: s.requires.filter((r) => r.kind === 'staff').map((r) => r.skill).filter(Boolean),
+}));
+const staffData = staff.map((r) => ({ id: r.id, name: r.name, skills: r.skills }));
+const dial = COUNTRY_INFO[ctx.site.locale.country].dialCode;
+const ui = {
+  morning: ar ? 'الصباح' : 'Morning',
+  afternoon: ar ? 'العصر' : 'Afternoon',
+  evening: ar ? 'المغرب' : 'Evening',
+  night: ar ? 'الليل' : 'Night',
+  late: ar ? 'بعد نص الليل' : 'After midnight',
+  full: ctx.tr('booking.full'),
+  closed: ctx.tr('booking.closed'),
+  noSlots: ctx.tr('booking.noSlots'),
+  pick: ar ? 'اختاري اليوم أولاً' : 'Pick a day first',
+};
+---
+<aw-booking class="block container-page py-6 md:py-10" data-services={JSON.stringify(svcData)} data-staff={JSON.stringify(staffData)} data-ui={JSON.stringify(ui)} data-hijri={showHijri ? '1' : '0'} data-dial={dial}>
+  <h1 class="text-h1 mb-6">{ctx.tr('booking.title')}</h1>
+  <form novalidate class="grid gap-8 md:grid-cols-12 md:gap-12">
+    <div class="md:col-span-7 min-w-0 flex flex-col gap-7">
+      <div data-errors class="hidden p-4 rounded-control border-2 border-danger" role="alert" tabindex="-1"><ul class="m-0 ps-5 text-small" data-errors-list></ul></div>
+
+      <div class="aw-field">
+        <label class="aw-label" for="bk-service">{ctx.tr('booking.service')}</label>
+        <select id="bk-service" name="service" class="aw-select">
+          {categories.map((c) => {
+            const items = services.filter((s) => s.category === c.id);
+            return items.length > 0 && <optgroup label={ctx.pick(c.title)}>{items.map((s) => <option value={s.id}>{ctx.pick(s.title)}</option>)}</optgroup>;
+          })}
+        </select>
+        <p class="aw-hint" data-svc-meta></p>
+      </div>
+
+      {staffChoice !== 'none' && staff.length > 0 && (
+        <div class="aw-field">
+          <label class="aw-label" for="bk-staff">{ctx.tr('booking.staff')}</label>
+          <select id="bk-staff" name="staff" class="aw-select"><option value="">{ctx.tr('booking.anyStaff')}</option></select>
+        </div>
+      )}
+
+      <fieldset class="m-0 p-0 border-0 min-w-0">
+        <legend class="aw-label mb-2">{ctx.tr('booking.date')}</legend>
+        <div class="scroll-rail gap-2 pb-1" data-days aria-live="polite"></div>
+      </fieldset>
+
+      <fieldset class="m-0 p-0 border-0 min-w-0">
+        <legend class="aw-label mb-2">{ctx.tr('booking.time')}</legend>
+        <div class="flex flex-col gap-4" data-slots aria-live="polite"><p class="m-0 text-muted text-small">{ui.pick}</p></div>
+      </fieldset>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="aw-field">
+          <label class="aw-label" for="bk-name">{ctx.tr('form.name')}</label>
+          <input id="bk-name" name="name" class="aw-input" dir="auto" autocomplete="name" required />
+        </div>
+        <div class="aw-field">
+          <label class="aw-label" for="bk-phone">{ctx.tr('form.phone')}</label>
+          <input id="bk-phone" name="phone" class="aw-input" type="tel" inputmode="tel" dir="ltr" autocomplete="tel-national" required />
+        </div>
+      </div>
+      <div class="aw-field">
+        <label class="aw-label" for="bk-notes">{ctx.tr('form.notes')} <span class="text-muted font-normal">{ctx.tr('form.optional')}</span></label>
+        <textarea id="bk-notes" name="notes" class="aw-textarea" dir="auto" maxlength="300" rows="2"></textarea>
+      </div>
+      <div class="visually-hidden" aria-hidden="true"><label>Company website<input name="company_website" tabindex="-1" autocomplete="off" /></label></div>
+    </div>
+
+    <aside class="md:col-span-5 min-w-0">
+      <div class="md:sticky md:top-24 flex flex-col gap-3 p-5 md:p-6 rounded-card bg-surface border border-line">
+        <h2 class="text-h3" data-sum-title></h2>
+        <p class="m-0 text-muted" data-sum-when>—</p>
+        <p class="m-0 text-small text-muted" data-sum-hijri></p>
+        <dl class="m-0 grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 border-t border-line pt-3">
+          <dt class="text-muted">{ctx.tr('product.price')}</dt><dd class="m-0 price" data-sum-price></dd>
+          <dt class="font-bold">{ctx.tr('booking.deposit')}</dt><dd class="m-0 price font-bold" data-sum-deposit></dd>
+          <dt class="text-muted">{ctx.tr('booking.balance')}</dt><dd class="m-0 price" data-sum-balance></dd>
+        </dl>
+        <p class="m-0 text-small text-muted">{ctx.tr('booking.depositNote')}</p>
+        <button type="submit" class="aw-btn aw-btn-primary aw-btn-block" data-submit disabled>{ctx.tr('booking.payDeposit')}</button>
+      </div>
+    </aside>
+  </form>
+</aw-booking>
+
+<script>
+  import { money, siteBlob, str, num } from '../client/runtime.ts';
+  import { formatDate, formatHijri, formatTime } from '@aw/i18n';
+  import { track } from '../client/analytics.ts';
+
+  type Svc = { id: string; title: { ar: string; en: string }; duration: number; price: any; from: boolean; deposit: any; skills: string[] };
+  class AwBooking extends HTMLElement {
+    connectedCallback() {
+      const s = siteBlob();
+      const services: Svc[] = JSON.parse(this.dataset.services ?? '[]');
+      const staff: Array<{ id: string; name: { ar: string; en: string }; skills: string[] }> = JSON.parse(this.dataset.staff ?? '[]');
+      const ui = JSON.parse(this.dataset.ui ?? '{}');
+      const form = this.querySelector('form')!;
+      const svcSel = form.querySelector<HTMLSelectElement>('[name="service"]')!;
+      const staffSel = form.querySelector<HTMLSelectElement>('[name="staff"]');
+      const daysEl = this.querySelector<HTMLElement>('[data-days]')!;
+      const slotsEl = this.querySelector<HTMLElement>('[data-slots]')!;
+      const submit = this.querySelector<HTMLButtonElement>('[data-submit]')!;
+      const started = Date.now();
+      let date = '';
+      let start: number | null = null;
+      const pre = new URLSearchParams(location.search).get('service');
+      if (pre && services.some((x) => x.id === pre)) svcSel.value = pre;
+      const svc = () => services.find((x) => x.id === svcSel.value)!;
+      const L = (t: { ar: string; en: string }) => t[s.lang] || t.ar;
+      const mins = (n: number) => (s.lang === 'ar' ? (n >= 60 ? `${num(Math.floor(n / 60))} س${n % 60 ? ` ${num(n % 60)} د` : ''}` : `${num(n)} د`) : `${n} min`);
+
+      const summary = () => {
+        const v = svc();
+        this.querySelector('[data-sum-title]')!.textContent = L(v.title);
+        this.querySelector('[data-svc-meta]')!.textContent = `${mins(v.duration)} · ${v.from ? str('product.from') + ' ' : ''}${money(v.price)}`;
+        this.querySelector('[data-sum-price]')!.textContent = money(v.price);
+        this.querySelector('[data-sum-deposit]')!.textContent = money(v.deposit);
+        this.querySelector('[data-sum-balance]')!.textContent = money({ minor: v.price.minor - v.deposit.minor, currency: v.price.currency });
+        const when = this.querySelector('[data-sum-when]')!;
+        const hijri = this.querySelector('[data-sum-hijri]')!;
+        if (date && start !== null) {
+          when.textContent = `${formatDate(date, s.lang, s.locale)} · ${formatTime(start, s.lang, s.locale)}${start >= 1440 ? ` · ${str('booking.afterMidnight', { day: formatDate(addDay(date), s.lang, s.locale, 'weekday') })}` : ''}`;
+          hijri.textContent = this.dataset.hijri === '1' ? `${formatHijri(date, s.lang, s.locale)} — ${str('booking.hijri')}` : '';
+        } else {
+          when.textContent = date ? formatDate(date, s.lang, s.locale) : '—';
+          hijri.textContent = '';
+        }
+        submit.disabled = !(date && start !== null);
+      };
+      const addDay = (d: string) => {
+        const [y, m, dd] = d.split('-').map(Number);
+        return new Date(Date.UTC(y!, m! - 1, dd! + 1)).toISOString().slice(0, 10);
+      };
+      const fillStaff = () => {
+        if (!staffSel) return;
+        const need = svc().skills;
+        const keep = staffSel.value;
+        staffSel.innerHTML = `<option value="">${str('booking.anyStaff')}</option>` + staff.filter((r) => need.every((sk) => r.skills.includes(sk))).map((r) => `<option value="${r.id}">${L(r.name)}</option>`).join('');
+        if ([...staffSel.options].some((o) => o.value === keep)) staffSel.value = keep;
+      };
+      const qs = () => `service=${encodeURIComponent(svcSel.value)}${staffSel?.value ? `&staff=${encodeURIComponent(staffSel.value)}` : ''}`;
+
+      const loadDays = async () => {
+        daysEl.innerHTML = `<span class="text-muted text-small">${str('loading')}</span>`;
+        const data = await (await fetch(`/api/availability?${qs()}&days=21`)).json();
+        const fmt = new Intl.DateTimeFormat(s.lang === 'ar' ? `ar-${s.locale.country}-u-nu-${s.locale.numberingSystem}-ca-gregory` : 'en', { weekday: 'short', day: 'numeric', timeZone: 'UTC' });
+        daysEl.innerHTML = data.days
+          .map((d: any) => {
+            const label = fmt.format(new Date(`${d.date}T12:00:00Z`));
+            const reason = d.bookable ? '' : d.reason === 'cap_reached' ? ui.full : ui.closed;
+            return `<label class="aw-chip flex-col !min-w-[4.5rem] py-2 leading-tight"><input type="radio" name="day" value="${d.date}" ${d.bookable ? '' : 'disabled'} ${d.date === date ? 'checked' : ''}><span>${label}</span>${reason ? `<span class="text-[0.7rem]">${reason}</span>` : ''}</label>`;
+          })
+          .join('');
+        if (date && !data.days.some((d: any) => d.date === date && d.bookable)) {
+          date = '';
+          start = null;
+        }
+      };
+      const loadSlots = async () => {
+        start = null;
+        summary();
+        if (!date) return;
+        slotsEl.innerHTML = `<p class="m-0 text-muted text-small">${str('loading')}</p>`;
+        const data = await (await fetch(`/api/availability?${qs()}&date=${date}`)).json();
+        if (!data.slots.length) {
+          slotsEl.innerHTML = `<p class="m-0 text-muted">${ui.noSlots}</p>`;
+          return;
+        }
+        const groups: Array<[string, any[]]> = [[ui.morning, []], [ui.afternoon, []], [ui.evening, []], [ui.night, []], [ui.late, []]];
+        for (const sl of data.slots) {
+          const m = sl.start;
+          const g = m >= 1440 ? 4 : m >= 20 * 60 ? 3 : m >= 17 * 60 ? 2 : m >= 12 * 60 ? 1 : 0;
+          groups[g]![1].push(sl);
+        }
+        slotsEl.innerHTML = groups
+          .filter(([, l]) => l.length)
+          .map(([title, l]) => `<div><p class="m-0 mb-2 text-small text-muted">${title}</p><div class="flex flex-wrap gap-2">${l.map((sl) => `<label class="aw-chip tabular"><input type="radio" name="slot" value="${sl.start}"><span>${formatTime(sl.start, s.lang, s.locale)}</span></label>`).join('')}</div></div>`)
+          .join('');
+      };
+
+      form.addEventListener('change', async (e) => {
+        const t = e.target as HTMLInputElement;
+        if (t.name === 'service') {
+          fillStaff();
+          summary();
+          await loadDays();
+          await loadSlots();
+        }
+        if (t.name === 'staff') {
+          await loadDays();
+          await loadSlots();
+        }
+        if (t.name === 'day') {
+          date = t.value;
+          await loadSlots();
+        }
+        if (t.name === 'slot') {
+          start = Number(t.value);
+          summary();
+        }
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const phone = String(fd.get('phone') ?? '').trim();
+        submit.disabled = true;
+        const res = await fetch('/api/booking', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            serviceId: svcSel.value,
+            date,
+            start,
+            ...(staffSel?.value ? { staffId: staffSel.value } : {}),
+            customer: { name: fd.get('name'), phone: phone.startsWith('+') ? phone : `+${this.dataset.dial}${phone.replace(/^0/, '')}` },
+            answers: fd.get('notes') ? { notes: String(fd.get('notes')) } : {},
+            lang: s.lang,
+            company_website: fd.get('company_website') || undefined,
+            startedAt: started,
+          }),
+        });
+        const out = await res.json();
+        if (out.redirectUrl) {
+          track({ name: 'booking_submit', props: { serviceId: svcSel.value, tier: 'full', deposit: String(svc().deposit.minor) } });
+          location.href = out.redirectUrl;
+          return;
+        }
+        const box = this.querySelector<HTMLElement>('[data-errors]')!;
+        const list = this.querySelector('[data-errors-list]')!;
+        list.innerHTML = '';
+        for (const er of out.errors ?? [{ message: out.error === 'too_fast' ? str('form.err.tooFast') : str('form.err.generic') }]) {
+          const li = document.createElement('li');
+          li.textContent = er.message;
+          list.append(li);
+        }
+        box.classList.remove('hidden');
+        box.focus();
+        submit.disabled = false;
+        if (res.status === 409) await loadSlots();
+      });
+
+      fillStaff();
+      summary();
+      loadDays();
+    }
+  }
+  if (!customElements.get('aw-booking')) customElements.define('aw-booking', AwBooking);
+</script>

@@ -221,6 +221,12 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/payments:
+    dependencies:
+      '@aw/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/whatsapp:
     dependencies:
       '@aw/core':

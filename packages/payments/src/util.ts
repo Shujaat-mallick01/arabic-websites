@@ -4,12 +4,12 @@ import type { I18nText } from '@aw/core';
 
 export class PaymentError extends Error {
   override name = 'PaymentError';
-  constructor(
-    message: string,
-    readonly code: string,
-    readonly userMessage?: I18nText,
-  ) {
+  readonly code: string;
+  readonly userMessage?: I18nText;
+  constructor(message: string, code: string, userMessage?: I18nText) {
     super(message);
+    this.code = code;
+    if (userMessage) this.userMessage = userMessage;
   }
 }
 

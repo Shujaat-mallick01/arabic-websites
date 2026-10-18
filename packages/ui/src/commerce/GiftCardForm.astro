@@ -78,7 +78,7 @@ const ar = ctx.lang === 'ar';
             startedAt: started,
           }),
         });
-        const out = await res.json();
+        const out = await res.json().catch(() => ({ error: `http_${res.status}` }));
         if (out.redirectUrl) {
           location.href = out.redirectUrl;
           return;

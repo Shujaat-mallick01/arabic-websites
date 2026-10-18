@@ -12,6 +12,7 @@
     "@aw/brand": "workspace:*",
     "@aw/content": "workspace:*",
     "@aw/core": "workspace:*",
+    "@aw/ops": "workspace:*",
     "@aw/presets": "workspace:*",
     "@aw/seo": "workspace:*",
     "@aw/ui": "workspace:*",

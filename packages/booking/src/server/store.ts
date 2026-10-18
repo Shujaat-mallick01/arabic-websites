@@ -29,8 +29,10 @@ export interface DayRecord {
 
 export class BookingError extends Error {
   override name = 'BookingError';
-  constructor(message: string, readonly code: string) {
+  readonly code: string;
+  constructor(message: string, code: string) {
     super(message);
+    this.code = code;
   }
 }
 

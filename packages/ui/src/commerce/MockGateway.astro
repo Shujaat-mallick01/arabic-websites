@@ -67,7 +67,7 @@ const webhooks = [
         const outcome = (this.querySelector<HTMLInputElement>('[name="outcome"]:checked')!).value;
         const webhook = (this.querySelector<HTMLSelectElement>('[name="webhook"]')!).value;
         const res = await fetch('/api/pay/mock/complete', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ s, outcome, webhook, reason: outcome === 'failure' ? 'card_declined' : undefined }) });
-        const out = await res.json();
+        const out = await res.json().catch(() => ({ error: `http_${res.status}` }));
         if (out.redirectUrl) location.href = new URL(out.redirectUrl).pathname.replace(/^\/pay/, document.documentElement.lang === 'en' ? '/en/pay' : '/pay') + new URL(out.redirectUrl).search;
         else {
           err.textContent = str('form.err.generic');

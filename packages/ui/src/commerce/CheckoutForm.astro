@@ -350,7 +350,7 @@ const field = (f: (typeof localFields)[number], prefix: string) => ({ id: `${pre
         submit.textContent = str('checkout.processing');
         try {
           const res = await fetch('/api/checkout', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body()) });
-          const out = await res.json();
+          const out = await res.json().catch(() => ({ error: `http_${res.status}` }));
           if (res.ok && out.redirectUrl) {
             track({ name: 'purchase', props: { orderId: out.orderId, value: '', currency: s.currency, method: String(new FormData(form).get('payment')) } });
             clearCart();

@@ -25,6 +25,7 @@ export interface AwSiteOptions {
 }
 
 const VIRTUAL = 'virtual:aw/config';
+let serverData: unknown = null;
 const RESOLVED_VIRTUAL = `\0${VIRTUAL}`;
 
 function siteDirOf(root: string | URL): string {
@@ -123,7 +124,7 @@ export function awIntegration(opts: AwSiteOptions, r: ResolvedPreset): AstroInte
         // Server data for functions: the catalogue and rules, never trusting client prices.
         if (r.tier === 'full') {
           try {
-            const data = buildServerData(dir, opts.site, r, { strict: process.env.AW_STRICT_CONTENT === '1' });
+            const data = (serverData = buildServerData(dir, opts.site, r, { strict: process.env.AW_STRICT_CONTENT === '1' }));
             mkdirSync(join(dir, '.aw'), { recursive: true });
             writeFileSync(join(dir, '.aw', 'server-data.json'), JSON.stringify(data));
           } catch (e) {
@@ -131,6 +132,51 @@ export function awIntegration(opts: AwSiteOptions, r: ResolvedPreset): AstroInte
             throw e;
           }
         }
+      },
+      // `astro dev` has no Netlify functions, so serve /api/* in-process with the same handlers,
+      // in mock payment mode with an in-memory store (data resets when the dev server restarts).
+      'astro:server:setup': ({ server, logger }) => {
+        if (!r.functions.length || !serverData) return;
+        process.env.PAYMENTS_MODE ??= 'mock';
+        process.env.ORDER_STORE ??= 'memory';
+        let routes: Promise<Array<{ match: (p: string) => boolean; handler: (req: Request, ctx: unknown) => Promise<Response> }>> | null = null;
+        const load = () =>
+          (routes ??= server.ssrLoadModule(fileURLToPath(import.meta.resolve('@aw/ops/server'))).then((ops) =>
+            r.functions.map((f) => {
+              const factory = ops[f.handler.factory] as (s: SiteConfig, d: unknown) => (req: Request, ctx: unknown) => Promise<Response>;
+              const prefix = f.path.endsWith('/*') ? f.path.slice(0, -1) : null;
+              return { match: (p: string) => (prefix ? p.startsWith(prefix) : p === f.path || p === `${f.path}/`), handler: factory(opts.site, serverData) };
+            }),
+          ));
+        const handle = async (req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse, next: () => void) => {
+          const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+          if (!url.pathname.startsWith('/api/')) return next();
+          try {
+            process.env.URL ??= url.origin;
+            const hit = (await load()).find((x) => x.match(url.pathname));
+            if (!hit) return next();
+            const chunks: Buffer[] = [];
+            for await (const c of req) chunks.push(c as Buffer);
+            const headers = new Headers();
+            for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
+            const method = req.method ?? 'GET';
+            const out = await hit.handler(new Request(url, { method, headers, ...(method === 'GET' || method === 'HEAD' ? {} : { body: Buffer.concat(chunks) }) }), { waitUntil: () => undefined });
+            res.statusCode = out.status;
+            out.headers.forEach((v, k) => res.appendHeader(k, v));
+            res.end(Buffer.from(await out.arrayBuffer()));
+          } catch (e) {
+            logger.error(`API ${url.pathname}: ${(e as Error).stack ?? e}`);
+            res.statusCode = 500;
+            res.setHeader('content-type', 'application/json');
+            res.end(JSON.stringify({ error: 'server' }));
+          }
+        };
+        // First in the stack, ahead of Astro's trailing-slash check (API paths have no slash).
+        // Astro adds its own front-of-stack handlers after this hook, so wait until listening.
+        const front = () => server.middlewares.stack.unshift({ route: '', handle: handle as never });
+        if (server.httpServer) server.httpServer.once('listening', front);
+        else front();
+        logger.info('API routes served in-process (mock payments, in-memory store)');
       },
     },
   };

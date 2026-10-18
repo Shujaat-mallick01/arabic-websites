@@ -97,8 +97,10 @@ export const TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
 
 export class OrderError extends Error {
   override name = 'OrderError';
-  constructor(message: string, readonly code: string) {
+  readonly code: string;
+  constructor(message: string, code: string) {
     super(message);
+    this.code = code;
   }
 }
 

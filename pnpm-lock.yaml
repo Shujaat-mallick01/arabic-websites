@@ -244,6 +244,9 @@ importers:
       '@aw/core':
         specifier: workspace:*
         version: link:../core
+      '@aw/ops':
+        specifier: workspace:*
+        version: link:../ops
       '@aw/presets':
         specifier: workspace:*
         version: link:../presets

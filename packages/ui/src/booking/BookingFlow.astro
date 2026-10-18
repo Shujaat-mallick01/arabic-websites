@@ -246,7 +246,7 @@ const ui = {
             startedAt: started,
           }),
         });
-        const out = await res.json();
+        const out = await res.json().catch(() => ({ error: `http_${res.status}` }));
         if (out.redirectUrl) {
           track({ name: 'booking_submit', props: { serviceId: svcSel.value, tier: 'full', deposit: String(svc().deposit.minor) } });
           location.href = out.redirectUrl;

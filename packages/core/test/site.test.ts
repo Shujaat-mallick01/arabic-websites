@@ -1,43 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { bcp47, defineSite, ogLocale, SiteConfigError, type SiteConfigInput } from '../src/index.ts';
-
-export const fixtureSite: SiteConfigInput = {
-  schemaVersion: 1,
-  id: '02',
-  slug: 'noha-modest',
-  tier: 'full',
-  preset: { primary: 'commerce.full', niche: 'fashion' },
-  locale: {
-    country: 'BH',
-    currency: 'BHD',
-    timeZone: 'Asia/Bahrain',
-    dialect: 'khaleeji-bh',
-    audience: 'women',
-    numberingSystem: 'latn',
-  },
-  features: { giftCards: true, stock: true },
-  commerce: { orderPrefix: 'DR' },
-  payments: { provider: 'tap', methods: ['benefit', 'card', 'apple_pay'], cod: true, primary: 'online' },
-  ops: { store: 'blobs', dashboardAuth: 'demo', mailer: 'outbox' },
-  layout: {
-    hero: 'split-editorial',
-    nav: 'bar-start-logo',
-    categoryEntry: 'story-rings',
-    productCard: 'portrait-minimal',
-    grid: 'two-col',
-    imageShape: 'portrait',
-    rhythm: 'airy',
-    whatsapp: 'floating-pill',
-    footer: 'columns',
-    productPage: 'gallery-sticky',
-    signature: 'arrival-ribbon',
-  },
-  seo: { indexing: false, businessType: 'ClothingStore', titleTemplate: { ar: '%s · {name}', en: '%s · {name}' } },
-  analytics: { provider: 'none' },
-  demo: { enabled: true, banner: true, priceAsterisk: true, credit: 'demo', contactRouting: 'studio', sampleOrders: true },
-  deploy: { url: 'https://noha-modest-demo.netlify.app', netlifySiteName: 'noha-modest-demo' },
-  showcase: { oneLiner: { ar: 'متجر', en: 'Store' }, highlights: [], hubOrder: 2 },
-};
+import { fixtureSite } from './fixtures.ts';
 
 describe('defineSite', () => {
   it('accepts a valid config and fills defaults', () => {

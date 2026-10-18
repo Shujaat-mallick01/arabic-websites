@@ -1,0 +1,162 @@
+/* Semantic theme for Tailwind v4. Components use only these utilities (bg-surface, text-ink,
+   font-display, rounded-card…), so one component library wears thirteen brands. */
+
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --text-*: initial;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+}
+
+@theme inline {
+  --color-bg: var(--brand-bg);
+  --color-surface: var(--brand-surface);
+  --color-ink: var(--brand-ink);
+  --color-muted: var(--brand-muted);
+  --color-line: var(--brand-line);
+  --color-accent: var(--brand-accent);
+  --color-accent-ink: var(--brand-accent-ink);
+  --color-accent-press: var(--brand-accent-press);
+  --color-deep: var(--brand-deep);
+  --color-deep-ink: var(--brand-deep-ink);
+  --color-deep-muted: var(--brand-deep-muted);
+  --color-deep-accent: var(--brand-deep-accent);
+  --color-highlight: var(--brand-highlight);
+  --color-danger: var(--brand-danger);
+  --color-success: var(--brand-success);
+  --color-focus: var(--brand-focus);
+  --color-scrim: var(--brand-scrim);
+
+  --font-display: var(--brand-font-display);
+  --font-body: var(--brand-font-body);
+
+  --text-display: var(--brand-fs-display);
+  --text-display--line-height: var(--brand-lh-display);
+  --text-h1: var(--brand-fs-h1);
+  --text-h1--line-height: var(--brand-lh-heading);
+  --text-h2: var(--brand-fs-h2);
+  --text-h2--line-height: var(--brand-lh-heading);
+  --text-h3: var(--brand-fs-h3);
+  --text-h3--line-height: var(--brand-lh-heading);
+  --text-body: var(--brand-fs-body);
+  --text-body--line-height: var(--brand-lh-body);
+  --text-small: var(--brand-fs-small);
+  --text-small--line-height: var(--brand-lh-ui);
+  --text-ui: var(--brand-fs-ui);
+  --text-ui--line-height: var(--brand-lh-ui);
+
+  --radius-none: 0;
+  --radius-control: var(--brand-radius-control);
+  --radius-card: var(--brand-radius-card);
+  --radius-image: var(--brand-radius-image);
+  --radius-pill: var(--brand-radius-pill);
+  --radius-full: 9999px;
+
+  --shadow-card: var(--brand-shadow-card);
+  --shadow-overlay: var(--brand-shadow-overlay);
+  --shadow-none: none;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    color-scheme: light;
+  }
+  body {
+    margin: 0;
+    background: var(--brand-bg);
+    color: var(--brand-ink);
+    font-family: var(--brand-font-body);
+    font-size: var(--brand-fs-body);
+    line-height: var(--brand-lh-body);
+    font-weight: var(--brand-fw-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--brand-font-display);
+    font-weight: var(--brand-fw-heading);
+    line-height: var(--brand-lh-heading);
+    font-feature-settings: var(--brand-font-features-display);
+    margin: 0;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  img, picture, svg, video { display: block; max-width: 100%; }
+  img { height: auto; }
+  a { color: inherit; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible {
+    outline: 2px solid var(--brand-focus);
+    outline-offset: 2px;
+  }
+  ::selection { background: var(--brand-accent); color: var(--brand-accent-ink); }
+  [hidden] { display: none !important; }
+  /* Latin tracking and casing only ever apply to English pages, never to Arabic. */
+  :lang(en) .tracking-caps { letter-spacing: var(--brand-tracking-caps); text-transform: uppercase; }
+  :lang(en) .display-case { text-transform: var(--brand-display-case); letter-spacing: var(--brand-tracking-caps); }
+  .tabular { font-variant-numeric: tabular-nums lining-nums; }
+  .price { font-family: var(--brand-font-body); font-weight: var(--brand-fw-price); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: calc(var(--brand-max-width) + 2 * var(--brand-gutter));
+  margin-inline: auto;
+  padding-inline: var(--brand-gutter);
+}
+
+@utility section-gap {
+  margin-block: var(--brand-section-gap);
+}
+
+@utility stack-gap {
+  gap: var(--brand-stack-gap);
+}
+
+@utility border-brand {
+  border-width: var(--brand-border-width);
+  border-style: var(--brand-border-style);
+}
+
+@utility tap {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+}
+
+@utility visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@utility scroll-rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar { display: none; }
+  & > * { scroll-snap-align: start; flex: none; }
+}
+
+@utility transition-brand {
+  transition-duration: var(--brand-motion-ms);
+  transition-timing-function: var(--brand-motion-ease);
+}

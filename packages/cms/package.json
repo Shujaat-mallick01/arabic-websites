@@ -1,0 +1,17 @@
+{
+  "name": "@aw/cms",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@aw/content": "workspace:*",
+    "@aw/core": "workspace:*",
+    "@aw/presets": "workspace:*",
+    "yaml": "^2.9.1",
+    "@sveltia/cms": "0.248.0",
+    "ajv": "^8.20.0"
+  }
+}

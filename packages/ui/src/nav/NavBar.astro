@@ -1,0 +1,118 @@
+---
+// Header variants: bar-start-logo, bar-centered-logo, minimal-sheet. On phones every variant
+// collapses to logo + bag + a menu sheet that slides from the inline end.
+import Icon from '../primitives/Icon.astro';
+import Logo from '../layout/Logo.astro';
+import LangToggle from '../layout/LangToggle.astro';
+import type { PageContext } from '../context.ts';
+import type { NavItem } from './nav.ts';
+
+interface Props {
+  ctx: PageContext;
+  name: { ar: string; en: string };
+  primary: NavItem[];
+  secondary: NavItem[];
+  variant: 'bar-start-logo' | 'bar-centered-logo' | 'minimal-sheet' | 'bottom-tabs';
+  cart: boolean;
+}
+
+const { ctx, name, primary, secondary, variant, cart } = Astro.props;
+const centered = variant === 'bar-centered-logo';
+const minimal = variant === 'minimal-sheet';
+---
+<header class="aw-header sticky top-0 z-40 bg-bg/95 backdrop-blur-sm border-b border-line">
+  <div class="container-page">
+    <div class:list={['flex items-center gap-2 h-14 md:h-[72px]', centered && 'md:grid md:grid-cols-[1fr_auto_1fr]']}>
+      {centered ? (
+        <nav class="hidden md:flex items-center gap-6" aria-label={ctx.tr('nav.main')}>
+          {primary.slice(0, 3).map((i) => <a href={i.href} class:list={['aw-tab text-ui no-underline py-2', i.current && 'is-current']} aria-current={i.current ? 'page' : undefined}>{i.label}</a>)}
+        </nav>
+      ) : null}
+
+      <div class:list={['flex items-center', centered ? 'md:justify-center' : 'me-auto md:me-0']}>
+        <Logo ctx={ctx} name={name} size="md" />
+      </div>
+
+      {!centered && !minimal && (
+        <nav class="hidden md:flex items-center gap-6 ms-10 me-auto" aria-label={ctx.tr('nav.main')}>
+          {primary.map((i) => <a href={i.href} class:list={['aw-tab text-ui no-underline py-2', i.current && 'is-current']} aria-current={i.current ? 'page' : undefined}>{i.label}</a>)}
+        </nav>
+      )}
+
+      <div class:list={['flex items-center gap-1 ms-auto', centered && 'md:justify-end']}>
+        <span class="hidden md:contents"><LangToggle ctx={ctx} class="px-2" /></span>
+        {cart && (
+          <a href={ctx.href('/cart/')} class="tap relative inline-flex items-center justify-center no-underline" data-cart-open aria-label={ctx.tr('nav.cart')}>
+            <Icon name="bag" />
+            <aw-cart-count class="aw-count absolute top-1 inset-e-0.5 min-w-5 h-5 px-1 rounded-full bg-accent text-accent-ink text-[0.72rem] leading-5 text-center tabular" hidden></aw-cart-count>
+          </a>
+        )}
+        <button type="button" class:list={['tap inline-flex items-center justify-center bg-transparent border-0 cursor-pointer text-ink', !minimal && 'md:hidden']} data-menu-open aria-haspopup="dialog" aria-controls="aw-menu" aria-label={ctx.tr('nav.openMenu')}>
+          <Icon name="menu" />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<dialog id="aw-menu" class="aw-sheet m-0 h-dvh max-h-dvh w-[min(88vw,380px)] max-w-none border-0 p-0 bg-surface text-ink inset-y-0 inset-e-0 inset-s-auto" aria-label={ctx.tr('nav.main')}>
+  <div class="flex h-full flex-col">
+    <div class="flex items-center justify-between px-5 h-14 border-b border-line">
+      <span class="font-display text-h3">{ctx.pick(name)}</span>
+      <button type="button" class="tap -me-3 inline-flex items-center justify-center bg-transparent border-0 cursor-pointer text-ink" data-menu-close aria-label={ctx.tr('nav.closeMenu')}>
+        <Icon name="close" />
+      </button>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-5 py-4" aria-label={ctx.tr('nav.main')}>
+      <ul class="m-0 p-0 list-none">
+        {primary.map((i) => (
+          <li><a href={i.href} class="flex items-center justify-between min-h-12 text-h3 no-underline border-b border-line" aria-current={i.current ? 'page' : undefined}>{i.label}<Icon name="chevron" size={18} class="text-muted" /></a></li>
+        ))}
+      </ul>
+      <ul class="m-0 mt-6 p-0 list-none">
+        {secondary.map((i) => (
+          <li><a href={i.href} class="flex items-center min-h-11 text-body text-muted no-underline" aria-current={i.current ? 'page' : undefined}>{i.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="px-5 py-4 border-t border-line">
+      <LangToggle ctx={ctx} />
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .aw-tab { position: relative; }
+  .aw-tab.is-current::after,
+  .aw-tab:hover::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: 2px;
+    background: var(--brand-accent);
+  }
+  .aw-sheet::backdrop { background: var(--brand-scrim); }
+  .aw-sheet[open] { animation: aw-sheet-in var(--brand-motion-ms) var(--brand-motion-ease); }
+  @keyframes aw-sheet-in {
+    from { transform: translateX(var(--aw-sheet-from, 100%)); }
+    to { transform: none; }
+  }
+  :global([dir='rtl']) .aw-sheet { --aw-sheet-from: -100%; }
+</style>
+
+<script>
+  const menu = document.getElementById('aw-menu') as HTMLDialogElement | null;
+  let opener: HTMLElement | null = null;
+  document.querySelectorAll<HTMLElement>('[data-menu-open]').forEach((b) =>
+    b.addEventListener('click', () => {
+      opener = b;
+      menu?.showModal();
+    }),
+  );
+  menu?.querySelector('[data-menu-close]')?.addEventListener('click', () => menu.close());
+  menu?.addEventListener('click', (e) => {
+    if (e.target === menu) menu.close();
+  });
+  menu?.addEventListener('close', () => opener?.focus());
+</script>

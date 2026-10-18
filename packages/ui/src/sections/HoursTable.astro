@@ -1,0 +1,42 @@
+---
+// Weekly hours as a static table (never a stale "open now"). After-midnight closes are marked.
+import { rangesForBusinessDay, rangeToMinutes, WEEKDAYS, type HoursSettings } from '@aw/core';
+import SectionHeader from './SectionHeader.astro';
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+  hours: HoursSettings;
+  title?: string;
+  compact?: boolean;
+}
+const { ctx, hours, title, compact = false } = Astro.props;
+// Use the weekly table only (seasons and exceptions are listed underneath).
+const weeklyOnly: HoursSettings = { ...hours, seasons: [], exceptions: [] };
+const sampleDate = { sat: '2026-01-03', sun: '2026-01-04', mon: '2026-01-05', tue: '2026-01-06', wed: '2026-01-07', thu: '2026-01-08', fri: '2026-01-09' } as const;
+const rows = WEEKDAYS.map((d) => ({ day: d, ranges: rangesForBusinessDay(weeklyOnly, sampleDate[d]) }));
+---
+<section class:list={[!compact && 'section-gap']} aria-labelledby="hours-title">
+  <div class:list={[!compact && 'container-page']}>
+    {!compact && <SectionHeader id="hours-title" title={title ?? ctx.tr('section.hours')} />}
+    <table class="w-full max-w-lg border-collapse">
+      <tbody>
+        {rows.map((r) => (
+          <tr class="border-b border-line">
+            <th scope="row" class="py-3 pe-4 text-start font-normal">{ctx.tr(`day.${r.day}` as 'day.sat')}</th>
+            <td class="py-3 text-end tabular">
+              {r.ranges.length === 0 ? <span class="text-muted">{ctx.tr('hours.closed')}</span> : r.ranges.map((x) => <div>{ctx.timeRange(x.start, x.end)}</div>)}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    {hours.seasons.length > 0 && (
+      <ul class="m-0 mt-4 p-0 list-none text-small text-muted">
+        {hours.seasons.map((s) => (
+          <li>{ctx.pick(s.label)}: {ctx.date(s.from, 'day-month')} – {ctx.date(s.to, 'day-month')} · {(s.weekly.all ?? []).map((x) => { const m = rangeToMinutes(x); return ctx.timeRange(m.start, m.end); }).join(ctx.lang === 'ar' ? '، ' : ', ')}{s.approximate && <> ({ctx.tr('hours.approximate')})</>}</li>
+        ))}
+      </ul>
+    )}
+  </div>
+</section>

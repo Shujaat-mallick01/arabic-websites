@@ -1,0 +1,12 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import { pageContext } from '@aw/ui/context';
+const ctx = pageContext(Astro.url);
+---
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('notFound.title'), description: '', path: '/404/', noindex: true }}>
+  <div class="container-page py-20 flex flex-col items-start gap-4">
+    <h1 class="text-h1">{ctx.tr('notFound.title')}</h1>
+    <p class="m-0 text-muted">{ctx.tr('notFound.body')}</p>
+    <a href={ctx.href('/')} class="aw-btn aw-btn-primary">{ctx.tr('notFound.home')}</a>
+  </div>
+</BaseLayout>

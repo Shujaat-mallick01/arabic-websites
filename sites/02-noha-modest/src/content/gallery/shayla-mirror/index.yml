@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: تثبيت الشيلة قدام المراية
+  alt: تثبيت الشيلة قدام المراية
+  style: lookbook
+  featured: true
+  order: 9
+en:
+  caption: Pinning a shayla at the mirror
+  alt: Pinning a shayla at the mirror

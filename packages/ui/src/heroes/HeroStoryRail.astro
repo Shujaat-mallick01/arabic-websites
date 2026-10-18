@@ -1,0 +1,47 @@
+---
+// Hero "story-rail": the category story cards come first (the brand's Instagram highlights),
+// then one wide campaign band with a surface panel overlapping the photo at the inline start.
+import { Picture } from 'astro:assets';
+import CategoryEntry from '../sections/CategoryEntry.astro';
+import type { PageContext } from '../context.ts';
+import type { Category, Raw } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  section: Raw;
+  categories: Category[];
+}
+const { ctx, section: s, categories } = Astro.props;
+const title = ctx.pick(s.title);
+---
+<section class="pt-4 md:pt-8" aria-labelledby="hero-title">
+  <div class="container-page">
+    <CategoryEntry ctx={ctx} categories={categories} variant="story-cards" />
+  </div>
+
+  <div class="relative mt-6 md:mt-10 md:container-page">
+    <div class="relative overflow-hidden aspect-[4/5] md:aspect-[16/7] md:rounded-image bg-surface">
+      {s.image && (
+        <div class:list={['h-full', s.imageWide && 'md:hidden']}>
+          <Picture src={s.image} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 780, 1080]} sizes="100vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
+        </div>
+      )}
+      {s.imageWide && (
+        <div class="hidden md:block h-full">
+          <Picture src={s.imageWide} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[1280, 1920]} sizes="1280px" loading="lazy" class="h-full w-full object-cover" />
+        </div>
+      )}
+    </div>
+    <div class="relative -mt-12 mx-[var(--brand-gutter)] md:absolute md:bottom-10 md:inset-s-[calc(var(--brand-gutter)+2.5rem)] md:mx-0 md:mt-0 md:w-[480px] bg-surface p-5 md:p-8 rounded-card">
+      {s.eyebrow && ctx.pick(s.eyebrow) && <p class="aw-eyebrow m-0 mb-2">{ctx.pick(s.eyebrow)}</p>}
+      <h1 id="hero-title" class="text-display" style="font-weight: var(--brand-fw-display)">{title}</h1>
+      {ctx.pick(s.subtitle) && <p class="m-0 mt-3 text-muted">{ctx.pick(s.subtitle)}</p>}
+      {ctx.pick(s.priceNote) && (
+        <p class="m-0 mt-4 inline-flex px-3 py-1.5 rounded-control bg-bg text-small price">{ctx.pick(s.priceNote)}{ctx.site.demo.priceAsterisk && ctx.site.demo.enabled && <span aria-hidden="true">*</span>}</p>
+      )}
+      {s.ctaHref && ctx.pick(s.ctaLabel) && (
+        <a href={ctx.href(s.ctaHref)} class="aw-btn aw-btn-primary aw-btn-block mt-5">{ctx.pick(s.ctaLabel)}</a>
+      )}
+    </div>
+  </div>
+</section>

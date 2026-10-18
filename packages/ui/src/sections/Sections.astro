@@ -1,0 +1,99 @@
+---
+// Renders the home page from settings/home.json: the owner orders and hides sections; the site's
+// layout config picks each section's variant.
+import HeroStoryRail from '../heroes/HeroStoryRail.astro';
+import HeroArchFrame from '../heroes/HeroArchFrame.astro';
+import HeroSplit from '../heroes/HeroSplit.astro';
+import CategoryEntry from './CategoryEntry.astro';
+import ProductCollection from './ProductCollection.astro';
+import CampaignBand from './CampaignBand.astro';
+import GiftCardBand from './GiftCardBand.astro';
+import DeliveryTable from './DeliveryTable.astro';
+import GallerySection from './GallerySection.astro';
+import Reviews from './Reviews.astro';
+import FaqList from './FaqList.astro';
+import HoursTable from './HoursTable.astro';
+import SectionHeader from './SectionHeader.astro';
+import ServicesLedger from '../booking/ServicesLedger.astro';
+import PackagesLedger from '../booking/PackagesLedger.astro';
+import type { PageContext } from '../context.ts';
+import {
+  getCategories,
+  getFaqs,
+  getFulfilment,
+  getGallery,
+  getHours,
+  getPackages,
+  getProducts,
+  getReviews,
+  getServices,
+  getSettings,
+  type Raw,
+} from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  sections: Raw[];
+}
+const { ctx, sections } = Astro.props;
+const visible = sections.filter((s) => s.enabled !== false && ctx.resolved.sections.includes(s.type));
+const types = new Set(visible.map((s) => s.type));
+const categories = await getCategories();
+const products = ctx.has('catalog') ? await getProducts() : [];
+const needs = (...t: string[]) => t.some((x) => types.has(x));
+const gallery = needs('lookbook', 'gallery') ? await getGallery() : [];
+const reviews = needs('reviews') ? await getReviews() : [];
+const faqs = needs('faq-teaser') ? await getFaqs() : [];
+const fulfilment = needs('delivery-table') && ctx.has('fulfilment') ? await getFulfilment() : null;
+const hours = needs('hours') ? await getHours() : null;
+const services = ctx.has('services') ? await getServices() : [];
+const packages = needs('packages') && ctx.has('packages') ? await getPackages() : [];
+const general = await getSettings('general');
+const name = general.name ?? { ar: '', en: '' };
+const hero = ctx.site.layout.hero;
+---
+{visible.map((s, i) => {
+  switch (s.type) {
+    case 'hero':
+      if (hero === 'story-rail') return <HeroStoryRail ctx={ctx} section={s} categories={categories} />;
+      if (hero === 'arch-frame') return <HeroArchFrame ctx={ctx} section={s} categories={categories} services={services} />;
+      return <HeroSplit ctx={ctx} section={s} />;
+    case 'categories':
+      return (
+        <section class="section-gap" aria-labelledby={`sec-${i}`}>
+          <div class="container-page">
+            <SectionHeader id={`sec-${i}`} title={ctx.pick(s.title) || ctx.tr('section.categories')} />
+            <CategoryEntry ctx={ctx} categories={categories} eager={0} />
+          </div>
+        </section>
+      );
+    case 'featured':
+    case 'new-arrivals':
+      return <ProductCollection ctx={ctx} section={{ filter: s.type === 'new-arrivals' ? 'new' : 'featured', ...s }} products={products} id={`sec-${i}`} />;
+    case 'rail':
+      return <ProductCollection ctx={ctx} section={s} products={products} layout="rail" id={`sec-${i}`} />;
+    case 'campaign':
+    case 'about':
+      return <CampaignBand ctx={ctx} section={s} reverse={s.type === 'about'} />;
+    case 'gift-cards':
+      return ctx.has('giftCards') ? <GiftCardBand ctx={ctx} section={s} name={name} /> : null;
+    case 'delivery-table':
+      return fulfilment ? <DeliveryTable ctx={ctx} section={s} rules={fulfilment} /> : null;
+    case 'lookbook':
+      return <GallerySection ctx={ctx} section={s} items={gallery} variant="rail" link={ctx.hasPage('lookbook') ? '/lookbook/' : undefined} />;
+    case 'gallery':
+      return <GallerySection ctx={ctx} section={s} items={gallery} variant="grid" link={ctx.hasPage('gallery') ? '/gallery/' : undefined} />;
+    case 'reviews':
+      return <Reviews ctx={ctx} section={s} items={reviews} />;
+    case 'faq-teaser':
+      return <FaqList ctx={ctx} section={s} items={faqs.filter((f) => f.featured).length ? faqs.filter((f) => f.featured) : faqs} limit={Number(s.limit ?? 3)} link />;
+    case 'hours':
+      return hours ? <HoursTable ctx={ctx} hours={hours} title={ctx.pick(s.title) || undefined} /> : null;
+    case 'services':
+      return <ServicesLedger ctx={ctx} section={s} services={services} categories={categories} />;
+    case 'packages':
+      return <PackagesLedger ctx={ctx} section={s} packages={packages} />;
+    default:
+      return null;
+  }
+})}

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import ProductCard from '@aw/ui/commerce/ProductCard.astro';
+import CategoryEntry from '@aw/ui/sections/CategoryEntry.astro';
+import { pageContext } from '@aw/ui/context';
+import { getCategories, getProducts } from '@aw/ui/data';
+import { breadcrumbsJsonLd } from '@aw/seo';
+
+const ctx = pageContext(Astro.url);
+const products = await getProducts();
+const categories = await getCategories();
+const title = ctx.tr('nav.shop');
+const crumbs = breadcrumbsJsonLd(ctx.site, [{ name: ctx.tr('nav.home'), path: '/' }, { name: title, path: '/shop/' }], ctx.lang);
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/shop/' }} jsonLd={[crumbs]}>
+  <div class="container-page py-8 md:py-12">
+    <h1 class="text-h1 mb-6">{title}</h1>
+    <CategoryEntry ctx={ctx} categories={categories} variant="pill-scroller" />
+    <ul class="m-0 mt-8 p-0 list-none grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-6 md:gap-y-12">
+      {products.map((p, i) => <li><ProductCard ctx={ctx} product={p} eager={i < 2} /></li>)}
+    </ul>
+  </div>
+</BaseLayout>

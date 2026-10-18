@@ -1,0 +1,24 @@
+{
+  "name": "@aw/astro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./pages/*": "./src/pages/*"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@aw/brand": "workspace:*",
+    "@aw/content": "workspace:*",
+    "@aw/core": "workspace:*",
+    "@aw/presets": "workspace:*",
+    "@aw/seo": "workspace:*",
+    "@aw/ui": "workspace:*",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  },
+  "peerDependencies": {
+    "astro": "^7.4.0"
+  }
+}

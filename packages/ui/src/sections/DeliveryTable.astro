@@ -1,0 +1,61 @@
+---
+// Delivery and shipping as plain rows: destination, fee, free-from and typical time.
+import { COUNTRY_INFO } from '@aw/core';
+import type { FulfilmentRules } from '@aw/commerce';
+import SectionHeader from './SectionHeader.astro';
+import type { PageContext } from '../context.ts';
+import type { Raw } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  section: Raw;
+  rules: FulfilmentRules;
+}
+const { ctx, section: s, rules } = Astro.props;
+const home = COUNTRY_INFO[ctx.site.locale.country];
+const zones = rules.delivery?.zones.filter((z) => z.active) ?? [];
+const countries = rules.shipping?.countries.filter((c) => c.active) ?? [];
+const eta = (min: number, max: number) => {
+  const n = (x: number) => ctx.num(x);
+  if (ctx.lang === 'ar') return min === max ? `${n(min)} ${min === 1 ? 'يوم عمل' : 'أيام عمل'}` : `${n(min)}–${n(max)} أيام عمل`;
+  return min === max ? `${min} working day${min === 1 ? '' : 's'}` : `${min}–${max} working days`;
+};
+// Local delivery collapsed into one row when fees are the same everywhere.
+const sameFee = zones.length > 0 && zones.every((z) => z.fee.minor === zones[0]!.fee.minor);
+const rows = [
+  ...(sameFee
+    ? [{ name: ctx.pick(home.name), fee: zones[0]!.fee, freeOver: zones[0]!.freeOver, min: Math.min(...zones.map((z) => z.eta.min)), max: Math.max(...zones.map((z) => z.eta.max)) }]
+    : zones.map((z) => ({ name: ctx.pick(z.name), fee: z.fee, freeOver: z.freeOver, min: z.eta.min, max: z.eta.max }))),
+  ...countries.map((c) => ({ name: ctx.pick(COUNTRY_INFO[c.code].name), fee: c.fee, freeOver: c.freeOver, min: c.eta.min, max: c.eta.max })),
+];
+---
+{rows.length > 0 && (
+  <section class="section-gap" aria-labelledby="delivery-title">
+    <div class="container-page">
+      <SectionHeader id="delivery-title" title={ctx.pick(s.title) || ctx.tr('section.delivery')} subtitle={ctx.pick(s.subtitle)} />
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-body">
+          <thead>
+            <tr class="text-small text-muted text-start">
+              <th scope="col" class="py-2 pe-4 text-start font-normal">{ctx.tr('checkout.country')}</th>
+              <th scope="col" class="py-2 pe-4 text-start font-normal">{ctx.tr('checkout.shippingFee')}</th>
+              <th scope="col" class="py-2 pe-4 text-start font-normal">{ctx.lang === 'ar' ? 'مجاني من' : 'Free from'}</th>
+              <th scope="col" class="py-2 text-start font-normal">{ctx.lang === 'ar' ? 'المدة' : 'Time'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr class="border-t border-line">
+                <th scope="row" class="py-3.5 pe-4 text-start font-normal">{r.name}</th>
+                <td class="py-3.5 pe-4 price">{r.fee.minor === 0 ? ctx.tr('checkout.free') : ctx.money(r.fee)}</td>
+                <td class="py-3.5 pe-4 price">{r.freeOver ? ctx.money(r.freeOver) : '—'}</td>
+                <td class="py-3.5 text-muted">{eta(r.min, r.max)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {rules.shipping?.dutiesNote && ctx.pick(rules.shipping.dutiesNote) && <p class="m-0 mt-4 text-small text-muted">{ctx.pick(rules.shipping.dutiesNote)}</p>}
+    </div>
+  </section>
+)}

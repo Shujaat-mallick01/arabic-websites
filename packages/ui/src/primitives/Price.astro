@@ -1,0 +1,31 @@
+---
+// Exact price display. Demos append * linked to the footnote; prices sit in an isolate so digits
+// and the currency never reorder inside Arabic text.
+import type { Money } from '@aw/core';
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+  value: Money;
+  compareAt?: Money;
+  from?: boolean;
+  trim?: boolean;
+  class?: string;
+}
+
+const { ctx, value, compareAt, from = false, trim = false, class: cls = '' } = Astro.props;
+const showStar = ctx.site.demo.enabled && ctx.site.demo.priceAsterisk;
+const opts = trim ? { trimZeroFraction: true } : {};
+const onSale = compareAt && compareAt.minor > value.minor;
+---
+<span class:list={['price inline-flex flex-wrap items-baseline gap-x-2', cls]} aria-describedby={showStar ? 'price-note' : undefined}>
+  {from && <span class="text-muted font-normal">{ctx.tr('product.from')}</span>}
+  <bdi>{ctx.money(value, opts)}</bdi>
+  {onSale && (
+    <s class="text-muted font-normal text-small">
+      <span class="visually-hidden">{ctx.lang === 'ar' ? 'السعر قبل التخفيض' : 'Was'}</span>
+      <bdi>{ctx.money(compareAt!, opts)}</bdi>
+    </s>
+  )}
+  {showStar && <span class="text-muted -ms-1.5" aria-hidden="true">*</span>}
+</span>

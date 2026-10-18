@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import GallerySection from '@aw/ui/sections/GallerySection.astro';
+import { pageContext } from '@aw/ui/context';
+import { getGallery } from '@aw/ui/data';
+
+const ctx = pageContext(Astro.url);
+const items = await getGallery();
+const title = ctx.tr('nav.gallery');
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/gallery/' }}>
+  <h1 class="visually-hidden">{title}</h1>
+  <GallerySection ctx={ctx} section={{ limit: 99 }} items={items} variant="grid" heading={title} />
+</BaseLayout>

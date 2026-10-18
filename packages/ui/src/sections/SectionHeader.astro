@@ -1,0 +1,31 @@
+---
+// Start-aligned section heading with an optional "view all" link. Never a centred stack.
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  eyebrow?: string;
+  link?: { label: string; href: string };
+  id?: string;
+  level?: 2 | 3;
+  class?: string;
+}
+const { title, subtitle, eyebrow, link, id, level = 2, class: cls = '' } = Astro.props;
+const H = level === 2 ? 'h2' : 'h3';
+---
+{(title || link) && (
+  <div class:list={['flex items-end justify-between gap-4 mb-5 md:mb-8', cls]}>
+    <div class="flex flex-col gap-1.5 max-w-2xl">
+      {eyebrow && <p class="aw-eyebrow m-0">{eyebrow}</p>}
+      {title && <H id={id} class:list={[level === 2 ? 'text-h2' : 'text-h3']}>{title}</H>}
+      {subtitle && <p class="m-0 text-muted">{subtitle}</p>}
+    </div>
+    {link && (
+      <a href={link.href} class="shrink-0 inline-flex items-center gap-1 min-h-11 text-ui no-underline text-accent">
+        <span>{link.label}</span>
+        <Icon name="chevron" size={18} />
+      </a>
+    )}
+  </div>
+)}

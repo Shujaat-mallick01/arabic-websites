@@ -43,10 +43,11 @@ export const LAYOUT_VARIANTS = {
   hero: [
     'full-bleed-photo', 'split-editorial', 'asymmetric-collage', 'product-spotlight', 'lookbook-strip', 'menu-board',
     'calendar-first', 'portfolio-mosaic', 'estimate-builder', 'cutoff-countdown', 'typographic-statement', 'arch-frame',
+    'story-rail', 'branch-console', 'clothes-rail', 'availability-strip', 'occasion-mosaic',
   ],
   nav: ['bar-start-logo', 'bar-centered-logo', 'bottom-tabs', 'minimal-sheet'],
-  categoryEntry: ['story-rings', 'pill-scroller', 'tile-grid', 'text-index', 'tabs'],
-  productCard: ['portrait-minimal', 'square-caption', 'overlay-caption', 'menu-row', 'swatch-card'],
+  categoryEntry: ['story-rings', 'story-cards', 'pill-scroller', 'tile-grid', 'text-index', 'tabs'],
+  productCard: ['portrait-minimal', 'square-caption', 'overlay-caption', 'menu-row', 'swatch-card', 'service-ledger', 'swing-tag'],
   grid: ['two-col', 'one-col-large', 'masonry', 'list'],
   imageShape: ['rect', 'portrait', 'arch', 'soft', 'circle-crop'],
   productPage: ['gallery-sticky', 'stacked-full-bleed', 'carousel-top'],

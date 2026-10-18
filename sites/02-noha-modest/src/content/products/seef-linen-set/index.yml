@@ -1,0 +1,50 @@
+ar:
+  id: p011
+  _slug: seef-linen-set
+  title: طقم «السيف» كتان
+  summary: كتان بلون الضباب، بارد وخفيف بالصيف.
+  description: |-
+    كتان بلون الضباب، بارد وخفيف بالصيف.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "23.500"
+  category: sets
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 11
+  images:
+    - src: ./front.webp
+      alt_ar: طقم «السيف» كتان باللون الضبابي
+      alt_en: Seef linen set in mist
+    - src: ./alt.webp
+      alt_ar: طقم «السيف» كتان باللون العاجي
+      alt_en: Seef linen set in ivory
+  sizes:
+    - xs
+    - s
+    - m
+    - l
+    - xl
+  colors:
+    - id: mist
+      name_ar: ضبابي
+      name_en: Mist
+      hex: "#B9C7D6"
+    - id: ivory
+      name_ar: عاجي
+      name_en: Ivory
+      hex: "#ECE8DF"
+  fabric: كتان مغسول
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Seef linen set
+  summary: Mist-coloured linen, cool and light for summer.
+  description: |-
+    Mist-coloured linen, cool and light for summer.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Washed linen
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

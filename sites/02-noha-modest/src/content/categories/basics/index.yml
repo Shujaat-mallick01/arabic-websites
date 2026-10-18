@@ -1,0 +1,10 @@
+ar:
+  _slug: basics
+  title: أساسيات
+  summary: قطع أساسية تكمّل كل لبس.
+  image: ./cover.webp
+  order: 5
+  season: none
+en:
+  title: Basics
+  summary: Essentials that complete every outfit.

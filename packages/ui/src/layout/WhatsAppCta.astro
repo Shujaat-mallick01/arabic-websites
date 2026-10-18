@@ -1,0 +1,50 @@
+---
+// The persistent WhatsApp affordance: a floating button at the inline end, a bottom bar with a
+// primary action beside it, or nothing (inline buttons only).
+import Icon from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+import { enquiryMessage, waLink } from '@aw/whatsapp';
+
+interface Props {
+  ctx: PageContext;
+  variant: 'floating-pill' | 'bottom-bar' | 'inline-only';
+  name: { ar: string; en: string };
+  number?: string;
+  url: string;
+  primary?: { label: string; href: string };
+}
+
+const { ctx, variant, name, number, url, primary } = Astro.props;
+const text = enquiryMessage(
+  { url },
+  {
+    lang: ctx.lang,
+    dialect: ctx.site.locale.dialect,
+    audience: ctx.site.locale.audience,
+    locale: ctx.locale,
+    businessName: ctx.pick(name),
+    ...(ctx.site.demo.enabled ? { demoBrand: name.ar } : {}),
+  },
+);
+const href = waLink(ctx.whatsapp(number), text);
+---
+{variant === 'floating-pill' && (
+  <a href={href} class="aw-fab fixed z-30 inset-e-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] md:inset-e-8 md:bottom-8 inline-flex items-center justify-center gap-2 min-h-13 min-w-13 px-4 rounded-control bg-ink text-bg no-underline shadow-overlay" aria-label={ctx.tr('cta.whatsappChat')} data-track="whatsapp" data-track-context="fab" rel="noopener" target="_blank">
+    <Icon name="whatsapp" size={24} />
+    <span class="hidden md:inline text-ui">{ctx.tr('cta.whatsapp')}</span>
+  </a>
+)}
+{variant === 'bottom-bar' && (
+  <>
+    <div class="h-[calc(3.5rem+env(safe-area-inset-bottom))] md:hidden" aria-hidden="true"></div>
+    <div class="aw-fab fixed z-30 inset-x-0 bottom-0 md:hidden bg-deep text-deep-ink pb-[env(safe-area-inset-bottom)]">
+      <div class="container-page flex items-center gap-2 h-14">
+        {primary && <a href={primary.href} class="flex-1 inline-flex items-center justify-center min-h-11 rounded-control bg-accent text-accent-ink no-underline text-ui">{primary.label}</a>}
+        <a href={href} class="inline-flex items-center justify-center gap-2 min-h-11 px-4 rounded-control border border-deep-accent text-deep-ink no-underline" aria-label={ctx.tr('cta.whatsappChat')} data-track="whatsapp" data-track-context="fab" rel="noopener" target="_blank">
+          <Icon name="whatsapp" size={22} />
+          {!primary && <span class="text-ui">{ctx.tr('cta.whatsappChat')}</span>}
+        </a>
+      </div>
+    </div>
+  </>
+)}

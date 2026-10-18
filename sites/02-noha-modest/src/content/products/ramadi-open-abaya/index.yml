@@ -1,0 +1,54 @@
+ar:
+  id: p025
+  _slug: ramadi-open-abaya
+  title: عباية مفتوحة «رمادي»
+  summary: رمادي فاتح للدوام، بقصّة خفيفة.
+  description: |-
+    رمادي فاتح للدوام، بقصّة خفيفة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "29.000"
+  category: open-abayas
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 25
+  images:
+    - src: ./front.webp
+      alt_ar: عباية مفتوحة «رمادي» باللون الحجري
+      alt_en: Ramadi grey open abaya in stone
+    - src: ./alt.webp
+      alt_ar: عباية مفتوحة «رمادي» باللون الضبابي
+      alt_en: Ramadi grey open abaya in mist
+  sizes:
+    - s
+    - m
+    - l
+  lengths:
+    - 52
+    - 54
+    - 56
+    - 58
+  colors:
+    - id: stone
+      name_ar: حجري
+      name_en: Stone
+      hex: "#A8A39A"
+    - id: mist
+      name_ar: ضبابي
+      name_en: Mist
+      hex: "#B9C7D6"
+  fabric: كريب
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+  hemming: true
+en:
+  title: Ramadi grey open abaya
+  summary: Light grey for work, in an easy cut.
+  description: |-
+    Light grey for work, in an easy cut.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Crepe
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

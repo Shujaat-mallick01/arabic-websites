@@ -1,0 +1,15 @@
+---
+// The site's one signature element, chosen in site.config.ts → layout.signature.
+import ArrivalRibbon from './ArrivalRibbon.astro';
+import type { PageContext } from '../context.ts';
+import type { Product } from '@aw/commerce';
+
+interface Props {
+  ctx: PageContext;
+  where: 'product' | 'card' | 'cart' | 'home';
+  product?: Product<unknown>;
+}
+const { ctx, where, product } = Astro.props;
+const sig = ctx.site.layout.signature;
+---
+{sig === 'arrival-ribbon' && <ArrivalRibbon ctx={ctx} where={where} hemming={product?.options.some((o) => o.id === 'hem')} />}

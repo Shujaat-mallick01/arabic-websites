@@ -1,0 +1,9 @@
+ar:
+  question: أي طرق دفع عندكم، وفيه دفع عند الاستلام؟
+  answer: نقبل بطاقات بنفت والبطاقات الائتمانية وApple Pay. الدفع عند الاستلام متاح داخل البحرين للطلبات حتى 60 د.ب برسوم 0.500 د.ب.
+  topic: payment
+  featured: false
+  order: 6
+en:
+  question: Which payment methods do you take? Is there cash on delivery?
+  answer: We accept BENEFIT debit cards, credit cards and Apple Pay. Cash on delivery is available in Bahrain for orders up to BHD 60, with a BHD 0.500 fee.

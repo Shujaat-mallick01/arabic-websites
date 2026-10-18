@@ -1,0 +1,306 @@
+---
+// Options, quantity and the primary action for a product. Server-rendered real controls; the
+// island validates with the engine's own rules, updates the live price and either adds to the
+// cart (full tier) or opens a prefilled WhatsApp order (lite tier).
+import type { Product } from '@aw/commerce';
+import { hasVariablePrice } from '@aw/commerce';
+import Icon from '../primitives/Icon.astro';
+import Price from '../primitives/Price.astro';
+import type { PageContext } from '../context.ts';
+import type { Img } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  product: Product<Img>;
+  imageUrl?: string;
+  url: string;
+}
+const { ctx, product: p, imageUrl, url } = Astro.props;
+const mode = ctx.has('cart') ? 'cart' : 'whatsapp';
+const soldOut = p.availability === 'sold_out';
+const data = JSON.stringify({ ...p, images: [], description: { ar: '', en: '' }, imageUrl, url }).replace(/</g, String.fromCharCode(92) + 'u003c');
+const q = p.quantity;
+const variable = hasVariablePrice(p);
+const title = ctx.pick(p.title);
+---
+<aw-product-form data-mode={mode} class="block">
+  <script type="application/json" data-product set:html={data}></script>
+  <form novalidate class="flex flex-col gap-5" aria-label={title}>
+    <div class="flex items-baseline justify-between gap-3">
+      <div data-live-price aria-live="polite"><Price ctx={ctx} value={p.price} compareAt={p.compareAt} from={variable} class="text-h3" /></div>
+    </div>
+
+    <div data-errors class="hidden p-4 rounded-control border-2 border-danger" role="alert" tabindex="-1">
+      <p class="m-0 mb-2 text-body" data-errors-title></p>
+      <ul class="m-0 ps-5 text-small" data-errors-list></ul>
+    </div>
+
+    {p.options.map((o) => {
+      if (o.kind === 'choice' && o.display === 'select') {
+        return (
+          <div class="aw-field" data-option={o.id}>
+            <label class="aw-label" for={`opt-${o.id}`}>{ctx.pick(o.label)}</label>
+            <select id={`opt-${o.id}`} name={o.id} class="aw-select" required={o.required} aria-describedby={`err-${o.id}`}>
+              <option value="">{ctx.tr('product.chooseOption', { option: ctx.pick(o.label) })}</option>
+              {o.choices.map((c) => <option value={c.id}>{ctx.pick(c.label)}</option>)}
+            </select>
+            <p class="aw-error" id={`err-${o.id}`} hidden></p>
+          </div>
+        );
+      }
+      if (o.kind === 'choice') {
+        return (
+          <fieldset class="m-0 p-0 border-0 flex flex-col gap-2" data-option={o.id} aria-describedby={`err-${o.id}`}>
+            <legend class="aw-label mb-2 flex w-full items-center justify-between">
+              <span>{ctx.pick(o.label)}</span>
+              {o.id === 'size' && ctx.hasPage('size-guide') && <a href={ctx.href('/size-guide/')} class="aw-link text-small font-normal">{ctx.tr('product.sizeGuide')}</a>}
+            </legend>
+            <div class="flex flex-wrap gap-2">
+              {o.choices.map((c) =>
+                o.display === 'swatches' ? (
+                  <label class="aw-chip gap-2 pe-4">
+                    <input type="radio" name={o.id} value={c.id} required={o.required} />
+                    <span class="aw-swatch w-6 h-6" style={`--swatch: ${c.swatch ?? '#ccc'}`} aria-hidden="true"></span>
+                    <span>{ctx.pick(c.label)}</span>
+                  </label>
+                ) : (
+                  <label class="aw-chip">
+                    <input type="radio" name={o.id} value={c.id} required={o.required} />
+                    <span>{ctx.pick(c.label)}</span>
+                    {c.price && variable && <span class="visually-hidden"> — {ctx.money(c.price)}</span>}
+                  </label>
+                ),
+              )}
+            </div>
+            <p class="aw-error" id={`err-${o.id}`} hidden></p>
+          </fieldset>
+        );
+      }
+      if (o.kind === 'text') {
+        return (
+          <div class="aw-field" data-option={o.id}>
+            <label class="aw-label" for={`opt-${o.id}`}>{ctx.pick(o.label)} {!o.required && <span class="text-muted font-normal">{ctx.tr('form.optional')}</span>}{o.price && <span class="text-muted font-normal"> (+<bdi>{ctx.money(o.price)}</bdi>)</span>}</label>
+            <input id={`opt-${o.id}`} name={o.id} class="aw-input" dir="auto" maxlength={o.maxLength * 2} data-max={o.maxLength} aria-describedby={`hint-${o.id} err-${o.id}`} required={o.required} />
+            <p class="aw-hint" id={`hint-${o.id}`} data-counter>{ctx.num(0)} / {ctx.num(o.maxLength)}</p>
+            <p class="aw-error" id={`err-${o.id}`} hidden></p>
+          </div>
+        );
+      }
+      if (o.kind === 'date') {
+        return (
+          <div class="aw-field" data-option={o.id}>
+            <label class="aw-label" for={`opt-${o.id}`}>{ctx.pick(o.label)}</label>
+            <input id={`opt-${o.id}`} name={o.id} type="date" class="aw-input" data-lead-days={o.leadDays} data-max-days={o.maxDaysAhead} required={o.required} aria-describedby={`err-${o.id}`} />
+            <p class="aw-error" id={`err-${o.id}`} hidden></p>
+          </div>
+        );
+      }
+      if (o.kind === 'addons') {
+        return (
+          <fieldset class="m-0 p-0 border-0 flex flex-col gap-2" data-option={o.id}>
+            <legend class="aw-label mb-2">{ctx.pick(o.label)}</legend>
+            {o.items.map((it) => (
+              <label class="flex items-center justify-between gap-3 min-h-12 px-3 border border-line rounded-control">
+                <span class="flex items-center gap-3"><input type="checkbox" name={`addon:${it.id}`} value="1" class="w-5 h-5" /><span>{ctx.pick(it.label)}</span></span>
+                <span class="price text-small">+<bdi>{ctx.money(it.unitPrice)}</bdi></span>
+              </label>
+            ))}
+          </fieldset>
+        );
+      }
+      return null;
+    })}
+
+    <div class="flex flex-col gap-2" data-qty-wrap>
+      <span class="aw-label" id="qty-label">{ctx.tr('product.qty')}{q.min > 1 && <span class="text-muted font-normal"> · {ctx.tr('product.minQty', { n: ctx.num(q.min) })}</span>}</span>
+      <div class="inline-flex items-center self-start border border-muted rounded-control" role="group" aria-labelledby="qty-label">
+        <button type="button" class="tap inline-flex items-center justify-center bg-transparent border-0 cursor-pointer text-ink" data-qty-dec aria-label={ctx.tr('product.decrease')}><Icon name="minus" size={20} /></button>
+        <input name="qty" type="number" inputmode="numeric" class="w-16 min-h-11 text-center bg-transparent border-0 tabular" value={q.min} min={q.min} step={q.step} max={q.max} aria-labelledby="qty-label" />
+        <button type="button" class="tap inline-flex items-center justify-center bg-transparent border-0 cursor-pointer text-ink" data-qty-inc aria-label={ctx.tr('product.increase')}><Icon name="plus" size={20} /></button>
+      </div>
+      <p class="aw-error" id="err-qty" hidden></p>
+    </div>
+
+    {q.tiers && q.tiers.length > 0 && (
+      <table class="w-full max-w-sm text-small border-collapse" data-tiers>
+        <caption class="text-start aw-label mb-1">{ctx.tr('product.tierPricing')}</caption>
+        <tbody>
+          {q.tiers.map((t) => (
+            <tr class="border-b border-line" data-tier-min={t.minQty}>
+              <th scope="row" class="py-2 text-start font-normal tabular">{ctx.num(t.minQty)}+</th>
+              <td class="py-2 text-end price">{ctx.money(t.unitPrice)} <span class="text-muted font-normal">{ctx.tr('product.perUnit')}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+
+    {mode === 'whatsapp' && (
+      <div class="grid gap-4">
+        <div class="aw-field">
+          <label class="aw-label" for="wa-name">{ctx.tr('form.name')} <span class="text-muted font-normal">{ctx.tr('form.optional')}</span></label>
+          <input id="wa-name" name="customer_name" class="aw-input" dir="auto" autocomplete="name" maxlength="60" />
+        </div>
+        <div class="aw-field">
+          <label class="aw-label" for="wa-notes">{ctx.tr('form.notes')} <span class="text-muted font-normal">{ctx.tr('form.optional')}</span></label>
+          <textarea id="wa-notes" name="notes" class="aw-textarea" dir="auto" maxlength="300" rows="2"></textarea>
+        </div>
+      </div>
+    )}
+    <div class="visually-hidden" aria-hidden="true">
+      <label>Company website<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
+    </div>
+
+    <div class="aw-buybar sticky bottom-0 z-20 -mx-[var(--brand-gutter)] px-[var(--brand-gutter)] py-3 bg-bg/95 backdrop-blur-sm md:static md:mx-0 md:px-0 md:py-0 md:bg-transparent">
+      <button type="submit" class:list={['aw-btn aw-btn-block', mode === 'cart' ? 'aw-btn-primary' : 'aw-btn-ink']} disabled={soldOut}>
+        {mode === 'whatsapp' && <Icon name="whatsapp" size={22} />}
+        <span>{soldOut ? ctx.tr('product.soldOut') : mode === 'cart' ? ctx.tr('cart.add') : ctx.tr('cta.orderWhatsapp')}</span>
+      </button>
+      <p class="m-0 mt-2 text-small text-success hidden" data-added role="status">{ctx.tr('cart.added')}</p>
+    </div>
+  </form>
+</aw-product-form>
+
+<script>
+  import { lineIssueMessage, priceLine, validateLine, type Product } from '@aw/commerce';
+  import { addDays, zonedNow } from '@aw/core';
+  import { translator } from '@aw/i18n';
+  import { orderMessage, waLink } from '@aw/whatsapp';
+  import { addLine } from '../client/cart.ts';
+  import { date, money, num, siteBlob, str } from '../client/runtime.ts';
+  import { track } from '../client/analytics.ts';
+
+  type P = Product & { imageUrl?: string; url: string };
+
+  class AwProductForm extends HTMLElement {
+    connectedCallback() {
+      const p = JSON.parse(this.querySelector('[data-product]')!.textContent || '{}') as P;
+      const form = this.querySelector('form')!;
+      const s = siteBlob();
+      const tr = translator({ lang: s.lang, dialect: s.dialect as never, audience: s.audience as never });
+      const today = zonedNow(s.locale.timeZone).date;
+      const started = Date.now();
+      const qtyInput = form.querySelector<HTMLInputElement>('input[name="qty"]')!;
+      const priceEl = this.querySelector<HTMLElement>('[data-live-price] bdi');
+
+      // Dates are relative to "today" in the site's zone, computed now (never at build time).
+      form.querySelectorAll<HTMLInputElement>('input[type="date"]').forEach((d) => {
+        d.min = addDays(today, Number(d.dataset.leadDays ?? 0));
+        d.max = addDays(today, Number(d.dataset.maxDays ?? 365));
+      });
+
+      const read = () => {
+        const fd = new FormData(form);
+        const selection: Record<string, string> = {};
+        const addons: Record<string, number> = {};
+        for (const o of p.options) {
+          if (o.kind === 'addons') {
+            for (const it of o.items) if (fd.get(`addon:${it.id}`)) addons[it.id] = 1;
+          } else {
+            const v = fd.get(o.id);
+            if (typeof v === 'string' && v.trim()) selection[o.id] = v.trim();
+          }
+        }
+        const qty = Number.parseInt(qtyInput.value, 10) || 0;
+        return { selection, addons, qty };
+      };
+
+      const refresh = () => {
+        const { selection, addons, qty } = read();
+        if (qty > 0 && priceEl) priceEl.textContent = money(priceLine(p, { selection, qty, addons }).total);
+        form.querySelectorAll<HTMLInputElement>('input[data-max]').forEach((inp) => {
+          const counter = inp.parentElement?.querySelector('[data-counter]');
+          if (counter) counter.textContent = `${num([...inp.value].length)} / ${num(inp.dataset.max!)}`;
+        });
+        this.querySelectorAll<HTMLElement>('[data-tier-min]').forEach((row) => {
+          const tiers = [...this.querySelectorAll<HTMLElement>('[data-tier-min]')].map((r) => Number(r.dataset.tierMin));
+          const active = Math.max(...tiers.filter((t) => t <= qty), -1);
+          row.classList.toggle('font-bold', Number(row.dataset.tierMin) === active);
+        });
+      };
+      form.addEventListener('input', refresh);
+      form.addEventListener('change', refresh);
+
+      const step = p.quantity.step || 1;
+      this.querySelector('[data-qty-inc]')?.addEventListener('click', () => {
+        const v = Number.parseInt(qtyInput.value, 10) || p.quantity.min;
+        qtyInput.value = String(Math.min(v + step, p.quantity.max ?? Infinity));
+        refresh();
+      });
+      this.querySelector('[data-qty-dec]')?.addEventListener('click', () => {
+        const v = Number.parseInt(qtyInput.value, 10) || p.quantity.min;
+        qtyInput.value = String(Math.max(v - step, p.quantity.min));
+        refresh();
+      });
+
+      const box = this.querySelector<HTMLElement>('[data-errors]')!;
+      const showErrors = (msgs: Array<{ field: string; text: string }>) => {
+        form.querySelectorAll<HTMLElement>('.aw-error').forEach((e) => (e.hidden = true));
+        form.querySelectorAll('[aria-invalid]').forEach((e) => e.removeAttribute('aria-invalid'));
+        if (!msgs.length) {
+          box.classList.add('hidden');
+          return;
+        }
+        this.querySelector('[data-errors-title]')!.textContent = msgs.length === 1 ? str('form.errorSummaryOne') : str('form.errorSummary', { n: num(msgs.length) });
+        this.querySelector('[data-errors-list]')!.innerHTML = '';
+        for (const m of msgs) {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `#${m.field === 'qty' ? 'qty-label' : `opt-${m.field}`}`;
+          a.textContent = m.text;
+          li.append(a);
+          this.querySelector('[data-errors-list]')!.append(li);
+          const err = form.querySelector<HTMLElement>(`#err-${m.field}`);
+          if (err) {
+            err.textContent = m.text;
+            err.hidden = false;
+          }
+          form.querySelector(`[name="${m.field}"]`)?.setAttribute('aria-invalid', 'true');
+        }
+        box.classList.remove('hidden');
+        box.focus();
+      };
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if ((form.elements.namedItem('company_website') as HTMLInputElement | null)?.value) return; // bot
+        const { selection, addons, qty } = read();
+        const issues = validateLine(p, { productId: p.id, selection, qty, addons }, today);
+        const fmt = { lang: s.lang, date, num: (n: number) => num(n) };
+        const msgs = issues.map((i) => ({ field: 'optionId' in i ? i.optionId : 'qty', text: lineIssueMessage(i, tr, fmt) }));
+        showErrors(msgs);
+        if (msgs.length) return;
+        const priced = priceLine(p, { selection, qty, addons });
+        const labels = priced.labels.map((l) => ({ label: l.label, value: l.value }));
+
+        if (this.dataset.mode === 'cart') {
+          addLine({ productId: p.id, slug: p.slug, title: p.title, image: p.imageUrl, selection, labels, addons, qty, unit: priced.unit, total: priced.total, min: p.quantity.min, step: p.quantity.step, max: p.quantity.max });
+          track({ name: 'add_to_cart', props: { itemId: p.id, value: String(priced.total.minor), currency: priced.total.currency, qty } });
+          const ok = this.querySelector<HTMLElement>('[data-added]');
+          ok?.classList.remove('hidden');
+          window.dispatchEvent(new CustomEvent('aw:cart-open'));
+          return;
+        }
+
+        if (Date.now() - started < 1500) return; // too fast to be a person
+        const fd = new FormData(form);
+        const text = orderMessage(
+          {
+            title: `${tr('wa.orderTitle')}: ${p.title[s.lang] || p.title.ar}`,
+            lines: [{ title: p.title[s.lang] || p.title.ar, options: labels.map((l) => ({ label: l.label[s.lang] || l.label.ar, value: l.value[s.lang] || l.value.ar })), qty, unit: priced.unit, ...(priced.addons.minor ? { total: priced.total } : {}) }],
+            total: priced.total,
+            customer: { name: String(fd.get('customer_name') ?? '') },
+            notes: String(fd.get('notes') ?? ''),
+            url: p.url,
+          },
+          { lang: s.lang, dialect: s.dialect as never, audience: s.audience as never, locale: s.locale, businessName: s.brand[s.lang] || s.brand.ar, ...(s.demo ? { demoBrand: s.brand.ar } : {}) },
+        );
+        track({ name: 'whatsapp_click', props: { context: 'product', itemId: p.id } });
+        window.open(waLink(s.whatsapp, text), '_blank', 'noopener');
+      });
+
+      refresh();
+    }
+  }
+  if (!customElements.get('aw-product-form')) customElements.define('aw-product-form', AwProductForm);
+</script>

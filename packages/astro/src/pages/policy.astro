@@ -1,0 +1,10 @@
+---
+import ContentPage from './_content-page.astro';
+import { getPages } from '@aw/ui/data';
+
+export async function getStaticPaths() {
+  const pages = await getPages('ar');
+  return pages.filter((p) => p.kind === 'policy').map((p) => ({ params: { slug: p.slug } }));
+}
+---
+<ContentPage slug={Astro.params.slug!} base="/policies" />

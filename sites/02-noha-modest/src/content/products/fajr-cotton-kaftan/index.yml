@@ -1,0 +1,46 @@
+ar:
+  id: p003
+  _slug: fajr-cotton-kaftan
+  title: كفتان «فجر» قطن ناعم
+  summary: قصّة بسيطة بأكمام واسعة، يحلى مع شيلة فاتحة.
+  description: |-
+    قصّة بسيطة بأكمام واسعة، يحلى مع شيلة فاتحة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "16.250"
+  category: kaftans
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 3
+  images:
+    - src: ./front.webp
+      alt_ar: كفتان «فجر» قطن ناعم باللون العاجي
+      alt_en: Fajr soft cotton kaftan in ivory
+    - src: ./alt.webp
+      alt_ar: كفتان «فجر» قطن ناعم باللون الضبابي
+      alt_en: Fajr soft cotton kaftan in mist
+  sizes:
+    - free
+  colors:
+    - id: ivory
+      name_ar: عاجي
+      name_en: Ivory
+      hex: "#ECE8DF"
+    - id: mist
+      name_ar: ضبابي
+      name_en: Mist
+      hex: "#B9C7D6"
+  fabric: قطن ناعم
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: مقاس حر يناسب من XS إلى XL، بقصّة واسعة تنسدل بخفة.
+en:
+  title: Fajr soft cotton kaftan
+  summary: A simple cut with wide sleeves; lovely with a light shayla.
+  description: |-
+    A simple cut with wide sleeves; lovely with a light shayla.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Soft cotton
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: Free size, fits XS to XL with an easy, fluid cut.

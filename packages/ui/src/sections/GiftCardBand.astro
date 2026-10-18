@@ -1,0 +1,37 @@
+---
+// Gift cards on a contrasting band: a card visual, the denominations and a link to buy.
+import { money as mk } from '@aw/core';
+import Icon from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+import type { Raw } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  section: Raw;
+  name: { ar: string; en: string };
+}
+const { ctx, section: s, name } = Astro.props;
+const denoms = ctx.site.commerce?.giftCards?.denominations ?? [];
+const cur = ctx.site.locale.currency;
+---
+{denoms.length > 0 && (
+  <section class="section-gap bg-surface py-12 md:py-16" aria-labelledby="gift-title">
+    <div class="container-page grid gap-8 md:grid-cols-2 md:items-center">
+      <div class="aspect-[1.6/1] max-w-md w-full rounded-card bg-deep text-deep-ink p-6 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="font-display text-h3">{ctx.pick(name)}</span>
+          <Icon name="gift" size={28} />
+        </div>
+        <span class="text-small text-deep-muted">{ctx.tr('nav.giftCards')}</span>
+      </div>
+      <div class="flex flex-col gap-4">
+        <h2 id="gift-title" class="text-h2">{ctx.pick(s.title) || ctx.tr('nav.giftCards')}</h2>
+        {ctx.pick(s.subtitle) && <p class="m-0 text-muted">{ctx.pick(s.subtitle)}</p>}
+        <ul class="m-0 p-0 list-none flex flex-wrap gap-2">
+          {denoms.map((d) => <li class="aw-chip price">{ctx.money(mk(d, cur), { trimZeroFraction: true })}</li>)}
+        </ul>
+        <a href={ctx.href('/gift-cards/')} class="aw-btn aw-btn-primary self-start">{ctx.pick(s.ctaLabel) || ctx.tr('nav.giftCards')}</a>
+      </div>
+    </div>
+  </section>
+)}

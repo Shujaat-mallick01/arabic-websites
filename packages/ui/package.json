@@ -1,0 +1,28 @@
+{
+  "name": "@aw/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./context": "./src/context.ts",
+    "./data": "./src/data.ts",
+    "./client/*": "./src/client/*",
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "@aw/booking": "workspace:*",
+    "@aw/brand": "workspace:*",
+    "@aw/commerce": "workspace:*",
+    "@aw/content": "workspace:*",
+    "@aw/core": "workspace:*",
+    "@aw/i18n": "workspace:*",
+    "@aw/payments": "workspace:*",
+    "@aw/presets": "workspace:*",
+    "@aw/seo": "workspace:*",
+    "@aw/whatsapp": "workspace:*"
+  },
+  "peerDependencies": {
+    "astro": "^7.4.0"
+  }
+}

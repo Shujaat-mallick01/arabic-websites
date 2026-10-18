@@ -1,0 +1,47 @@
+ar:
+  id: p007
+  _slug: diwan-satin-kaftan
+  title: كفتان «ديوان» ساتان مطفي
+  summary: ساتان مطفي بلمعة هادية لعزايم العيد.
+  description: |-
+    ساتان مطفي بلمعة هادية لعزايم العيد.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "26.000"
+  compareAt: "29.000"
+  category: kaftans
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 7
+  images:
+    - src: ./front.webp
+      alt_ar: كفتان «ديوان» ساتان مطفي باللون البرقوقي
+      alt_en: Diwan matte satin kaftan in plum
+    - src: ./alt.webp
+      alt_ar: كفتان «ديوان» ساتان مطفي باللون الموكا
+      alt_en: Diwan matte satin kaftan in mocha
+  sizes:
+    - free
+  colors:
+    - id: plum
+      name_ar: برقوقي
+      name_en: Plum
+      hex: "#6E4E5E"
+    - id: mocha
+      name_ar: موكا
+      name_en: Mocha
+      hex: "#8A6E5B"
+  fabric: ساتان مطفي
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: مقاس حر يناسب من XS إلى XL، بقصّة واسعة تنسدل بخفة.
+en:
+  title: Diwan matte satin kaftan
+  summary: Matte satin with a soft sheen for Eid gatherings.
+  description: |-
+    Matte satin with a soft sheen for Eid gatherings.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Matte satin
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: Free size, fits XS to XL with an easy, fluid cut.

@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: طقم مشوار على ممشى مظلّل الساعة ٩ الصبح
+  alt: طقم مشوار على ممشى مظلّل الساعة ٩ الصبح
+  style: lookbook
+  featured: true
+  order: 2
+en:
+  caption: The Mishwar set on a shaded walkway at 9 am
+  alt: The Mishwar set on a shaded walkway at 9 am

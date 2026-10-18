@@ -88,7 +88,8 @@
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
-  img, picture, svg, video { display: block; max-width: 100%; }
+  picture { display: contents; }
+  img, svg, video { display: block; max-width: 100%; }
   img { height: auto; }
   a { color: inherit; }
   button, input, select, textarea { font: inherit; color: inherit; }

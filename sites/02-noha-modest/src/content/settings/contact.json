@@ -1,0 +1,12 @@
+{
+  "whatsapp": "+97300000000",
+  "email": "hello@dareesha.example",
+  "instagram": "dareesha.demo",
+  "address": {
+    "ar": "مبنى 2425، طريق 2832، مجمع 428، السيف، المنامة",
+    "en": "Building 2425, Road 2832, Block 428, Seef, Manama"
+  },
+  "area": "Seef",
+  "lat": 26.2324,
+  "lng": 50.5367
+}

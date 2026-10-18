@@ -1,0 +1,10 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import CartPage from '@aw/ui/commerce/CartPage.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
+---
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('cart.title'), description: '', path: '/cart/', noindex: true }} hideFab>
+  <CartPage ctx={ctx} />
+</BaseLayout>

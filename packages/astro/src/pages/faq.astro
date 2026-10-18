@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import FaqList from '@aw/ui/sections/FaqList.astro';
+import { pageContext } from '@aw/ui/context';
+import { getFaqs } from '@aw/ui/data';
+
+const ctx = pageContext(Astro.url);
+const faqs = await getFaqs();
+const title = ctx.tr('nav.faq');
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/faq/' }}>
+  <FaqList ctx={ctx} items={faqs} heading={title} level={1} />
+</BaseLayout>

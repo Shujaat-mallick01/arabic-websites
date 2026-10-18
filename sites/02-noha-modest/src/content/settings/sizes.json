@@ -1,0 +1,59 @@
+{
+  "sizes": [
+    {
+      "id": "xs",
+      "label": {
+        "ar": "XS",
+        "en": "XS"
+      },
+      "order": 1
+    },
+    {
+      "id": "s",
+      "label": {
+        "ar": "S",
+        "en": "S"
+      },
+      "order": 2
+    },
+    {
+      "id": "m",
+      "label": {
+        "ar": "M",
+        "en": "M"
+      },
+      "order": 3
+    },
+    {
+      "id": "l",
+      "label": {
+        "ar": "L",
+        "en": "L"
+      },
+      "order": 4
+    },
+    {
+      "id": "xl",
+      "label": {
+        "ar": "XL",
+        "en": "XL"
+      },
+      "order": 5
+    },
+    {
+      "id": "free",
+      "label": {
+        "ar": "مقاس حر",
+        "en": "Free size"
+      },
+      "order": 6
+    }
+  ],
+  "lengths": [
+    52,
+    54,
+    56,
+    58,
+    60
+  ]
+}

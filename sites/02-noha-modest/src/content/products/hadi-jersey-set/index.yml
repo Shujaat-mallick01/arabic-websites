@@ -1,0 +1,50 @@
+ar:
+  id: p016
+  _slug: hadi-jersey-set
+  title: طقم «هادي» جيرسيه
+  summary: جيرسيه مطاطي يمشي معاج من الصبح لليل.
+  description: |-
+    جيرسيه مطاطي يمشي معاج من الصبح لليل.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "18.250"
+  category: sets
+  tags: []
+  availability: sold_out
+  featured: false
+  order: 16
+  images:
+    - src: ./front.webp
+      alt_ar: طقم «هادي» جيرسيه باللون الأسود
+      alt_en: Hadi jersey set in black
+    - src: ./alt.webp
+      alt_ar: طقم «هادي» جيرسيه باللون الحجري
+      alt_en: Hadi jersey set in stone
+  sizes:
+    - xs
+    - s
+    - m
+    - l
+    - xl
+  colors:
+    - id: black
+      name_ar: أسود
+      name_en: Black
+      hex: "#1E2024"
+    - id: stone
+      name_ar: حجري
+      name_en: Stone
+      hex: "#A8A39A"
+  fabric: جيرسيه
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Hadi jersey set
+  summary: Stretch jersey that keeps up with you morning to night.
+  description: |-
+    Stretch jersey that keeps up with you morning to night.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Jersey
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

@@ -1,0 +1,55 @@
+ar:
+  id: p030
+  _slug: georgette-shayla
+  title: شيلة جورجيت
+  summary: جورجيت خفيف ما يزلق، بألوان تنسّق مع كل قطعة.
+  description: |-
+    جورجيت خفيف ما يزلق، بألوان تنسّق مع كل قطعة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "3.500"
+  category: basics
+  tags:
+    - new
+  availability: in_stock
+  featured: false
+  order: 30
+  images:
+    - src: ./front.webp
+      alt_ar: شيلة جورجيت باللون الأسود
+      alt_en: Georgette shayla in black
+    - src: ./alt.webp
+      alt_ar: شيلة جورجيت باللون الضبابي
+      alt_en: Georgette shayla in mist
+  sizes:
+    - free
+  colors:
+    - id: black
+      name_ar: أسود
+      name_en: Black
+      hex: "#1E2024"
+    - id: mist
+      name_ar: ضبابي
+      name_en: Mist
+      hex: "#B9C7D6"
+    - id: rose
+      name_ar: وردي مطفي
+      name_en: Dusty rose
+      hex: "#C49E9B"
+    - id: sand
+      name_ar: رملي
+      name_en: Sand
+      hex: "#D6C3A3"
+  fabric: جورجيت
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: مقاس حر يناسب من XS إلى XL، بقصّة واسعة تنسدل بخفة.
+en:
+  title: Georgette shayla
+  summary: Light, non-slip georgette in colours that match everything.
+  description: |-
+    Light, non-slip georgette in colours that match everything.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Georgette
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: Free size, fits XS to XL with an easy, fluid cut.

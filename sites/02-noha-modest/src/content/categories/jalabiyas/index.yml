@@ -1,0 +1,10 @@
+ar:
+  _slug: jalabiyas
+  title: جلابيات
+  summary: جلابيات بتطريز يدوي لكل المناسبات.
+  image: ./cover.webp
+  order: 3
+  season: none
+en:
+  title: Jalabiyas
+  summary: Hand-embroidered jalabiyas for every occasion.

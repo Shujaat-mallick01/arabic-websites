@@ -1,0 +1,57 @@
+---
+// Product card variants. Photography leads; the name and price support it.
+import { Picture } from 'astro:assets';
+import type { Product } from '@aw/commerce';
+import { fromPrice, hasVariablePrice } from '@aw/commerce';
+import Price from '../primitives/Price.astro';
+import type { PageContext } from '../context.ts';
+import type { Img } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  product: Product<Img>;
+  variant?: 'portrait-minimal' | 'square-caption' | 'overlay-caption' | 'menu-row' | 'swatch-card' | 'swing-tag' | 'service-ledger';
+  eager?: boolean;
+  sizes?: string;
+  class?: string;
+}
+
+const { ctx, product: p, variant = ctx.site.layout.productCard, eager = false, sizes = '(min-width: 1024px) 25vw, 50vw', class: cls = '' } = Astro.props;
+const img = p.images[0];
+const variable = hasVariablePrice(p);
+const price = variable ? fromPrice(p) : p.price;
+const href = ctx.href(`/products/${p.slug}/`);
+const square = variant === 'square-caption' || variant === 'swatch-card';
+const colors = (p.attributes.colors as Array<{ hex: string; name_ar: string; name_en: string }> | undefined) ?? [];
+const soldOut = p.availability === 'sold_out';
+const badge = soldOut ? ctx.tr('product.soldOut') : p.compareAt && p.compareAt.minor > p.price.minor ? ctx.tr('product.sale') : p.availability === 'ready_now' ? ctx.tr('product.readyNow') : '';
+---
+<article class:list={['aw-card group relative flex flex-col gap-2.5', cls]}>
+  <a href={href} tabindex="-1" aria-hidden="true" class="block no-underline relative overflow-hidden rounded-image bg-surface" style={`aspect-ratio: ${square ? '1 / 1' : 'var(--brand-aspect-card)'}`}>
+    {img && (
+      <Picture
+        src={img.src}
+        alt={ctx.pick(img.alt)}
+        formats={['avif', 'webp']} fallbackFormat="webp"
+        widths={[240, 360, 480, 720]}
+        sizes={sizes}
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : 'auto'}
+        class="h-full w-full object-cover transition-brand group-hover:scale-[1.02]"
+      />
+    )}
+    {badge && <span class="absolute top-2 inset-s-2 px-2 py-0.5 rounded-control bg-surface/90 text-small">{badge}</span>}
+  </a>
+  <div class="flex flex-col gap-1">
+    <h3 class="m-0 text-body font-body" style="font-weight: var(--brand-fw-ui)">
+      <a href={href} class="no-underline after:absolute after:inset-0 after:content-['']">{ctx.pick(p.title)}</a>
+    </h3>
+    <Price ctx={ctx} value={price} compareAt={p.compareAt} from={variable} class="text-body" />
+    {variant === 'swatch-card' && colors.length > 0 && (
+      <ul class="m-0 p-0 list-none flex gap-1.5 mt-1" aria-label={ctx.tr('product.color')}>
+        {colors.slice(0, 5).map((c) => <li class="aw-swatch w-4 h-4" style={`--swatch: ${c.hex}`} title={ctx.lang === 'ar' ? c.name_ar : c.name_en}></li>)}
+      </ul>
+    )}
+    <slot />
+  </div>
+</article>

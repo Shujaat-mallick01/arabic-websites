@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import ProductCard from '@aw/ui/commerce/ProductCard.astro';
+import CategoryEntry from '@aw/ui/sections/CategoryEntry.astro';
+import Breadcrumbs from '@aw/ui/primitives/Breadcrumbs.astro';
+import { pageContext } from '@aw/ui/context';
+import { getCategories, getProducts } from '@aw/ui/data';
+import { breadcrumbsJsonLd } from '@aw/seo';
+
+export async function getStaticPaths() {
+  const categories = await getCategories();
+  return categories.map((c) => ({ params: { category: c.id } }));
+}
+
+const ctx = pageContext(Astro.url);
+const id = Astro.params.category!;
+const categories = await getCategories();
+const cat = categories.find((c) => c.id === id)!;
+const products = (await getProducts()).filter((p) => p.category === id);
+const title = ctx.pick(cat.title);
+const trail = [
+  { name: ctx.tr('nav.home'), path: '/' },
+  { name: ctx.tr('nav.shop'), path: '/shop/' },
+  { name: title, path: `/shop/${id}/` },
+];
+---
+<BaseLayout ctx={ctx} meta={{ title, description: ctx.pick(cat.summary), path: `/shop/${id}/` }} jsonLd={[breadcrumbsJsonLd(ctx.site, trail, ctx.lang)]}>
+  <div class="container-page py-8 md:py-12">
+    <Breadcrumbs ctx={ctx} trail={trail} />
+    <h1 class="text-h1 mt-3 mb-2">{title}</h1>
+    {ctx.pick(cat.summary) && <p class="m-0 mb-6 text-muted max-w-2xl">{ctx.pick(cat.summary)}</p>}
+    <CategoryEntry ctx={ctx} categories={categories} variant="pill-scroller" />
+    <ul class="m-0 mt-8 p-0 list-none grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-6 md:gap-y-12">
+      {products.map((p, i) => <li><ProductCard ctx={ctx} product={p} eager={i < 2} /></li>)}
+    </ul>
+  </div>
+</BaseLayout>

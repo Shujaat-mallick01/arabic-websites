@@ -1,0 +1,50 @@
+---
+// Packages with their inclusions, price and (for bookings) duration.
+import { Picture } from 'astro:assets';
+import Price from '../primitives/Price.astro';
+import SectionHeader from '../sections/SectionHeader.astro';
+import type { PageContext } from '../context.ts';
+import type { Raw } from '../data.ts';
+import type { Money, I18nText } from '@aw/core';
+import type { ImageMetadata } from 'astro';
+
+interface Pkg {
+  id: string;
+  title: I18nText;
+  summary: I18nText;
+  price: Money;
+  inclusions: { ar: string[]; en: string[] };
+  durationMinutes: number;
+  image?: ImageMetadata;
+}
+interface Props {
+  ctx: PageContext;
+  section?: Raw;
+  packages: Pkg[];
+  full?: boolean;
+}
+const { ctx, section: s = {}, packages, full = false } = Astro.props;
+---
+{packages.length > 0 && (
+  <section class:list={[!full && 'section-gap']} aria-labelledby="packages-title">
+    <div class="container-page">
+      {!full && <SectionHeader id="packages-title" title={ctx.pick(s.title) || ctx.tr('nav.packages')} subtitle={ctx.pick(s.subtitle)} />}
+      <ol class="m-0 p-0 list-none grid gap-6 md:grid-cols-3">
+        {packages.map((p) => (
+          <li class="flex flex-col gap-4 p-5 md:p-6 rounded-card bg-surface border border-line">
+            {p.image && <div class="overflow-hidden rounded-image aspect-[4/3]"><Picture src={p.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[360, 720]} sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" class="h-full w-full object-cover" /></div>}
+            <div class="flex items-baseline justify-between gap-3">
+              <h3 class="text-h3">{ctx.pick(p.title)}</h3>
+              <Price ctx={ctx} value={p.price} trim class="text-body" />
+            </div>
+            {ctx.pick(p.summary) && <p class="m-0 text-muted">{ctx.pick(p.summary)}</p>}
+            <ul class="m-0 p-0 list-none flex flex-col gap-1.5 text-small">
+              {(ctx.lang === 'ar' ? p.inclusions.ar : p.inclusions.en).map((inc) => <li class="flex gap-2"><span aria-hidden="true" class="text-accent">—</span><span>{inc}</span></li>)}
+            </ul>
+            <a href={ctx.href(`/book/?package=${p.id}`)} class="aw-btn aw-btn-secondary mt-auto">{ctx.tr('cta.book')}</a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}

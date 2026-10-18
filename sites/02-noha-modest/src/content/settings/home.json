@@ -1,0 +1,125 @@
+{
+  "sections": [
+    {
+      "type": "hero",
+      "enabled": true,
+      "eyebrow": {
+        "ar": "وصل جديد",
+        "en": "New in"
+      },
+      "title": {
+        "ar": "لبس يومج، من دريشتنا لين بابج.",
+        "en": "Your everyday wear, from our window to your door."
+      },
+      "subtitle": {
+        "ar": "كفتانات وأطقم وعبايات مفتوحة بأسعار واضحة ومقاسات مضبوطة. اختاري دولتج ونقول لج أي يوم يوصلج طلبج.",
+        "en": "Kaftans, co-ord sets and open abayas with clear prices and true sizing. Pick your country and we’ll tell you the day your order arrives."
+      },
+      "priceNote": {
+        "ar": "الأطقم من 18.250 د.ب",
+        "en": "Sets from BHD 18.250"
+      },
+      "ctaLabel": {
+        "ar": "تسوّقي الأطقم",
+        "en": "Shop the sets"
+      },
+      "ctaHref": "/shop/sets/",
+      "image": "./media/hero.webp",
+      "imageWide": "./media/hero-wide.webp",
+      "imageAlt": {
+        "ar": "طقم كريب بلون حجري على علّاقة في ضوء النافذة",
+        "en": "A stone-coloured crepe set on a hanger in window light"
+      }
+    },
+    {
+      "type": "new-arrivals",
+      "enabled": true,
+      "title": {
+        "ar": "وصل جديد",
+        "en": "New in"
+      },
+      "limit": 8
+    },
+    {
+      "type": "rail",
+      "enabled": true,
+      "title": {
+        "ar": "تحت 15 د.ب",
+        "en": "Under BHD 15"
+      },
+      "filter": "under",
+      "value": "15.000",
+      "limit": 10
+    },
+    {
+      "type": "gift-cards",
+      "enabled": true,
+      "title": {
+        "ar": "بطاقات الهدايا",
+        "en": "Gift cards"
+      },
+      "subtitle": {
+        "ar": "خليها تختار اللي يعجبها. أرسليها واتساب أو إيميل.",
+        "en": "Let her choose. Send it by WhatsApp or email."
+      },
+      "ctaLabel": {
+        "ar": "اختاري بطاقة",
+        "en": "Choose a card"
+      }
+    },
+    {
+      "type": "rail",
+      "enabled": true,
+      "title": {
+        "ar": "كفتانات للبيت والمشاوير",
+        "en": "Kaftans for home and errands"
+      },
+      "filter": "category",
+      "value": "kaftans",
+      "limit": 6,
+      "ctaLabel": {
+        "ar": "كل الكفتانات",
+        "en": "All kaftans"
+      },
+      "ctaHref": "/shop/kaftans/"
+    },
+    {
+      "type": "delivery-table",
+      "enabled": true,
+      "title": {
+        "ar": "التوصيل لكل الخليج",
+        "en": "Delivery across the GCC"
+      },
+      "subtitle": {
+        "ar": "الطلبات قبل الساعة 1 الظهر تنشحن نفس اليوم (السبت إلى الخميس).",
+        "en": "Orders before 1 pm ship the same day (Saturday to Thursday)."
+      }
+    },
+    {
+      "type": "lookbook",
+      "enabled": true,
+      "title": {
+        "ar": "من ضوء الدريشة",
+        "en": "In window light"
+      },
+      "limit": 9
+    },
+    {
+      "type": "reviews",
+      "enabled": true,
+      "title": {
+        "ar": "آراء",
+        "en": "Reviews"
+      }
+    },
+    {
+      "type": "faq-teaser",
+      "enabled": true,
+      "title": {
+        "ar": "أسئلة تتكرر",
+        "en": "Common questions"
+      },
+      "limit": 3
+    }
+  ]
+}

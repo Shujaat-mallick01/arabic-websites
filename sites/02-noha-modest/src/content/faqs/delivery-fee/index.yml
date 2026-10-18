@@ -1,0 +1,9 @@
+ar:
+  question: كم رسوم التوصيل، ومتى يصير مجاني؟
+  answer: داخل البحرين 1.500 د.ب، ومجاني فوق 25 د.ب. لدول الخليج من 3.500 إلى 4.500 د.ب حسب الدولة، ومجاني فوق 40 أو 45 د.ب. الجدول الكامل في صفحة الشحن.
+  topic: delivery
+  featured: true
+  order: 2
+en:
+  question: How much is delivery, and when is it free?
+  answer: Within Bahrain BHD 1.500, free over BHD 25. GCC shipping is BHD 3.500–4.500 depending on the country, free over BHD 40 or 45. The full table is on the shipping page.

@@ -1,0 +1,39 @@
+---
+// "هذا نموذج مبدئي، الصور والأسعار توضيحية" — dismissible; the head script hides it before paint
+// when it was dismissed before, so there is no layout shift.
+import Icon from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+---
+{ctx.site.demo.enabled && ctx.site.demo.banner && (
+  <div id="demo-banner" class="aw-demo-banner bg-deep text-deep-ink text-small" role="note">
+    <div class="container-page flex items-center justify-between gap-3 py-1.5">
+      <p class="m-0 flex items-center gap-2">
+        <Icon name="info" size={18} />
+        <span>{ctx.tr('demo.banner')}</span>
+      </p>
+      <button type="button" class="tap -me-3 inline-flex items-center justify-center text-deep-ink bg-transparent border-0 cursor-pointer" data-demo-dismiss aria-label={ctx.tr('demo.dismiss')}>
+        <Icon name="close" size={18} />
+      </button>
+    </div>
+  </div>
+)}
+
+<style is:global>
+  :root[data-demo-dismissed='1'] .aw-demo-banner { display: none; }
+</style>
+
+<script>
+  document.querySelector<HTMLButtonElement>('[data-demo-dismiss]')?.addEventListener('click', () => {
+    try {
+      localStorage.setItem('aw.demo', '0');
+    } catch {
+      /* storage unavailable: hide for this page only */
+    }
+    document.documentElement.setAttribute('data-demo-dismissed', '1');
+  });
+</script>

@@ -1,0 +1,174 @@
+{
+  "delivery": {
+    "zones": [
+      {
+        "id": "capital",
+        "kind": "governorate",
+        "fee": "1.500",
+        "freeOver": "25.000",
+        "etaMin": 1,
+        "etaMax": 1,
+        "codAllowed": true,
+        "active": true
+      },
+      {
+        "id": "muharraq",
+        "kind": "governorate",
+        "fee": "1.500",
+        "freeOver": "25.000",
+        "etaMin": 1,
+        "etaMax": 1,
+        "codAllowed": true,
+        "active": true
+      },
+      {
+        "id": "northern",
+        "kind": "governorate",
+        "fee": "1.500",
+        "freeOver": "25.000",
+        "etaMin": 1,
+        "etaMax": 1,
+        "codAllowed": true,
+        "active": true
+      },
+      {
+        "id": "southern",
+        "kind": "governorate",
+        "fee": "1.500",
+        "freeOver": "25.000",
+        "etaMin": 1,
+        "etaMax": 2,
+        "codAllowed": true,
+        "active": true
+      }
+    ],
+    "deliveryDays": [
+      "sat",
+      "sun",
+      "mon",
+      "tue",
+      "wed",
+      "thu"
+    ],
+    "dispatchCutoff": "13:00",
+    "leadHours": 0,
+    "leadByTag": [
+      {
+        "tag": "hemmed",
+        "hours": 48
+      }
+    ],
+    "dateRequired": false,
+    "blackouts": [
+      "2027-03-09",
+      "2027-05-16"
+    ]
+  },
+  "shipping": {
+    "countries": [
+      {
+        "code": "SA",
+        "fee": "3.500",
+        "freeOver": "40.000",
+        "etaMin": 2,
+        "etaMax": 5,
+        "deliveryDays": [
+          "sat",
+          "sun",
+          "mon",
+          "tue",
+          "wed",
+          "thu"
+        ],
+        "active": true
+      },
+      {
+        "code": "KW",
+        "fee": "4.000",
+        "freeOver": "45.000",
+        "etaMin": 2,
+        "etaMax": 3,
+        "deliveryDays": [
+          "sat",
+          "sun",
+          "mon",
+          "tue",
+          "wed",
+          "thu"
+        ],
+        "active": true
+      },
+      {
+        "code": "AE",
+        "fee": "4.000",
+        "freeOver": "45.000",
+        "etaMin": 2,
+        "etaMax": 4,
+        "deliveryDays": [
+          "mon",
+          "tue",
+          "wed",
+          "thu",
+          "fri",
+          "sat"
+        ],
+        "active": true
+      },
+      {
+        "code": "QA",
+        "fee": "4.500",
+        "freeOver": "45.000",
+        "etaMin": 2,
+        "etaMax": 4,
+        "deliveryDays": [
+          "sat",
+          "sun",
+          "mon",
+          "tue",
+          "wed",
+          "thu"
+        ],
+        "active": true
+      },
+      {
+        "code": "OM",
+        "fee": "4.500",
+        "freeOver": "45.000",
+        "etaMin": 3,
+        "etaMax": 5,
+        "deliveryDays": [
+          "sun",
+          "mon",
+          "tue",
+          "wed",
+          "thu"
+        ],
+        "active": true
+      }
+    ],
+    "dutiesNote": {
+      "ar": "قد تُفرض رسوم جمركية أو ضريبة استيراد حسب بلد الوصول، ويدفعها المستلم.",
+      "en": "Import duties or VAT may apply in the destination country and are paid by the recipient."
+    }
+  },
+  "pickup": {
+    "enabled": true,
+    "label": {
+      "ar": "استوديو السيف",
+      "en": "Seef studio"
+    },
+    "readyInHours": 4,
+    "holdDays": 7,
+    "fee": "0.000"
+  },
+  "cod": {
+    "enabled": true,
+    "fee": "0.500",
+    "maxOrder": "60.000",
+    "scope": "delivery"
+  },
+  "deliveryInfo": {
+    "ar": "التوصيل داخل البحرين خلال يوم عمل، ولدول الخليج خلال ٢ إلى ٥ أيام عمل. الطلبات قبل الساعة ١ الظهر تنشحن نفس اليوم من السبت إلى الخميس. التوصيل مجاني داخل البحرين للطلبات فوق 25 د.ب.",
+    "en": "Delivery within Bahrain in one working day, and across the GCC in 2–5 working days. Orders before 1 pm ship the same day, Saturday to Thursday. Free delivery in Bahrain over BHD 25."
+  }
+}

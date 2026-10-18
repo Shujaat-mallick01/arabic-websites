@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: جلسة على كرسي النافذة بطقم التريكو
+  alt: جلسة على كرسي النافذة بطقم التريكو
+  style: lookbook
+  featured: true
+  order: 8
+en:
+  caption: On a window seat in the knit set
+  alt: On a window seat in the knit set

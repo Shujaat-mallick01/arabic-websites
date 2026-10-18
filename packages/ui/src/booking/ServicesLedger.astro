@@ -1,0 +1,49 @@
+---
+// Service menu as a ledger: name at the start, duration and price as tabular columns at the end,
+// grouped by category with anchors (/services/#nails).
+import Price from '../primitives/Price.astro';
+import SectionHeader from '../sections/SectionHeader.astro';
+import type { PageContext } from '../context.ts';
+import type { Category, Raw, ServiceItem } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  section?: Raw;
+  services: ServiceItem[];
+  categories: Category[];
+  full?: boolean;
+}
+const { ctx, section: s = {}, services, categories, full = false } = Astro.props;
+const groups = categories.map((c) => ({ c, items: services.filter((x) => x.category === c.id) })).filter((g) => g.items.length);
+const mins = (n: number) => {
+  if (ctx.lang === 'en') return n >= 60 ? `${Math.floor(n / 60)} h${n % 60 ? ` ${n % 60} min` : ''}` : `${n} min`;
+  return n >= 60 ? `${ctx.num(Math.floor(n / 60))} س${n % 60 ? ` ${ctx.num(n % 60)} د` : ''}` : `${ctx.num(n)} د`;
+};
+const limit = full ? Infinity : Number(s.limit ?? 4);
+---
+<section class:list={[!full && 'section-gap']} aria-labelledby="services-title">
+  <div class="container-page">
+    {!full && <SectionHeader id="services-title" title={ctx.pick(s.title) || ctx.tr('nav.services')} link={{ label: ctx.tr('viewAll'), href: ctx.href('/services/') }} />}
+    <div class:list={['grid gap-10', !full && 'md:grid-cols-2 md:gap-x-16']}>
+      {groups.map((g) => (
+        <div id={g.c.id} class="scroll-mt-24">
+          <h3 class="text-h3 mb-2">{ctx.pick(g.c.title)}</h3>
+          <ul class="m-0 p-0 list-none">
+            {g.items.slice(0, limit).map((sv) => (
+              <li class="flex items-center justify-between gap-3 min-h-14 py-2 border-b border-line">
+                <a href={ctx.href(`/services/${sv.slug}/`)} class="no-underline">
+                  <span class="block text-body">{ctx.pick(sv.title)}</span>
+                  {full && ctx.pick(sv.summary) && <span class="block text-small text-muted">{ctx.pick(sv.summary)}</span>}
+                </a>
+                <span class="flex items-baseline gap-4 shrink-0 tabular">
+                  <span class="text-muted text-small">{mins(sv.durationMinutes)}</span>
+                  <Price ctx={ctx} value={sv.price.amount} from={sv.price.kind === 'from'} trim />
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

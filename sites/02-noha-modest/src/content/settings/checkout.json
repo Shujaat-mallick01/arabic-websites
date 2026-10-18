@@ -1,0 +1,21 @@
+{
+  "giftWrap": {
+    "enabled": true,
+    "price": "1.500",
+    "cardMaxLength": 200
+  },
+  "notesMaxLength": 300,
+  "termsPage": "terms",
+  "confirmationNote": {
+    "ar": "وصلنا طلبج! بنرسل لج تحديثات الشحن على الواتساب.",
+    "en": "We have your order! Shipping updates will come by WhatsApp."
+  },
+  "giftCards": {
+    "terms": {
+      "ar": "بطاقة الهدية صالحة ١٢ شهراً، ولا تُسترد نقداً، وتُستخدم على أكثر من طلب حتى ينتهي رصيدها.",
+      "en": "Gift cards are valid for 12 months, cannot be exchanged for cash, and can be used across orders until the balance runs out."
+    },
+    "customMin": 5,
+    "customMax": 200
+  }
+}

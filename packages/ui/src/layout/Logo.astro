@@ -1,0 +1,28 @@
+---
+// The brand lockup. Uses the outlined SVG from brand/ when present; otherwise a typeset wordmark
+// (Arabic in the display face, Latin small beneath) so a fresh site still looks intentional.
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+  name: { ar: string; en: string };
+  variant?: 'main' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { ctx, name, variant = 'main', size = 'md', class: cls = '' } = Astro.props;
+const svg = variant === 'dark' ? ctx.logos.dark || ctx.logos.main : ctx.logos.main;
+const sizes = { sm: 'h-8', md: 'h-10 md:h-11', lg: 'h-16 md:h-20' };
+const text = { sm: 'text-[1.35rem]', md: 'text-[1.6rem] md:text-[1.8rem]', lg: 'text-[2.4rem] md:text-[3rem]' };
+---
+<a href={ctx.href('/')} class:list={['inline-flex items-center no-underline tap', cls]} aria-label={`${name.ar} · ${name.en} — ${ctx.tr('nav.home')}`}>
+  {svg ? (
+    <span class:list={['block [&>svg]:h-full [&>svg]:w-auto', sizes[size]]} set:html={svg} aria-hidden="true" />
+  ) : (
+    <span class="flex flex-col items-start leading-none" aria-hidden="true">
+      <span class:list={['font-display', text[size]]} style="font-weight: var(--brand-fw-display)">{name.ar}</span>
+      <span lang="en" class="mt-1 text-[0.62rem] tracking-[0.24em] uppercase" style="font-family: var(--font-latin-display), sans-serif">{name.en}</span>
+    </span>
+  )}
+</a>

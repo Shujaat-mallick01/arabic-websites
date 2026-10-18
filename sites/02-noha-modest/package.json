@@ -1,0 +1,29 @@
+{
+  "name": "@aw/site-02-noha-modest",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4302",
+    "build": "astro build",
+    "preview": "astro preview --port 4302"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@aw/astro": "workspace:*",
+    "@aw/booking": "workspace:*",
+    "@aw/brand": "workspace:*",
+    "@aw/commerce": "workspace:*",
+    "@aw/content": "workspace:*",
+    "@aw/core": "workspace:*",
+    "@aw/i18n": "workspace:*",
+    "@aw/payments": "workspace:*",
+    "@aw/presets": "workspace:*",
+    "@aw/seo": "workspace:*",
+    "@aw/ui": "workspace:*",
+    "@aw/whatsapp": "workspace:*",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "7.4.0",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3"
+  }
+}

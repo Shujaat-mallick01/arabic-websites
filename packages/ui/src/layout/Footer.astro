@@ -1,0 +1,82 @@
+---
+// Footer variants: columns, band, centered-mark. Always on the deep band. Carries the trust
+// signals (policies, CR slot, payment methods as text), the demo price footnote and the credit.
+import Logo from './Logo.astro';
+import Icon from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+import type { NavItem } from '../nav/nav.ts';
+import { METHOD_LABELS, availableMethods } from '@aw/payments';
+
+interface Props {
+  ctx: PageContext;
+  name: { ar: string; en: string };
+  about: { ar: string; en: string };
+  primary: NavItem[];
+  secondary: NavItem[];
+  policies: Array<{ slug: string; title: string }>;
+  contact: Record<string, any>;
+  crNumber?: string;
+  variant: 'columns' | 'band' | 'centered-mark';
+}
+
+const { ctx, name, about, primary, secondary, policies, contact, crNumber, variant } = Astro.props;
+const p = ctx.site.payments;
+const methods = p ? availableMethods(ctx.site.locale.currency, p.provider ?? null, p.methods) : [];
+const methodLabels = [...methods.map((m) => METHOD_LABELS[m][ctx.lang]), ...(p?.cod ? [METHOD_LABELS.cod[ctx.lang]] : [])];
+const demo = ctx.site.demo;
+const cr = demo.enabled ? ctx.tr('demo.cr') : crNumber ? `${ctx.lang === 'ar' ? 'سجل تجاري' : 'CR'}: ${crNumber}` : '';
+const creditText = demo.credit === 'demo' ? ctx.pick(ctx.studio.credit) : demo.credit === 'designer' ? ctx.tr('demo.creditLive', { studio: ctx.studio.name }) : '';
+const year = new Date().getFullYear();
+const centered = variant === 'centered-mark';
+---
+<footer class="bg-deep text-deep-ink mt-auto">
+  <div class:list={['container-page', variant === 'band' ? 'py-10 md:py-14' : 'py-12 md:py-16']}>
+    <div class:list={[centered ? 'flex flex-col items-center text-center gap-8' : 'grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]']}>
+      <div class:list={['flex flex-col gap-4', centered && 'items-center']}>
+        <Logo ctx={ctx} name={name} variant="dark" size={centered ? 'lg' : 'md'} />
+        {ctx.pick(about) && <p class="m-0 max-w-sm text-small text-deep-muted">{ctx.pick(about)}</p>}
+      </div>
+
+      <nav aria-label={ctx.tr('nav.main')} class:list={[centered && 'w-full']}>
+        <ul class:list={['m-0 p-0 list-none flex flex-col gap-1', centered && 'flex-row flex-wrap justify-center gap-x-6']}>
+          {[...primary, ...secondary].slice(0, 9).map((i) => <li><a href={i.href} class="inline-flex min-h-11 items-center text-small text-deep-ink no-underline hover:text-deep-accent">{i.label}</a></li>)}
+        </ul>
+      </nav>
+
+      {policies.length > 0 && (
+        <nav aria-label={ctx.tr('nav.policies')} class:list={[centered && 'w-full']}>
+          <ul class:list={['m-0 p-0 list-none flex flex-col gap-1', centered && 'flex-row flex-wrap justify-center gap-x-6']}>
+            {policies.map((pg) => <li><a href={ctx.href(`/policies/${pg.slug}/`)} class="inline-flex min-h-11 items-center text-small text-deep-ink no-underline hover:text-deep-accent">{pg.title}</a></li>)}
+          </ul>
+        </nav>
+      )}
+
+      <div class:list={['flex flex-col gap-3 text-small', centered && 'items-center']}>
+        <a href={`https://wa.me/${ctx.whatsapp(contact.whatsapp).replace('+', '')}`} class="inline-flex min-h-11 items-center gap-2 text-deep-ink no-underline hover:text-deep-accent" data-track="whatsapp" data-track-context="contact">
+          <Icon name="whatsapp" size={20} />
+          <bdi dir="ltr">{ctx.phone(ctx.whatsapp(contact.whatsapp))}</bdi>
+        </a>
+        {contact.instagram && (
+          <p class="m-0 inline-flex items-center gap-2 text-deep-muted">
+            <span>{ctx.tr('contact.instagram')}:</span>
+            <bdi dir="ltr">@{contact.instagram}</bdi>
+          </p>
+        )}
+        {contact.email && <p class="m-0 text-deep-muted"><bdi dir="ltr">{contact.email}</bdi></p>}
+        {ctx.pick(contact.address) && <p class="m-0 text-deep-muted max-w-xs">{ctx.pick(contact.address)}</p>}
+      </div>
+    </div>
+
+    {methodLabels.length > 0 && (
+      <ul class:list={['m-0 mt-10 p-0 list-none flex flex-wrap gap-2', centered && 'justify-center']} aria-label={ctx.tr('checkout.payment')}>
+        {methodLabels.map((m) => <li class="px-2.5 py-1 border border-deep-muted/40 rounded-control text-small text-deep-muted">{m}</li>)}
+      </ul>
+    )}
+
+    <div class:list={['mt-10 pt-6 border-t border-deep-muted/25 flex flex-col gap-2 text-small text-deep-muted', centered ? 'items-center text-center' : 'md:flex-row md:justify-between']}>
+      <p class="m-0">© {ctx.num(year)} {ctx.pick(name)}{cr && <> · {cr}</>}</p>
+      {demo.enabled && demo.priceAsterisk && <p id="price-note" class="m-0">{ctx.tr('demo.priceNote')}</p>}
+      {creditText && <p class="m-0"><a href={ctx.studio.hubUrl} class="text-deep-accent">{creditText}</a></p>}
+    </div>
+  </div>
+</footer>

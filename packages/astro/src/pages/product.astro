@@ -1,0 +1,100 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import Breadcrumbs from '@aw/ui/primitives/Breadcrumbs.astro';
+import ProductGallery from '@aw/ui/commerce/ProductGallery.astro';
+import ProductForm from '@aw/ui/commerce/ProductForm.astro';
+import ProductCard from '@aw/ui/commerce/ProductCard.astro';
+import ShareButton from '@aw/ui/commerce/ShareButton.astro';
+import Signature from '@aw/ui/signature/Signature.astro';
+import Icon from '@aw/ui/primitives/Icon.astro';
+import { marked } from '@aw/ui/sections/markdown.ts';
+import { pageContext } from '@aw/ui/context';
+import { getCategories, getProducts, getSettings } from '@aw/ui/data';
+import { breadcrumbsJsonLd, localePath, productJsonLd } from '@aw/seo';
+import { enquiryMessage, waLink } from '@aw/whatsapp';
+
+export async function getStaticPaths() {
+  const products = await getProducts();
+  return products.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const ctx = pageContext(Astro.url);
+const products = await getProducts();
+const p = products.find((x) => x.slug === Astro.params.slug)!;
+const categories = await getCategories();
+const cat = categories.find((c) => c.id === p.category);
+const general = await getSettings('general');
+const contact = await getSettings('contact');
+const fulfilmentSettings = await getSettings('fulfilment');
+const title = ctx.pick(p.title);
+const path = `/products/${p.slug}/`;
+const url = `${ctx.site.deploy.url}${localePath(path, ctx.lang)}`;
+const first = p.images[0];
+const og = first ? await getImage({ src: first.src, width: 1200, height: 630, fit: 'cover', format: 'jpeg', quality: 80 }) : null;
+const thumb = first ? await getImage({ src: first.src, width: 144, format: 'webp' }) : null;
+const trail = [
+  { name: ctx.tr('nav.home'), path: '/' },
+  ...(cat ? [{ name: ctx.pick(cat.title), path: `/shop/${cat.id}/` }] : []),
+  { name: title, path },
+];
+const related = products.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 4);
+const ask = waLink(
+  ctx.whatsapp(contact.whatsapp),
+  enquiryMessage({ topic: title, url }, { lang: ctx.lang, dialect: ctx.site.locale.dialect, audience: ctx.site.locale.audience, locale: ctx.locale, businessName: ctx.pick(general.name), ...(ctx.site.demo.enabled ? { demoBrand: general.name?.ar } : {}) }),
+);
+const attrs = p.attributes as Record<string, any>;
+const details: Array<{ label: string; html: string }> = [];
+if (ctx.pick(p.description)) details.push({ label: ctx.tr('product.details'), html: marked(ctx.pick(p.description)) });
+if (attrs.fabric || attrs.fit) details.push({ label: ctx.lang === 'ar' ? 'القماش والقصّة' : 'Fabric and fit', html: marked([ctx.pick(attrs.fabric), ctx.pick(attrs.fit)].filter(Boolean).join('\n\n')) });
+if (attrs.care) details.push({ label: ctx.tr('product.care'), html: marked(ctx.pick(attrs.care)) });
+if (fulfilmentSettings.deliveryInfo && ctx.pick(fulfilmentSettings.deliveryInfo)) details.push({ label: ctx.tr('product.delivery'), html: marked(ctx.pick(fulfilmentSettings.deliveryInfo)) });
+const jsonLd = [
+  productJsonLd(ctx.site, { title: p.title, description: p.summary, slug: p.slug, price: p.price, availability: p.availability, images: og ? [og.src] : [], category: cat ? ctx.pick(cat.title) : undefined }, ctx.lang),
+  breadcrumbsJsonLd(ctx.site, trail, ctx.lang),
+];
+---
+<BaseLayout ctx={ctx} meta={{ title, description: ctx.pick(p.summary), path, type: 'product', image: og?.src, imageAlt: first ? ctx.pick(first.alt) : undefined }} jsonLd={jsonLd}>
+  <div class="container-page pt-2 md:pt-8 pb-10">
+    <div class="hidden md:block mb-4"><Breadcrumbs ctx={ctx} trail={trail} /></div>
+    <div class="grid gap-6 md:grid-cols-12 md:gap-10">
+      <div class="md:col-span-7">
+        <ProductGallery ctx={ctx} images={p.images} title={title} />
+      </div>
+      <div class="md:col-span-5">
+        <div class="md:sticky md:top-24 flex flex-col gap-5">
+          <div class="flex flex-col gap-2">
+            {cat && <a href={ctx.href(`/shop/${cat.id}/`)} class="aw-eyebrow no-underline">{ctx.pick(cat.title)}</a>}
+            <h1 class="text-h2">{title}</h1>
+            {ctx.pick(p.summary) && <p class="m-0 text-muted">{ctx.pick(p.summary)}</p>}
+          </div>
+          <Signature ctx={ctx} where="product" product={p} />
+          <ProductForm ctx={ctx} product={p} imageUrl={thumb?.src} url={url} />
+          <div class="flex flex-wrap gap-2">
+            <a href={ask} class="aw-btn aw-btn-secondary flex-1" data-track="whatsapp" data-track-context="product" data-track-item={p.id} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} />{ctx.tr('cta.askWhatsapp')}</a>
+            {ctx.has('shareLinks') && <ShareButton ctx={ctx} title={title} url={url} itemId={p.id} />}
+          </div>
+          {details.length > 0 && (
+            <div class="border-t border-line">
+              {details.map((d, i) => (
+                <details class="aw-details border-b border-line" open={i === 0}>
+                  <summary class="py-2" style="font-weight: var(--brand-fw-ui)">{d.label}</summary>
+                  <div class="aw-prose pb-5 text-muted" set:html={d.html} />
+                </details>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+
+    {related.length > 0 && (
+      <section class="section-gap" aria-labelledby="related-title">
+        <h2 id="related-title" class="text-h2 mb-6">{ctx.tr('product.related')}</h2>
+        <ul class="m-0 p-0 list-none grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-6">
+          {related.map((r) => <li><ProductCard ctx={ctx} product={r} /></li>)}
+        </ul>
+      </section>
+    )}
+  </div>
+</BaseLayout>

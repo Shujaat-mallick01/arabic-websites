@@ -1,0 +1,104 @@
+---
+// Category entry points at the top of the page, echoing Instagram story highlights.
+// Variants: story-cards (tall 9:16), story-rings (circles), pill-scroller, tile-grid, text-index, tabs.
+import { Picture } from 'astro:assets';
+import type { PageContext } from '../context.ts';
+import type { Category } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  categories: Category[];
+  variant?: 'story-rings' | 'story-cards' | 'pill-scroller' | 'tile-grid' | 'text-index' | 'tabs';
+  label?: string;
+  eager?: number;
+}
+
+const { ctx, categories, variant = ctx.site.layout.categoryEntry, label, eager = 3 } = Astro.props;
+const href = (c: Category) => ctx.href(`/shop/${c.id}/`);
+const aria = label ?? ctx.tr('section.categories');
+---
+{variant === 'story-cards' && (
+  <nav aria-label={aria}>
+    <ul class="scroll-rail m-0 p-0 list-none gap-2.5 md:gap-[22px] -mx-[var(--brand-gutter)] px-[var(--brand-gutter)] md:mx-0 md:px-0 md:grid md:grid-flow-col md:auto-cols-[164px] md:justify-start">
+      {categories.map((c, i) => (
+        <li class="w-[104px] md:w-auto">
+          <a href={href(c)} class="group flex flex-col gap-2 no-underline">
+            <span class="block overflow-hidden rounded-card bg-surface aspect-[9/16]">
+              {c.image && <Picture src={c.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[120, 240, 330]} sizes="(min-width: 768px) 164px, 104px" loading={i < eager ? 'eager' : 'lazy'} class="h-full w-full object-cover transition-brand group-hover:scale-[1.03]" />}
+            </span>
+            <span class="text-small text-center" style="font-weight: var(--brand-fw-ui)">{ctx.pick(c.title)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+{variant === 'story-rings' && (
+  <nav aria-label={aria}>
+    <ul class="scroll-rail m-0 p-0 list-none gap-4 -mx-[var(--brand-gutter)] px-[var(--brand-gutter)] md:mx-0 md:px-0 md:flex-wrap">
+      {categories.map((c, i) => (
+        <li>
+          <a href={href(c)} class="flex w-[84px] flex-col items-center gap-2 no-underline">
+            <span class="block h-[76px] w-[76px] overflow-hidden rounded-full border border-accent p-[3px]">
+              <span class="block h-full w-full overflow-hidden rounded-full bg-surface">
+                {c.image && <Picture src={c.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[76, 152]} sizes="76px" loading={i < eager ? 'eager' : 'lazy'} class="h-full w-full object-cover" />}
+              </span>
+            </span>
+            <span class="text-small text-center leading-tight">{ctx.pick(c.title)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+{variant === 'pill-scroller' && (
+  <nav aria-label={aria}>
+    <ul class="scroll-rail m-0 p-0 list-none gap-2">
+      {categories.map((c) => (
+        <li><a href={href(c)} class="inline-flex min-h-11 items-center px-4 rounded-pill border border-muted no-underline text-ui">{ctx.pick(c.title)}</a></li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+{variant === 'tile-grid' && (
+  <nav aria-label={aria}>
+    <ul class="m-0 p-0 list-none grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+      {categories.map((c, i) => (
+        <li>
+          <a href={href(c)} class="group relative block overflow-hidden rounded-card aspect-square no-underline bg-surface">
+            {c.image && <Picture src={c.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[240, 480]} sizes="(min-width: 768px) 25vw, 50vw" loading={i < eager ? 'eager' : 'lazy'} class="h-full w-full object-cover" />}
+            <span class="absolute inset-x-0 bottom-0 p-3 bg-surface/90 text-ui">{ctx.pick(c.title)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+{variant === 'text-index' && (
+  <nav aria-label={aria}>
+    <ol class="m-0 p-0 list-none border-t border-line">
+      {categories.map((c, i) => (
+        <li class="border-b border-line">
+          <a href={href(c)} class="flex items-baseline gap-4 min-h-14 py-3 no-underline">
+            <span class="tabular text-muted text-small w-8">{ctx.num(String(i + 1).padStart(2, '0'))}</span>
+            <span class="text-h3 font-display">{ctx.pick(c.title)}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+{variant === 'tabs' && (
+  <nav aria-label={aria}>
+    <ul class="scroll-rail m-0 p-0 list-none gap-1 border-b border-line">
+      {categories.map((c) => (
+        <li><a href={ctx.hasPage('services') ? ctx.href(`/services/#${c.id}`) : href(c)} class="inline-flex min-h-11 items-center px-3 no-underline text-ui">{ctx.pick(c.title)}</a></li>
+      ))}
+    </ul>
+  </nav>
+)}

@@ -1,0 +1,46 @@
+ar:
+  id: p006
+  _slug: saba-embroidered-kaftan
+  title: كفتان «صبا» بتطريز خفيف
+  summary: تطريز ناعم على الصدر بخيط أوكر، أنيق بدون مبالغة.
+  description: |-
+    تطريز ناعم على الصدر بخيط أوكر، أنيق بدون مبالغة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "24.500"
+  category: kaftans
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 6
+  images:
+    - src: ./front.webp
+      alt_ar: كفتان «صبا» بتطريز خفيف باللون العاجي
+      alt_en: Saba lightly embroidered kaftan in ivory
+    - src: ./alt.webp
+      alt_ar: كفتان «صبا» بتطريز خفيف باللون المريمية
+      alt_en: Saba lightly embroidered kaftan in sage
+  sizes:
+    - free
+  colors:
+    - id: ivory
+      name_ar: عاجي
+      name_en: Ivory
+      hex: "#ECE8DF"
+    - id: sage
+      name_ar: مريمية
+      name_en: Sage
+      hex: "#9DAA92"
+  fabric: كريب خفيف مع تطريز يدوي
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: مقاس حر يناسب من XS إلى XL، بقصّة واسعة تنسدل بخفة.
+en:
+  title: Saba lightly embroidered kaftan
+  summary: Fine ochre embroidery at the neckline, elegant without fuss.
+  description: |-
+    Fine ochre embroidery at the neckline, elegant without fuss.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Light crepe with hand embroidery
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: Free size, fits XS to XL with an easy, fluid cut.

@@ -1,0 +1,48 @@
+ar:
+  id: p015
+  _slug: lulu-satin-set
+  title: طقم «لؤلؤ» ساتان
+  summary: ساتان بلون اللؤلؤ لعزيمة أو سهرة هادية.
+  description: |-
+    ساتان بلون اللؤلؤ لعزيمة أو سهرة هادية.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "27.500"
+  category: sets
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 15
+  images:
+    - src: ./front.webp
+      alt_ar: طقم «لؤلؤ» ساتان باللون العاجي
+      alt_en: Lulu satin set in ivory
+    - src: ./alt.webp
+      alt_ar: طقم «لؤلؤ» ساتان باللون الوردي مطفي
+      alt_en: Lulu satin set in dusty rose
+  sizes:
+    - s
+    - m
+    - l
+  colors:
+    - id: ivory
+      name_ar: عاجي
+      name_en: Ivory
+      hex: "#ECE8DF"
+    - id: rose
+      name_ar: وردي مطفي
+      name_en: Dusty rose
+      hex: "#C49E9B"
+  fabric: ساتان
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Lulu satin set
+  summary: Pearl-toned satin for a dinner or a quiet evening.
+  description: |-
+    Pearl-toned satin for a dinner or a quiet evening.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Satin
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

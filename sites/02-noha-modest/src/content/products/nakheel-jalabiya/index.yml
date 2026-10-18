@@ -1,0 +1,49 @@
+ar:
+  id: p018
+  _slug: nakheel-jalabiya
+  title: جلابية «نخيل»
+  summary: قصّة مستقيمة بتطريز بسيط، تنفع لكل المناسبات.
+  description: |-
+    قصّة مستقيمة بتطريز بسيط، تنفع لكل المناسبات.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "25.000"
+  category: jalabiyas
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 18
+  images:
+    - src: ./front.webp
+      alt_ar: جلابية «نخيل» باللون الزيتي
+      alt_en: Nakheel jalabiya in olive
+    - src: ./alt.webp
+      alt_ar: جلابية «نخيل» باللون الرملي
+      alt_en: Nakheel jalabiya in sand
+  sizes:
+    - s
+    - m
+    - l
+    - xl
+  colors:
+    - id: olive
+      name_ar: زيتي
+      name_en: Olive
+      hex: "#7D7F5A"
+    - id: sand
+      name_ar: رملي
+      name_en: Sand
+      hex: "#D6C3A3"
+  fabric: كتان مخلوط
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Nakheel jalabiya
+  summary: A straight cut with simple embroidery, right for any occasion.
+  description: |-
+    A straight cut with simple embroidery, right for any occasion.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Linen blend
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

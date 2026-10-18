@@ -1,0 +1,46 @@
+---
+// Per-product share: the native share sheet when available, otherwise a WhatsApp share link.
+import Icon from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+import { waLink } from '@aw/whatsapp';
+
+interface Props {
+  ctx: PageContext;
+  title: string;
+  url: string;
+  itemId: string;
+}
+const { ctx, title, url, itemId } = Astro.props;
+const shareUrl = `${url}?utm_source=share`;
+const fallback = waLink(null, `${ctx.tr('wa.shareIntro')} ${title}\n${shareUrl}`);
+---
+<aw-share data-title={title} data-url={shareUrl} data-item={itemId} class="contents">
+  <a href={fallback} class="aw-btn aw-btn-ghost tap" rel="noopener" target="_blank" aria-label={`${ctx.tr('cta.share')}: ${title}`}>
+    <Icon name="share" size={20} />
+    <span>{ctx.tr('cta.share')}</span>
+  </a>
+</aw-share>
+
+<script>
+  import { track } from '../client/analytics.ts';
+  class AwShare extends HTMLElement {
+    connectedCallback() {
+      const a = this.querySelector('a')!;
+      a.addEventListener('click', async (e) => {
+        const data = { title: this.dataset.title, url: this.dataset.url };
+        if (navigator.share) {
+          e.preventDefault();
+          try {
+            await navigator.share(data);
+            track({ name: 'share_product', props: { itemId: this.dataset.item ?? '', channel: 'native' } });
+          } catch {
+            /* dismissed */
+          }
+          return;
+        }
+        track({ name: 'share_product', props: { itemId: this.dataset.item ?? '', channel: 'whatsapp' } });
+      });
+    }
+  }
+  if (!customElements.get('aw-share')) customElements.define('aw-share', AwShare);
+</script>

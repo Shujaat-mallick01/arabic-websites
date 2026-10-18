@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: خمسة كفتانات مطوية بألوانها
+  alt: خمسة كفتانات مطوية بألوانها
+  style: lookbook
+  featured: true
+  order: 6
+en:
+  caption: Five kaftans folded in their colourways
+  alt: Five kaftans folded in their colourways

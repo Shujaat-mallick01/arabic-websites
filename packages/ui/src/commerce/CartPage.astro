@@ -1,0 +1,59 @@
+---
+// The full cart page (works without the drawer). Same rendering as the drawer.
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+---
+<aw-cart-page class="block container-page py-8 md:py-12">
+  <h1 class="text-h1 mb-6">{ctx.tr('cart.title')}</h1>
+  <div class="grid gap-8 md:grid-cols-12">
+    <div class="md:col-span-8" data-lines aria-live="polite"></div>
+    <aside class="md:col-span-4 flex flex-col gap-3 md:sticky md:top-24 self-start p-5 rounded-card bg-surface" data-summary hidden>
+      <div class="flex items-center justify-between text-body"><span>{ctx.tr('cart.subtotal')}</span><span class="price" data-subtotal></span></div>
+      <a href={ctx.href('/checkout/')} class="aw-btn aw-btn-primary aw-btn-block">{ctx.tr('cart.checkout')}</a>
+      <a href={ctx.href('/shop/')} class="aw-btn aw-btn-ghost">{ctx.tr('cart.continue')}</a>
+    </aside>
+  </div>
+  <div class="flex flex-col items-start gap-3 py-10" data-empty hidden>
+    <p class="m-0 text-h3">{ctx.tr('cart.empty')}</p>
+    <p class="m-0 text-muted">{ctx.tr('cart.emptyHint')}</p>
+    <a href={ctx.href('/shop/')} class="aw-btn aw-btn-primary mt-2">{ctx.tr('cart.continue')}</a>
+  </div>
+</aw-cart-page>
+
+<script>
+  import { onCart, readCart, removeLine, setQty } from '../client/cart.ts';
+  import { renderLines } from '../client/cart-render.ts';
+  import { money } from '../client/runtime.ts';
+
+  class AwCartPage extends HTMLElement {
+    connectedCallback() {
+      const lines = this.querySelector<HTMLElement>('[data-lines]')!;
+      const summary = this.querySelector<HTMLElement>('[data-summary]')!;
+      const empty = this.querySelector<HTMLElement>('[data-empty]')!;
+      const render = (ls = readCart()) => {
+        renderLines(lines, ls);
+        summary.hidden = ls.length === 0;
+        empty.hidden = ls.length > 0;
+        if (ls.length) this.querySelector('[data-subtotal]')!.textContent = money({ minor: ls.reduce((n, l) => n + l.total.minor, 0), currency: ls[0]!.total.currency });
+      };
+      render();
+      onCart(render);
+      lines.addEventListener('click', (e) => {
+        const t = e.target as HTMLElement;
+        const row = t.closest<HTMLElement>('[data-key]');
+        if (!row) return;
+        const line = readCart().find((l) => l.key === row.dataset.key);
+        if (!line) return;
+        const step = line.step ?? 1;
+        if (t.closest('[data-inc]')) setQty(line.key, Math.min(line.qty + step, line.max ?? Infinity));
+        if (t.closest('[data-dec]')) setQty(line.key, line.qty - step < (line.min ?? 1) ? 0 : line.qty - step);
+        if (t.closest('[data-remove]')) removeLine(line.key);
+      });
+    }
+  }
+  if (!customElements.get('aw-cart-page')) customElements.define('aw-cart-page', AwCartPage);
+</script>

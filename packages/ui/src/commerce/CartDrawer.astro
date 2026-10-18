@@ -1,0 +1,115 @@
+---
+// Cart drawer: a <dialog> from the inline end. The bag button opens it (or goes to /cart/ without JS).
+import Icon from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+---
+<dialog id="aw-cart" class="aw-cart-sheet m-0 h-dvh max-h-dvh w-[min(92vw,420px)] max-w-none border-0 p-0 bg-surface text-ink inset-y-0 inset-e-0 inset-s-auto" aria-labelledby="aw-cart-title">
+  <aw-cart-drawer class="flex h-full flex-col">
+    <div class="flex items-center justify-between px-5 h-14 border-b border-line">
+      <h2 id="aw-cart-title" class="text-h3">{ctx.tr('cart.title')}</h2>
+      <button type="button" class="tap -me-3 inline-flex items-center justify-center bg-transparent border-0 cursor-pointer text-ink" data-cart-close aria-label={ctx.tr('close')}>
+        <Icon name="close" />
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto px-5" data-cart-lines aria-live="polite"></div>
+    <div class="border-t border-line px-5 py-4 flex flex-col gap-3" data-cart-footer hidden>
+      <div class="flex items-center justify-between text-body">
+        <span>{ctx.tr('cart.subtotal')}</span>
+        <span class="price" data-cart-subtotal></span>
+      </div>
+      <a href={ctx.href('/checkout/')} class="aw-btn aw-btn-primary w-full">{ctx.tr('cart.checkout')}</a>
+      <a href={ctx.href('/cart/')} class="text-center text-small text-muted min-h-11 inline-flex items-center justify-center">{ctx.tr('cart.title')}</a>
+    </div>
+    <div class="flex-1 flex flex-col items-center justify-center gap-3 px-8 text-center" data-cart-empty hidden>
+      <Icon name="bag" size={40} class="text-muted" />
+      <p class="m-0 text-h3">{ctx.tr('cart.empty')}</p>
+      <p class="m-0 text-muted">{ctx.tr('cart.emptyHint')}</p>
+      <a href={ctx.href('/shop/')} class="aw-btn aw-btn-secondary mt-2">{ctx.tr('cart.continue')}</a>
+    </div>
+  </aw-cart-drawer>
+</dialog>
+
+<style>
+  .aw-cart-sheet::backdrop { background: var(--brand-scrim); }
+  .aw-cart-sheet[open] { animation: aw-cart-in var(--brand-motion-ms) var(--brand-motion-ease); }
+  @keyframes aw-cart-in {
+    from { transform: translateX(var(--aw-from, 100%)); }
+    to { transform: none; }
+  }
+  :global([dir='rtl']) .aw-cart-sheet { --aw-from: -100%; }
+</style>
+
+<script>
+  import { cartCount, onCart, readCart, removeLine, setQty } from '../client/cart.ts';
+  import { renderLines } from '../client/cart-render.ts';
+  import { money, num, str } from '../client/runtime.ts';
+
+  class AwCartCount extends HTMLElement {
+    connectedCallback() {
+      const render = (lines = readCart()) => {
+        const n = cartCount(lines);
+        this.textContent = num(n);
+        this.hidden = n === 0;
+        this.closest('a')?.setAttribute('aria-label', `${str('nav.cart')} — ${str('cart.count', { n: num(n) })}`);
+      };
+      render();
+      onCart(render);
+    }
+  }
+  if (!customElements.get('aw-cart-count')) customElements.define('aw-cart-count', AwCartCount);
+
+  class AwCartDrawer extends HTMLElement {
+    connectedCallback() {
+      const dialog = this.closest('dialog') as HTMLDialogElement;
+      const linesEl = this.querySelector<HTMLElement>('[data-cart-lines]')!;
+      const footer = this.querySelector<HTMLElement>('[data-cart-footer]')!;
+      const empty = this.querySelector<HTMLElement>('[data-cart-empty]')!;
+      const subtotal = this.querySelector<HTMLElement>('[data-cart-subtotal]')!;
+      let opener: HTMLElement | null = null;
+      const render = (lines = readCart()) => {
+        renderLines(linesEl, lines);
+        const has = lines.length > 0;
+        linesEl.hidden = !has;
+        footer.hidden = !has;
+        empty.hidden = has;
+        if (has) {
+          const total = lines.reduce((n, l) => n + l.total.minor, 0);
+          subtotal.textContent = money({ minor: total, currency: lines[0]!.total.currency });
+        }
+      };
+      render();
+      onCart(render);
+      linesEl.addEventListener('click', (e) => {
+        const t = e.target as HTMLElement;
+        const row = t.closest<HTMLElement>('[data-key]');
+        if (!row) return;
+        const k = row.dataset.key!;
+        const line = readCart().find((l) => l.key === k);
+        if (!line) return;
+        const step = line.step ?? 1;
+        if (t.closest('[data-inc]')) setQty(k, Math.min(line.qty + step, line.max ?? Infinity));
+        if (t.closest('[data-dec]')) setQty(k, line.qty - step < (line.min ?? 1) ? 0 : line.qty - step);
+        if (t.closest('[data-remove]')) removeLine(k);
+      });
+      document.querySelectorAll<HTMLAnchorElement>('[data-cart-open]').forEach((a) =>
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          opener = a;
+          dialog.showModal();
+        }),
+      );
+      window.addEventListener('aw:cart-open', () => dialog.showModal());
+      this.querySelector('[data-cart-close]')?.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+      dialog.addEventListener('close', () => opener?.focus());
+    }
+  }
+  if (!customElements.get('aw-cart-drawer')) customElements.define('aw-cart-drawer', AwCartDrawer);
+</script>

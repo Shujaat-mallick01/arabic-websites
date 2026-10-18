@@ -1,0 +1,86 @@
+---
+// The shell of every page: head (meta, hreflang, fonts, CSP-hashed language script, JSON-LD),
+// demo banner, header variant, main, footer variant, WhatsApp affordance.
+import { Font } from 'astro:assets';
+import { buildHead, jsonLdScript, type PageMeta } from '@aw/seo';
+import { fontVariables } from '@aw/brand';
+import { LANG_SCRIPT } from '../lang-script.ts';
+import { pageContext, type PageContext } from '../context.ts';
+import { getCategories, getContact, getGeneral, getPages, getSeoSettings } from '../layout/layout-data.ts';
+import { primaryNav, secondaryNav } from '../nav/nav.ts';
+import DemoBanner from './DemoBanner.astro';
+import NavBar from '../nav/NavBar.astro';
+import Footer from './Footer.astro';
+import WhatsAppCta from './WhatsAppCta.astro';
+import CartDrawer from '../commerce/CartDrawer.astro';
+import { siteBlob } from '../site-blob.ts';
+
+interface Props {
+  meta: PageMeta;
+  jsonLd?: unknown[];
+  /** Hide the floating WhatsApp button (pages with their own sticky bar). */
+  hideFab?: boolean;
+  /** Primary action for the bottom-bar WhatsApp variant. */
+  primaryAction?: { label: string; href: string };
+  ctx?: PageContext;
+  mainClass?: string;
+}
+
+const { meta, jsonLd = [], hideFab = false, primaryAction, mainClass = '' } = Astro.props;
+const ctx = Astro.props.ctx ?? pageContext(Astro.url);
+const general = await getGeneral();
+const contact = await getContact();
+const seo = await getSeoSettings();
+const categories = await getCategories();
+const pages = await getPages(ctx.lang);
+const name = general.name ?? { ar: '', en: '' };
+const description = meta.description || ctx.pick(seo.defaultDescription) || ctx.pick(general.tagline);
+const head = buildHead(ctx.site, name, { ...meta, description }, ctx.lang);
+const fv = fontVariables(ctx.tokens);
+const preloadVar = ctx.lang === 'ar' ? fv.arDisplay : fv.latinDisplay;
+const preloadWeight = ctx.lang === 'ar' ? ctx.tokens.type.weights.display : (ctx.tokens.type.weightsEn ?? ctx.tokens.type.weights).display;
+const fontVars = [...new Set([fv.arDisplay, fv.arBody, fv.latinDisplay, fv.latinBody])] as Array<'--font-ar-display'>;
+const primary = primaryNav(ctx, categories);
+const secondary = secondaryNav(ctx);
+const policies = pages.filter((p) => p.kind === 'policy');
+const cart = ctx.has('cart');
+const layout = ctx.site.layout;
+const blob = JSON.stringify(siteBlob(ctx, name, ctx.whatsapp(contact.whatsapp))).replace(/</g, String.fromCharCode(92) + 'u003c');
+---
+<!doctype html>
+<html lang={ctx.lang} dir={ctx.dir} data-analytics={ctx.site.analytics.provider}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline set:html={LANG_SCRIPT}></script>
+    <title>{head.title}</title>
+    <meta name="description" content={head.description} />
+    <link rel="canonical" href={head.canonical} />
+    {head.alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    {head.robots && <meta name="robots" content={head.robots} />}
+    {head.meta.map((m) => (m.property ? <meta property={m.property} content={m.content} /> : <meta name={m.name} content={m.content} />))}
+    <meta name="theme-color" content={ctx.tokens.color.bg} />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {fontVars.map((v) => (v === preloadVar ? <Font cssVariable={v} preload={[{ weight: preloadWeight, subset: ctx.lang === 'ar' ? 'arabic' : 'latin' }]} /> : <Font cssVariable={v} />))}
+    {jsonLd.map((d) => <script type="application/ld+json" set:html={jsonLdScript(d)} />)}
+  </head>
+  <body class="min-h-dvh flex flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:inset-s-2 focus:z-50 focus:bg-ink focus:text-bg focus:px-4 focus:py-2 focus:rounded-control">{ctx.tr('skip')}</a>
+    <DemoBanner ctx={ctx} />
+    <NavBar ctx={ctx} name={name} primary={primary} secondary={secondary} variant={layout.nav} cart={cart} />
+    <main id="main" class:list={['flex-1', mainClass]} tabindex="-1">
+      <slot />
+    </main>
+    <Footer ctx={ctx} name={name} about={general.shortAbout ?? { ar: '', en: '' }} primary={primary} secondary={secondary} policies={policies} contact={contact} crNumber={general.crNumber} variant={layout.footer} />
+    {!hideFab && layout.whatsapp !== 'inline-only' && <WhatsAppCta ctx={ctx} variant={layout.whatsapp} name={name} number={contact.whatsapp} url={head.canonical} primary={primaryAction} />}
+    {cart && <CartDrawer ctx={ctx} />}
+    <script type="application/json" id="aw-site" set:html={blob}></script>
+    <script>
+      import { bindDeclarativeTracking } from '../client/analytics.ts';
+      bindDeclarativeTracking();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+ar:
+  id: p019
+  _slug: dana-velvet-jalabiya
+  title: جلابية «دانة» مخمل خفيف
+  summary: مخمل خفيف بلون البرقوق، للشتا والعزايم.
+  description: |-
+    مخمل خفيف بلون البرقوق، للشتا والعزايم.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "31.000"
+  category: jalabiyas
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 19
+  images:
+    - src: ./front.webp
+      alt_ar: جلابية «دانة» مخمل خفيف باللون البرقوقي
+      alt_en: Dana light velvet jalabiya in plum
+    - src: ./alt.webp
+      alt_ar: جلابية «دانة» مخمل خفيف باللون الكحلي
+      alt_en: Dana light velvet jalabiya in ink navy
+  sizes:
+    - s
+    - m
+    - l
+  colors:
+    - id: plum
+      name_ar: برقوقي
+      name_en: Plum
+      hex: "#6E4E5E"
+    - id: ink
+      name_ar: كحلي
+      name_en: Ink navy
+      hex: "#2A3442"
+  fabric: مخمل خفيف
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Dana light velvet jalabiya
+  summary: Light plum velvet for winter and gatherings.
+  description: |-
+    Light plum velvet for winter and gatherings.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Light velvet
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

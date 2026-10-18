@@ -1,0 +1,86 @@
+{
+  "weekly": {
+    "sat": [
+      {
+        "open": "10:00",
+        "close": "21:00"
+      }
+    ],
+    "sun": [
+      {
+        "open": "10:00",
+        "close": "21:00"
+      }
+    ],
+    "mon": [
+      {
+        "open": "10:00",
+        "close": "21:00"
+      }
+    ],
+    "tue": [
+      {
+        "open": "10:00",
+        "close": "21:00"
+      }
+    ],
+    "wed": [
+      {
+        "open": "10:00",
+        "close": "21:00"
+      }
+    ],
+    "thu": [
+      {
+        "open": "10:00",
+        "close": "21:00"
+      }
+    ],
+    "fri": [
+      {
+        "open": "16:00",
+        "close": "21:00"
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "id": "ramadan-1448",
+      "label": {
+        "ar": "رمضان",
+        "en": "Ramadan"
+      },
+      "from": "2027-02-08",
+      "to": "2027-03-08",
+      "all": [
+        {
+          "open": "20:00",
+          "close": "01:00"
+        }
+      ],
+      "approximate": true
+    }
+  ],
+  "exceptions": [
+    {
+      "date": "2027-03-09",
+      "closed": true,
+      "note": {
+        "ar": "أول أيام عيد الفطر",
+        "en": "First day of Eid al-Fitr"
+      }
+    },
+    {
+      "date": "2027-05-16",
+      "closed": true,
+      "note": {
+        "ar": "أول أيام عيد الأضحى",
+        "en": "First day of Eid al-Adha"
+      }
+    }
+  ],
+  "note": {
+    "ar": "الجمعة واتساب فقط، بدون شحن.",
+    "en": "Friday: WhatsApp only, no dispatch."
+  }
+}

@@ -1,0 +1,50 @@
+ar:
+  id: p005
+  _slug: ghaim-chiffon-kaftan
+  title: كفتان «غيم» شيفون مبطّن
+  summary: شيفون مبطّن لطلعات المساء والعزايم الصغيرة.
+  description: |-
+    شيفون مبطّن لطلعات المساء والعزايم الصغيرة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "22.000"
+  category: kaftans
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 5
+  images:
+    - src: ./front.webp
+      alt_ar: كفتان «غيم» شيفون مبطّن باللون الوردي مطفي
+      alt_en: Ghaim lined chiffon kaftan in dusty rose
+    - src: ./alt.webp
+      alt_ar: كفتان «غيم» شيفون مبطّن باللون الضبابي
+      alt_en: Ghaim lined chiffon kaftan in mist
+  sizes:
+    - free
+  colors:
+    - id: rose
+      name_ar: وردي مطفي
+      name_en: Dusty rose
+      hex: "#C49E9B"
+    - id: mist
+      name_ar: ضبابي
+      name_en: Mist
+      hex: "#B9C7D6"
+    - id: black
+      name_ar: أسود
+      name_en: Black
+      hex: "#1E2024"
+  fabric: شيفون مع بطانة ساتان
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: مقاس حر يناسب من XS إلى XL، بقصّة واسعة تنسدل بخفة.
+en:
+  title: Ghaim lined chiffon kaftan
+  summary: Lined chiffon for evenings out and small gatherings.
+  description: |-
+    Lined chiffon for evenings out and small gatherings.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Chiffon with satin lining
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: Free size, fits XS to XL with an easy, fluid cut.

@@ -1,0 +1,21 @@
+---
+// Breadcrumbs: separators are directional chevrons that mirror in Arabic.
+import Icon from './Icon.astro';
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+  trail: Array<{ name: string; path: string }>;
+}
+const { ctx, trail } = Astro.props;
+---
+<nav aria-label={ctx.tr('nav.breadcrumb')}>
+  <ol class="m-0 p-0 list-none flex flex-wrap items-center gap-1 text-small text-muted">
+    {trail.map((t, i) => (
+      <li class="inline-flex items-center gap-1">
+        {i > 0 && <Icon name="chevron" size={14} />}
+        {i === trail.length - 1 ? <span aria-current="page" class="text-ink">{t.name}</span> : <a href={ctx.href(t.path)} class="no-underline min-h-11 inline-flex items-center">{t.name}</a>}
+      </li>
+    ))}
+  </ol>
+</nav>

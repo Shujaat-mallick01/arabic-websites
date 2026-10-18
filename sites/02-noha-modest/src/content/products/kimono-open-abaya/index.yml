@@ -1,0 +1,50 @@
+ar:
+  id: p027
+  _slug: kimono-open-abaya
+  title: عباية «كيمونو» مفتوحة
+  summary: قصّة كيمونو بأكمام قصيرة واسعة، تنلبس فوق الطقم.
+  description: |-
+    قصّة كيمونو بأكمام قصيرة واسعة، تنلبس فوق الطقم.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "27.000"
+  category: open-abayas
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 27
+  images:
+    - src: ./front.webp
+      alt_ar: عباية «كيمونو» مفتوحة باللون الرملي
+      alt_en: Kimono open abaya in sand
+    - src: ./alt.webp
+      alt_ar: عباية «كيمونو» مفتوحة باللون الزيتي
+      alt_en: Kimono open abaya in olive
+  sizes:
+    - free
+  lengths:
+    - 52
+    - 54
+    - 56
+  colors:
+    - id: sand
+      name_ar: رملي
+      name_en: Sand
+      hex: "#D6C3A3"
+    - id: olive
+      name_ar: زيتي
+      name_en: Olive
+      hex: "#7D7F5A"
+  fabric: كتان
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: مقاس حر يناسب من XS إلى XL، بقصّة واسعة تنسدل بخفة.
+en:
+  title: Kimono open abaya
+  summary: A kimono cut with short wide sleeves, worn over a set.
+  description: |-
+    A kimono cut with short wide sleeves, worn over a set.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Linen
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: Free size, fits XS to XL with an easy, fluid cut.

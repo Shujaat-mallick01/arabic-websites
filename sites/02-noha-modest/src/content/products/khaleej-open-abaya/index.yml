@@ -1,0 +1,48 @@
+ar:
+  id: p026
+  _slug: khaleej-open-abaya
+  title: عباية مفتوحة «خليج»
+  summary: كحلي بتطريز على الأكمام، للمناسبات.
+  description: |-
+    كحلي بتطريز على الأكمام، للمناسبات.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "36.000"
+  category: open-abayas
+  tags:
+    - new
+  availability: in_stock
+  featured: false
+  order: 26
+  images:
+    - src: ./front.webp
+      alt_ar: عباية مفتوحة «خليج» باللون الكحلي
+      alt_en: Khaleej open abaya in ink navy
+  sizes:
+    - m
+    - l
+    - xl
+  lengths:
+    - 54
+    - 56
+    - 58
+    - 60
+  colors:
+    - id: ink
+      name_ar: كحلي
+      name_en: Ink navy
+      hex: "#2A3442"
+  fabric: كريب مع تطريز
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+  hemming: true
+en:
+  title: Khaleej open abaya
+  summary: Navy with embroidered sleeves, for occasions.
+  description: |-
+    Navy with embroidered sleeves, for occasions.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Crepe with embroidery
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

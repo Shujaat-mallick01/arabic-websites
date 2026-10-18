@@ -1,0 +1,42 @@
+---
+// Signature "mirror-arch-frame": an arch-topped photo frame with a champagne hairline and an
+// offset bevel line. Logical properties mirror it in English. Below 160px the bevel is dropped.
+interface Props {
+  bevel?: 'double' | 'none';
+  class?: string;
+  aspect?: string;
+}
+const { bevel = 'double', class: cls = '', aspect = '3 / 4' } = Astro.props;
+---
+<div class:list={['aw-arch relative', bevel === 'double' && 'aw-arch--bevel', cls]} style={`aspect-ratio: ${aspect}`}>
+  <div class="aw-arch__clip absolute inset-0 overflow-clip bg-surface">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .aw-arch__clip { border-start-start-radius: 999px; border-start-end-radius: 999px; }
+  .aw-arch__clip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border: 1px solid var(--brand-accent);
+    border-start-start-radius: 999px;
+    border-start-end-radius: 999px;
+    pointer-events: none;
+  }
+  .aw-arch--bevel::after {
+    content: '';
+    position: absolute;
+    inset-block-start: -6px;
+    inset-inline-start: 6px;
+    inset-block-end: 6px;
+    inset-inline-end: -6px;
+    border: 1px solid var(--brand-accent);
+    border-start-start-radius: 999px;
+    border-start-end-radius: 999px;
+    pointer-events: none;
+  }
+  @container (max-width: 160px) { .aw-arch--bevel::after { display: none; } }
+</style>

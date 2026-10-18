@@ -1,0 +1,10 @@
+ar:
+  _slug: kaftans
+  title: كفتانات
+  summary: كفتانات خفيفة للبيت والمشاوير والعزايم.
+  image: ./cover.webp
+  order: 1
+  season: none
+en:
+  title: Kaftans
+  summary: Light kaftans for home, errands and gatherings.

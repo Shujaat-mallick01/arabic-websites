@@ -54,3 +54,13 @@ export const DIALECTS = ['khaleeji-bh', 'kuwaiti', 'najdi', 'hijazi', 'iraqi', '
 export type Dialect = (typeof DIALECTS)[number];
 
 export type Audience = 'women' | 'men' | 'mixed';
+
+/** The studio behind the demos (studio.config.ts at the repo root). */
+export interface StudioConfig {
+  name: string;
+  whatsapp: E164;
+  email?: string;
+  hubUrl: `https://${string}`;
+  credit: I18nText;
+  hubIndexing: boolean;
+}

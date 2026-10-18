@@ -1,0 +1,50 @@
+---
+// Hero "arch-frame": the mirror-arch photo at the inline start and the service menu panel
+// (headline, tabs, duration + price columns, next slots, booking CTA) overlapping it on phones.
+import { Picture } from 'astro:assets';
+import ArchFrame from '../signature/ArchFrame.astro';
+import Price from '../primitives/Price.astro';
+import type { PageContext } from '../context.ts';
+import type { Category, Raw, ServiceItem } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  section: Raw;
+  categories: Category[];
+  services: ServiceItem[];
+}
+const { ctx, section: s, categories, services } = Astro.props;
+const featured = (services.filter((x) => x.featured).length ? services.filter((x) => x.featured) : services).slice(0, 6);
+const mins = (n: number) => (ctx.lang === 'ar' ? `${ctx.num(n)} د` : `${n} min`);
+---
+<section class="pt-4 md:pt-12" aria-labelledby="hero-title">
+  <div class="container-page md:grid md:grid-cols-12 md:gap-6 md:items-start">
+    <div class="md:col-span-7">
+      <ArchFrame aspect="3 / 4" class="md:[aspect-ratio:4/5]">
+        {s.image && <Picture src={s.image} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 716, 1000, 1488]} sizes="(min-width: 768px) 744px, 100vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover" />}
+      </ArchFrame>
+    </div>
+    <div class="relative -mt-[72px] mx-3 md:mx-0 md:mt-12 md:col-span-4 md:col-start-9 bg-surface border border-line rounded-card p-5 md:p-0 md:bg-transparent md:border-0">
+      <h1 id="hero-title" class="text-display" style="font-weight: var(--brand-fw-display)">{ctx.pick(s.title)}</h1>
+      {ctx.pick(s.subtitle) && <p class="m-0 mt-3 text-muted">{ctx.pick(s.subtitle)}</p>}
+      {categories.length > 0 && (
+        <ul class="scroll-rail m-0 mt-5 p-0 list-none gap-1 border-b border-line" aria-label={ctx.tr('section.categories')}>
+          {categories.map((c) => <li><a href={ctx.href(`/services/#${c.id}`)} class="inline-flex min-h-11 items-center px-2.5 no-underline text-ui">{ctx.pick(c.title)}</a></li>)}
+        </ul>
+      )}
+      <ul class="m-0 p-0 list-none">
+        {featured.map((sv) => (
+          <li class="flex items-center justify-between gap-3 min-h-14 py-2 border-b border-line">
+            <a href={ctx.href(`/services/${sv.slug}/`)} class="no-underline text-body">{ctx.pick(sv.title)}</a>
+            <span class="flex items-baseline gap-4 shrink-0 tabular">
+              <span class="text-muted text-small">{mins(sv.durationMinutes)}</span>
+              <Price ctx={ctx} value={sv.price.amount} from={sv.price.kind === 'from'} trim />
+            </span>
+          </li>
+        ))}
+      </ul>
+      <aw-next-slots class="block mt-4 min-h-11 text-small text-muted" data-limit="3">{ctx.lang === 'ar' ? 'شوفي المواعيد المتاحة' : 'See available times'}</aw-next-slots>
+      <a href={ctx.href(s.ctaHref || '/book/')} class="aw-btn aw-btn-primary aw-btn-block mt-4">{ctx.pick(s.ctaLabel) || ctx.tr('cta.book')}</a>
+    </div>
+  </div>
+</section>

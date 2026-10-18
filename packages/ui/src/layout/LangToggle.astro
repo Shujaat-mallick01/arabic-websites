@@ -1,0 +1,39 @@
+---
+// A plain link to the same page in the other language. The click also saves the preference
+// (guarded storage + cookie) so the head script keeps the visitor in their language.
+import type { PageContext } from '../context.ts';
+import Icon from '../primitives/Icon.astro';
+
+interface Props {
+  ctx: PageContext;
+  class?: string;
+  compact?: boolean;
+}
+const { ctx, class: cls = '', compact = false } = Astro.props;
+const target = ctx.lang === 'ar' ? 'en' : 'ar';
+---
+<a
+  href={ctx.altHref}
+  hreflang={target === 'en' ? 'en' : ctx.tag}
+  lang={target === 'en' ? 'en' : 'ar'}
+  data-lang-switch={target}
+  class:list={['tap inline-flex items-center gap-1.5 no-underline text-ui', cls]}
+  aria-label={ctx.tr('lang.switchLabel')}
+>
+  <Icon name="globe" size={20} />
+  {!compact && <span>{ctx.tr('lang.switchTo')}</span>}
+</a>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const l = a.dataset.langSwitch;
+      try {
+        localStorage.setItem('aw.lang', l ?? 'ar');
+      } catch {
+        /* ignore */
+      }
+      document.cookie = l === 'en' ? 'lang_en=1;path=/;max-age=31536000;samesite=lax' : 'lang_en=;path=/;max-age=0';
+    });
+  });
+</script>

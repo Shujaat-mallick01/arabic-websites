@@ -1,0 +1,34 @@
+---
+// Markdown pages (about, size guide, policies) from the pages collection.
+import { render } from 'astro:content';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import Breadcrumbs from '@aw/ui/primitives/Breadcrumbs.astro';
+import { pageContext } from '@aw/ui/context';
+import { getPage } from '@aw/ui/data';
+import { breadcrumbsJsonLd } from '@aw/seo';
+
+interface Props {
+  slug: string;
+  base?: string;
+}
+const { slug, base = '' } = Astro.props;
+const ctx = pageContext(Astro.url);
+const page = await getPage(slug, ctx.lang);
+const missingEn = ctx.lang === 'en' && !!page?.id.endsWith('.ar');
+const rendered = page ? await render(page as never) : null;
+const Content = rendered?.Content;
+const title: string = page?.data.title ?? slug;
+const path = `${base}/${slug}/`;
+const trail = [
+  { name: ctx.tr('nav.home'), path: '/' },
+  { name: title, path },
+];
+---
+<BaseLayout ctx={ctx} meta={{ title, description: page?.data.description ?? '', path, type: 'article' }} jsonLd={[breadcrumbsJsonLd(ctx.site, trail, ctx.lang)]}>
+  <article class="container-page py-8 md:py-14">
+    <Breadcrumbs ctx={ctx} trail={trail} />
+    <h1 class="text-h1 mt-3 mb-8">{title}</h1>
+    {missingEn && <p class="text-small text-muted mb-6">{ctx.tr('missingTranslation')}</p>}
+    <div class="aw-prose" lang={missingEn ? 'ar' : ctx.lang} dir={missingEn ? 'rtl' : undefined}>{Content && <Content />}</div>
+  </article>
+</BaseLayout>

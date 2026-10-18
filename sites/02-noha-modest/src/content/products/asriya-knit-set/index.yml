@@ -1,0 +1,48 @@
+ar:
+  id: p010
+  _slug: asriya-knit-set
+  title: طقم «عصرية» تريكو ناعم
+  summary: تريكو خفيف ناعم على البشرة لقعدات العصر.
+  description: |-
+    تريكو خفيف ناعم على البشرة لقعدات العصر.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "21.500"
+  category: sets
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 10
+  images:
+    - src: ./front.webp
+      alt_ar: طقم «عصرية» تريكو ناعم باللون الرملي
+      alt_en: Asriya soft knit set in sand
+    - src: ./alt.webp
+      alt_ar: طقم «عصرية» تريكو ناعم باللون الموكا
+      alt_en: Asriya soft knit set in mocha
+  sizes:
+    - s
+    - m
+    - l
+  colors:
+    - id: sand
+      name_ar: رملي
+      name_en: Sand
+      hex: "#D6C3A3"
+    - id: mocha
+      name_ar: موكا
+      name_en: Mocha
+      hex: "#8A6E5B"
+  fabric: تريكو فسكوز
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Asriya soft knit set
+  summary: Light knit, soft on the skin, for slow afternoons.
+  description: |-
+    Light knit, soft on the skin, for slow afternoons.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Viscose knit
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

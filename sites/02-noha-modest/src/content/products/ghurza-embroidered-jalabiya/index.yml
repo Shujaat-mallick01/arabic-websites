@@ -1,0 +1,49 @@
+ar:
+  id: p017
+  _slug: ghurza-embroidered-jalabiya
+  title: جلابية «غرزة» بتطريز يدوي
+  summary: قطن بتطريز يدوي بخيط أوكر على الصدر والأكمام.
+  description: |-
+    قطن بتطريز يدوي بخيط أوكر على الصدر والأكمام.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "27.500"
+  category: jalabiyas
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 17
+  images:
+    - src: ./front.webp
+      alt_ar: جلابية «غرزة» بتطريز يدوي باللون العاجي
+      alt_en: Ghurza hand-embroidered jalabiya in ivory
+    - src: ./alt.webp
+      alt_ar: جلابية «غرزة» بتطريز يدوي باللون المريمية
+      alt_en: Ghurza hand-embroidered jalabiya in sage
+  sizes:
+    - s
+    - m
+    - l
+    - xl
+  colors:
+    - id: ivory
+      name_ar: عاجي
+      name_en: Ivory
+      hex: "#ECE8DF"
+    - id: sage
+      name_ar: مريمية
+      name_en: Sage
+      hex: "#9DAA92"
+  fabric: قطن مع تطريز يدوي
+  care: غسيل يدوي أو على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة منخفضة من الداخل.
+  fit: المقاس مطابق لجدول المقاسات. إذا كنتِ بين مقاسين اختاري الأكبر.
+en:
+  title: Ghurza hand-embroidered jalabiya
+  summary: Cotton with hand embroidery in ochre thread on the chest and sleeves.
+  description: |-
+    Cotton with hand embroidery in ochre thread on the chest and sleeves.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Cotton with hand embroidery
+  care: Hand wash or delicate cycle in cold water; iron inside out on low heat.
+  fit: True to the size chart. Between sizes? Choose the larger one.

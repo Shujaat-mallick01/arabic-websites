@@ -1,0 +1,29 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import Sections from '@aw/ui/sections/Sections.astro';
+import { pageContext } from '@aw/ui/context';
+import { getHours, getSettings } from '@aw/ui/data';
+import { businessJsonLd } from '@aw/seo';
+
+const ctx = pageContext(Astro.url);
+const home = await getSettings('home');
+const general = await getSettings('general');
+const contact = await getSettings('contact');
+const hours = await getHours();
+const business = businessJsonLd(
+  ctx.site,
+  {
+    name: general.name,
+    description: general.shortAbout ?? general.tagline ?? { ar: '', en: '' },
+    phone: ctx.whatsapp(contact.whatsapp),
+    address: contact.address,
+    area: contact.area,
+    ...(contact.lat && contact.lng ? { geo: { lat: contact.lat, lng: contact.lng } } : {}),
+    hours,
+  },
+  ctx.lang,
+);
+---
+<BaseLayout ctx={ctx} meta={{ title: '', description: '', path: '/' }} jsonLd={[business]}>
+  <Sections ctx={ctx} sections={home.sections ?? []} />
+</BaseLayout>

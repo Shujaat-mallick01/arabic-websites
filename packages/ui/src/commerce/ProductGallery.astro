@@ -1,0 +1,44 @@
+---
+// Product photos: a swipeable, snap-scrolling strip with a counter on phones, a two-column grid on
+// desktop. The first image is the LCP image; the rest are lazy.
+import { Picture } from 'astro:assets';
+import type { ProductImage } from '@aw/commerce';
+import type { PageContext } from '../context.ts';
+import type { Img } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  images: ProductImage<Img>[];
+  title: string;
+}
+const { ctx, images, title } = Astro.props;
+---
+<aw-gallery class="block relative">
+  <ul class="scroll-rail md:grid md:grid-cols-2 md:gap-3 m-0 p-0 list-none -mx-[var(--brand-gutter)] md:mx-0" data-track aria-label={title}>
+    {images.map((img, i) => (
+      <li class="w-full md:w-auto overflow-hidden md:rounded-image bg-surface" style="aspect-ratio: var(--brand-aspect-card)" data-slide>
+        <Picture src={img.src} alt={ctx.pick(img.alt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 600, 780, 1100]} sizes="(min-width: 768px) 30vw, 100vw" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} class="h-full w-full object-cover" />
+      </li>
+    ))}
+  </ul>
+  {images.length > 1 && <span class="md:hidden absolute bottom-3 inset-e-3 px-2.5 py-1 rounded-control bg-surface/90 text-small tabular" data-counter aria-hidden="true">{ctx.num(1)}/{ctx.num(images.length)}</span>}
+</aw-gallery>
+
+<script>
+  import { num } from '../client/runtime.ts';
+  class AwGallery extends HTMLElement {
+    connectedCallback() {
+      const slides = [...this.querySelectorAll<HTMLElement>('[data-slide]')];
+      const counter = this.querySelector<HTMLElement>('[data-counter]');
+      if (!counter || slides.length < 2) return;
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) if (e.isIntersecting && e.intersectionRatio > 0.6) counter.textContent = `${num(slides.indexOf(e.target as HTMLElement) + 1)}/${num(slides.length)}`;
+        },
+        { root: this.querySelector('[data-track]'), threshold: [0.6] },
+      );
+      slides.forEach((s) => io.observe(s));
+    }
+  }
+  if (!customElements.get('aw-gallery')) customElements.define('aw-gallery', AwGallery);
+</script>

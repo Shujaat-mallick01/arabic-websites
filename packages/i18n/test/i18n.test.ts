@@ -42,6 +42,12 @@ describe('formatMoney', () => {
     expect(formatMoney(money(5, 'BHD'), 'en', bh)).toBe(`BHD${NB}0.005`);
   });
 
+  it('trims an all-zero fraction only when asked, never rounding', () => {
+    const latnSa = { country: 'SA' as const, numberingSystem: 'latn' as const };
+    expect(formatMoney(money(45000, 'SAR'), 'en', latnSa, { trimZeroFraction: true })).toBe(`SAR${NB}450`);
+    expect(formatMoney(money(45050, 'SAR'), 'en', latnSa, { trimZeroFraction: true })).toBe(`SAR${NB}450.50`);
+  });
+
   it('keeps the dot when asked, and supports bare numbers', () => {
     expect(formatMoney(money(38500, 'BHD'), 'ar', bh, { keepSymbolDot: true })).toBe(`${RLM}٣٨٫٥٠٠${NB}د.ب.${RLM}`);
     expect(formatMoney(money(38500, 'BHD'), 'en', bh, { bare: true })).toBe('38.500');

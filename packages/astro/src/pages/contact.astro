@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import HoursTable from '@aw/ui/sections/HoursTable.astro';
+import Icon from '@aw/ui/primitives/Icon.astro';
+import { pageContext } from '@aw/ui/context';
+import { getHours, getSettings } from '@aw/ui/data';
+import { enquiryMessage, waLink } from '@aw/whatsapp';
+
+const ctx = pageContext(Astro.url);
+const contact = await getSettings('contact');
+const general = await getSettings('general');
+const hours = await getHours();
+const title = ctx.tr('contact.title');
+const text = enquiryMessage(
+  {},
+  {
+    lang: ctx.lang,
+    dialect: ctx.site.locale.dialect,
+    audience: ctx.site.locale.audience,
+    locale: ctx.locale,
+    businessName: ctx.pick(general.name),
+    ...(ctx.site.demo.enabled ? { demoBrand: general.name?.ar } : {}),
+  },
+);
+const wa = waLink(ctx.whatsapp(contact.whatsapp), text);
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/contact/' }}>
+  <div class="container-page py-8 md:py-14 grid gap-10 md:grid-cols-2">
+    <div class="flex flex-col gap-5">
+      <h1 class="text-h1">{title}</h1>
+      <a href={wa} class="aw-btn aw-btn-primary self-start" data-track="whatsapp" data-track-context="contact" rel="noopener" target="_blank">
+        <Icon name="whatsapp" size={22} />{ctx.tr('cta.whatsappChat')}
+      </a>
+      <dl class="m-0 grid gap-3">
+        <div><dt class="text-small text-muted">{ctx.tr('contact.whatsapp')}</dt><dd class="m-0"><bdi dir="ltr">{ctx.phone(ctx.whatsapp(contact.whatsapp))}</bdi></dd></div>
+        {contact.email && <div><dt class="text-small text-muted">{ctx.tr('contact.email')}</dt><dd class="m-0"><bdi dir="ltr">{contact.email}</bdi></dd></div>}
+        {contact.instagram && <div><dt class="text-small text-muted">{ctx.tr('contact.instagram')}</dt><dd class="m-0"><bdi dir="ltr">@{contact.instagram}</bdi></dd></div>}
+        {ctx.pick(contact.address) && <div><dt class="text-small text-muted">{ctx.tr('contact.address')}</dt><dd class="m-0">{ctx.pick(contact.address)}</dd></div>}
+      </dl>
+    </div>
+    <div>
+      <h2 class="text-h2 mb-4">{ctx.tr('hours.title')}</h2>
+      <HoursTable ctx={ctx} hours={hours} compact />
+    </div>
+  </div>
+</BaseLayout>

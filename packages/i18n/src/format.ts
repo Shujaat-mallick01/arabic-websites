@@ -41,6 +41,8 @@ export interface MoneyFormatOptions {
   keepSymbolDot?: boolean;
   /** Hide the currency symbol (just the number). */
   bare?: boolean;
+  /** Display-only: drop an all-zero fraction (450.00 → 450). Never rounds. */
+  trimZeroFraction?: boolean;
 }
 
 /**
@@ -48,9 +50,10 @@ export interface MoneyFormatOptions {
  * ar-BH: "‏٣٨٫٥٠٠ د.ب‏"   ar-BH latn: "‏38.500 د.ب‏"   en: "BHD 38.500"
  */
 export function formatMoney(m: Money, lang: Lang, loc: Pick<FormatLocale, 'country' | 'numberingSystem'>, opts: MoneyFormatOptions = {}): string {
-  const exp = exponentOf(m.currency);
+  const fullExp = exponentOf(m.currency);
+  const exp = opts.trimZeroFraction && m.minor % 10 ** fullExp === 0 ? 0 : fullExp;
   const locale = intlLocale(loc, lang);
-  const decimal = toDecimalString(m);
+  const decimal = exp === fullExp ? toDecimalString(m) : String(m.minor / 10 ** fullExp);
   const f = opts.bare
     ? nf(locale, { minimumFractionDigits: exp, maximumFractionDigits: exp })
     : nf(locale, { style: 'currency', currency: m.currency, minimumFractionDigits: exp, maximumFractionDigits: exp });

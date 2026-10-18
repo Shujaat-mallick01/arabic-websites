@@ -1,0 +1,38 @@
+---
+// FAQ as native <details> (no FAQ rich-result markup). Variants: accordion-plain, two-column.
+import { marked } from './markdown.ts';
+import SectionHeader from './SectionHeader.astro';
+import type { PageContext } from '../context.ts';
+import type { Raw } from '../data.ts';
+import { bi } from '@aw/content';
+
+interface Props {
+  ctx: PageContext;
+  section?: Raw;
+  items: Array<{ id: string; entry: { ar: Raw; en: Raw } }>;
+  limit?: number;
+  heading?: string;
+  link?: boolean;
+  level?: 1 | 2;
+}
+const { ctx, section: s = {}, items, limit = 99, heading, link = false, level = 2 } = Astro.props;
+const variant = ctx.site.layout.sectionVariants.faq ?? 'accordion-plain';
+const list = items.slice(0, limit).map((f) => ({ id: f.id, q: bi(f.entry as never, 'question'), a: bi(f.entry as never, 'answer') }));
+---
+{list.length > 0 && (
+  <section class="section-gap" aria-labelledby="faq-title">
+    <div class="container-page">
+      {level === 1 ? <h1 id="faq-title" class="text-h1 mb-8">{heading}</h1> : (
+        <SectionHeader id="faq-title" title={heading ?? (ctx.pick(s.title) || ctx.tr('section.faq'))} link={link ? { label: ctx.tr('viewAll'), href: ctx.href('/faq/') } : undefined} />
+      )}
+      <div class:list={['border-t border-line', variant === 'two-column' && 'md:grid md:grid-cols-2 md:gap-x-10']}>
+        {list.map((f) => (
+          <details class="aw-details border-b border-line">
+            <summary class="text-body py-3" style="font-weight: var(--brand-fw-ui)">{ctx.pick(f.q)}</summary>
+            <div class="aw-prose pb-5 text-muted" set:html={marked(ctx.pick(f.a))} />
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

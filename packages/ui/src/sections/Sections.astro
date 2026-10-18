@@ -69,9 +69,9 @@ const hero = ctx.site.layout.hero;
       );
     case 'featured':
     case 'new-arrivals':
-      return <ProductCollection ctx={ctx} section={{ filter: s.type === 'new-arrivals' ? 'new' : 'featured', ...s }} products={products} id={`sec-${i}`} />;
+      return <ProductCollection ctx={ctx} section={{ filter: s.type === 'new-arrivals' ? 'new' : 'featured', ...s }} products={products} categories={categories} id={`sec-${i}`} />;
     case 'rail':
-      return <ProductCollection ctx={ctx} section={s} products={products} layout="rail" id={`sec-${i}`} />;
+      return <ProductCollection ctx={ctx} section={s} products={products} categories={categories} layout="rail" id={`sec-${i}`} />;
     case 'campaign':
     case 'about':
       return <CampaignBand ctx={ctx} section={s} reverse={s.type === 'about'} />;

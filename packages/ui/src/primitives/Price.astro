@@ -20,7 +20,7 @@ const onSale = compareAt && compareAt.minor > value.minor;
 ---
 <span class:list={['price inline-flex flex-wrap items-baseline gap-x-2', cls]} aria-describedby={showStar ? 'price-note' : undefined}>
   {from && <span class="text-muted font-normal">{ctx.tr('product.from')}</span>}
-  <bdi>{ctx.money(value, opts)}</bdi>
+  <bdi class:list={[onSale && "text-danger"]}>{ctx.money(value, opts)}</bdi>
   {onSale && (
     <s class="text-muted font-normal text-small">
       <span class="visually-hidden">{ctx.lang === 'ar' ? 'السعر قبل التخفيض' : 'Was'}</span>

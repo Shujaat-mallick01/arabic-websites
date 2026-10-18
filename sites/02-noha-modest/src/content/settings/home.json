@@ -4,63 +4,115 @@
       "type": "hero",
       "enabled": true,
       "eyebrow": {
-        "ar": "وصل جديد",
-        "en": "New in"
+        "ar": "تشكيلة الصيف وصلت",
+        "en": "The summer edit is here"
       },
       "title": {
-        "ar": "لبس يومج، من دريشتنا لين بابج.",
-        "en": "Your everyday wear, from our window to your door."
+        "ar": "شيلتج *تحكي* عنج، من دريشتنا لين بابج",
+        "en": "A shayla that *speaks* for you, from our window to your door"
       },
       "subtitle": {
-        "ar": "كفتانات وأطقم وعبايات مفتوحة بأسعار واضحة ومقاسات مضبوطة. اختاري دولتج ونقول لج أي يوم يوصلج طلبج.",
-        "en": "Kaftans, co-ord sets and open abayas with clear prices and true sizing. Pick your country and we’ll tell you the day your order arrives."
-      },
-      "priceNote": {
-        "ar": "الأطقم من 18.250 د.ب",
-        "en": "Sets from BHD 18.250"
+        "ar": "شيلات وطرح مطبوعة ولبس بيت بأسعار واضحة. اختاري دولتج ونقول لج أي يوم يوصلج طلبج.",
+        "en": "Shaylas, printed scarves and homewear at clear prices. Pick your country and we’ll tell you the day it arrives."
       },
       "ctaLabel": {
-        "ar": "تسوّقي الأطقم",
-        "en": "Shop the sets"
+        "ar": "تسوّقي الشيلات",
+        "en": "Shop shaylas"
       },
-      "ctaHref": "/shop/sets/",
+      "ctaHref": "/shop/shaylas/",
+      "secondaryLabel": {
+        "ar": "كل المنتجات",
+        "en": "Shop all"
+      },
+      "secondaryHref": "/shop/",
+      "priceNote": {
+        "ar": "الشيلات من 2.750 د.ب",
+        "en": "Shaylas from BHD 2.750"
+      },
       "image": "./media/hero.webp",
       "imageWide": "./media/hero-wide.webp",
       "imageAlt": {
-        "ar": "طقم كريب بلون حجري على علّاقة في ضوء النافذة",
-        "en": "A stone-coloured crepe set on a hanger in window light"
+        "ar": "شيلات قطن بدرجات الأزرق والفيروزي معلّقة على راك",
+        "en": "Cotton shaylas in blues and teals hanging on a rail"
+      },
+      "categoriesEyebrow": {
+        "ar": "تسوّقي حسب القسم",
+        "en": "Shop by category"
+      },
+      "categoriesTitle": {
+        "ar": "اختاري *ستايلج*",
+        "en": "Find *your style*"
       }
     },
     {
       "type": "new-arrivals",
       "enabled": true,
-      "title": {
+      "eyebrow": {
         "ar": "وصل جديد",
         "en": "New in"
+      },
+      "title": {
+        "ar": "آخر ما *وصلنا*",
+        "en": "Just *arrived*"
       },
       "limit": 8
     },
     {
+      "type": "about",
+      "enabled": true,
+      "eyebrow": {
+        "ar": "من الاستوديو",
+        "en": "From the studio"
+      },
+      "title": {
+        "ar": "نصوّر كل قطعة في *ضوء الدريشة*",
+        "en": "Every piece shot in *window light*"
+      },
+      "subtitle": {
+        "ar": "عشان اللون اللي تشوفينه هو اللون اللي يوصلج. نكتب لكل قطعة قماشها وطريقة العناية فيها، ونغلّف الطلب بورق خفيف مع بطاقة فيها تاريخ وصوله.",
+        "en": "So the colour you see is the colour that arrives. Every piece lists its fabric and care, and every order comes wrapped with a card showing its arrival date."
+      },
+      "ctaLabel": {
+        "ar": "تعرّفي علينا",
+        "en": "About us"
+      },
+      "ctaHref": "/about/",
+      "image": "./media/studio.webp",
+      "imageAlt": {
+        "ar": "روب كتان معلّق على جدار أبيض في الاستوديو",
+        "en": "A linen robe hanging on a white studio wall"
+      }
+    },
+    {
       "type": "rail",
       "enabled": true,
+      "band": true,
+      "eyebrow": {
+        "ar": "أقل من 5 د.ب",
+        "en": "Under BHD 5"
+      },
       "title": {
-        "ar": "تحت 15 د.ب",
-        "en": "Under BHD 15"
+        "ar": "طرح *تفرّح* بسعر بسيط",
+        "en": "Happy prints, *small prices*"
       },
       "filter": "under",
-      "value": "15.000",
+      "value": "5.000",
       "limit": 10
     },
     {
       "type": "gift-cards",
       "enabled": true,
+      "eyebrow": {
+        "ar": "هدية تختارها هي",
+        "en": "A gift she chooses"
+      },
       "title": {
-        "ar": "بطاقات الهدايا",
-        "en": "Gift cards"
+        "ar": "بطاقات *الهدايا*",
+        "en": "Gift *cards*"
       },
       "subtitle": {
-        "ar": "خليها تختار اللي يعجبها. أرسليها واتساب أو إيميل.",
-        "en": "Let her choose. Send it by WhatsApp or email."
+        "ar": "خليها تختار اللي يعجبها. أرسليها واتساب أو إيميل، وتوصلها خلال دقايق.",
+        "en": "Let her choose. Send it by WhatsApp or email and it arrives in minutes."
       },
       "ctaLabel": {
         "ar": "اختاري بطاقة",
@@ -70,25 +122,33 @@
     {
       "type": "rail",
       "enabled": true,
+      "eyebrow": {
+        "ar": "لبس البيت",
+        "en": "Homewear"
+      },
       "title": {
-        "ar": "كفتانات للبيت والمشاوير",
-        "en": "Kaftans for home and errands"
+        "ar": "راحة *البيت*",
+        "en": "Comfort *at home*"
       },
       "filter": "category",
-      "value": "kaftans",
+      "value": "homewear",
       "limit": 6,
       "ctaLabel": {
-        "ar": "كل الكفتانات",
-        "en": "All kaftans"
+        "ar": "كل لبس البيت",
+        "en": "All homewear"
       },
-      "ctaHref": "/shop/kaftans/"
+      "ctaHref": "/shop/homewear/"
     },
     {
       "type": "delivery-table",
       "enabled": true,
+      "eyebrow": {
+        "ar": "الشحن",
+        "en": "Shipping"
+      },
       "title": {
-        "ar": "التوصيل لكل الخليج",
-        "en": "Delivery across the GCC"
+        "ar": "نوصّل لكل *الخليج*",
+        "en": "Delivery across the *GCC*"
       },
       "subtitle": {
         "ar": "الطلبات قبل الساعة 1 الظهر تنشحن نفس اليوم (السبت إلى الخميس).",
@@ -98,28 +158,36 @@
     {
       "type": "lookbook",
       "enabled": true,
-      "title": {
-        "ar": "من ضوء الدريشة",
-        "en": "In window light"
+      "eyebrow": {
+        "ar": "لوك بوك",
+        "en": "Lookbook"
       },
-      "limit": 9
+      "title": {
+        "ar": "من ضوء *الدريشة*",
+        "en": "In *window light*"
+      },
+      "limit": 8
     },
     {
       "type": "reviews",
       "enabled": true,
-      "title": {
+      "eyebrow": {
         "ar": "آراء",
         "en": "Reviews"
+      },
+      "title": {
+        "ar": "قالوا *عنّا*",
+        "en": "Kind *words*"
       }
     },
     {
       "type": "faq-teaser",
       "enabled": true,
       "title": {
-        "ar": "أسئلة تتكرر",
-        "en": "Common questions"
+        "ar": "أسئلة *تتكرر*",
+        "en": "Common *questions*"
       },
-      "limit": 3
+      "limit": 4
     }
   ]
 }

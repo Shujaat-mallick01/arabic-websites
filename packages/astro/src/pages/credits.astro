@@ -1,0 +1,26 @@
+---
+// Image credits: every stock photo, its creator, source and licence (CC0 / CC BY).
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import { pageContext } from '@aw/ui/context';
+import { credits } from 'virtual:aw/config';
+
+const ctx = pageContext(Astro.url);
+const ar = ctx.lang === 'ar';
+const title = ar ? 'مصادر الصور' : 'Image credits';
+const unique = [...new Map(credits.map((c) => [c.landing, c])).values()];
+---
+<BaseLayout ctx={ctx} meta={{ title, description: '', path: '/credits/' }}>
+  <div class="container-page py-12 md:py-16 max-w-4xl">
+    <h1 class="text-h1 mb-3">{title}</h1>
+    <p class="m-0 mb-8 text-muted max-w-2xl">{ar ? 'الصور في هذا النموذج صور مخزون مرخّصة للاستخدام التجاري، وقد عُدّلت ألوانها وقُصّت لتناسب الهوية. لا تمثّل الصور منتجات أو أشخاصاً حقيقيين للعلامة.' : 'Photos on this demo are stock images licensed for commercial use, colour-graded and cropped to fit the brand. They do not show real products or people of the brand.'}</p>
+    <ul class="m-0 p-0 list-none grid gap-3 sm:grid-cols-2">
+      {unique.map((c) => (
+        <li class="aw-card-elev p-4 text-small flex flex-col gap-1">
+          <a href={c.landing} rel="noopener nofollow" class="text-ink" style="font-weight: var(--brand-fw-ui)">{c.title || (ar ? 'صورة' : 'Photo')}</a>
+          <span class="text-muted">{c.creator ? (ar ? `تصوير ${c.creator}` : `by ${c.creator}`) : ''} · {c.source}</span>
+          <span class="text-muted"><a href={c.licenseUrl} rel="noopener nofollow" class="text-muted">{c.license}</a>{c.modified && (ar ? ' · معدّلة' : ' · modified')}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

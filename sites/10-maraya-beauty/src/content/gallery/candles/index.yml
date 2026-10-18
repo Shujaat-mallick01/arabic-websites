@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: الإضاءة الدافية في جناح العروس
+  alt: الإضاءة الدافية في جناح العروس
+  style: lounge
+  featured: true
+  order: 6
+en:
+  caption: Warm light in the bridal suite
+  alt: Warm light in the bridal suite

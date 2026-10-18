@@ -16,7 +16,7 @@ Delivery takes one working day to all governorates, for BHD 1.500, and is free f
 | Oman | BHD 4.500 | BHD 45.000 | 3–5 working days |
 
 ## Dispatch times
-Orders confirmed before 1 pm Bahrain time ship the same day, Saturday to Thursday. Later orders ship on the next dispatch day. Hemming adds two working days.
+Orders confirmed before 1 pm Bahrain time ship the same day, Saturday to Thursday. Later orders ship on the next dispatch day.
 
 ## Customs duties
 Import duties or VAT may apply under the destination country's rules and are paid by the recipient.

@@ -3,19 +3,22 @@
 import { compare, parseDecimal } from '@aw/core';
 import type { Product } from '@aw/commerce';
 import ProductCard from '../commerce/ProductCard.astro';
+import Rail from '../primitives/Rail.astro';
 import SectionHeader from './SectionHeader.astro';
 import type { PageContext } from '../context.ts';
-import type { Img, Raw } from '../data.ts';
+import type { Category, Img, Raw } from '../data.ts';
 
 interface Props {
   ctx: PageContext;
   section: Raw;
   products: Product<Img>[];
+  categories?: Category[];
   layout?: 'grid' | 'rail';
   id?: string;
+  band?: boolean;
 }
 
-const { ctx, section: s, products, layout = 'grid', id } = Astro.props;
+const { ctx, section: s, products, categories = [], layout = 'grid', id, band = false } = Astro.props;
 const limit = Number(s.limit ?? 8);
 const filter = s.filter ?? 'featured';
 let items = products.filter((p) => p.availability !== 'sold_out' || filter === 'tag');
@@ -28,22 +31,24 @@ if (filter === 'under' && s.value) {
   items = items.filter((p) => compare(p.price, cap) <= 0);
 }
 items = items.slice(0, limit);
-const link = s.ctaHref && ctx.pick(s.ctaLabel) ? { label: ctx.pick(s.ctaLabel), href: ctx.href(s.ctaHref) } : filter === 'category' && s.value ? { label: ctx.tr('viewAll'), href: ctx.href(`/shop/${s.value}/`) } : undefined;
+const link = s.ctaHref && ctx.pick(s.ctaLabel) ? { label: ctx.pick(s.ctaLabel), href: ctx.href(s.ctaHref) } : filter === 'category' && s.value ? { label: ctx.tr('viewAll'), href: ctx.href(`/shop/${s.value}/`) } : { label: ctx.tr('viewAll'), href: ctx.href('/shop/') };
+const catName = new Map(categories.map((c) => [c.id, ctx.pick(c.title)]));
 const cols = ctx.site.layout.grid === 'one-col-large' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2 lg:grid-cols-4';
+const useBand = band || s.band === true;
 ---
 {items.length > 0 && (
-  <section class="section-gap" aria-labelledby={id}>
+  <section class:list={[useBand ? 'aw-band py-14 md:py-20' : 'section-gap']} aria-labelledby={id}>
     <div class="container-page">
-      <SectionHeader id={id} title={ctx.pick(s.title)} subtitle={ctx.pick(s.subtitle)} link={link} />
+      <SectionHeader id={id} eyebrow={ctx.pick(s.eyebrow)} title={ctx.pick(s.title)} subtitle={ctx.pick(s.subtitle)} link={link} />
       {layout === 'rail' ? (
-        <ul class="scroll-rail m-0 p-0 list-none gap-3 md:gap-5 -mx-[var(--brand-gutter)] px-[var(--brand-gutter)]">
+        <Rail label={ctx.pick(s.title)}>
           {items.map((p) => (
-            <li class="w-[42%] md:w-[23%]"><ProductCard ctx={ctx} product={p} sizes="(min-width: 768px) 23vw, 42vw" /></li>
+            <li class="w-[46%] sm:w-[31%] md:w-[calc((100%-3*1.25rem)/4)]"><ProductCard ctx={ctx} product={p} categoryLabel={catName.get(p.category)} sizes="(min-width: 768px) 23vw, 46vw" /></li>
           ))}
-        </ul>
+        </Rail>
       ) : (
-        <ul class:list={['m-0 p-0 list-none grid gap-x-3 gap-y-8 md:gap-x-6 md:gap-y-12', cols]}>
-          {items.map((p) => <li><ProductCard ctx={ctx} product={p} /></li>)}
+        <ul class:list={['m-0 p-0 list-none grid gap-x-3 gap-y-9 md:gap-x-6 md:gap-y-12', cols]}>
+          {items.map((p, i) => <li><ProductCard ctx={ctx} product={p} categoryLabel={catName.get(p.category)} eager={i < 2} /></li>)}
         </ul>
       )}
     </div>

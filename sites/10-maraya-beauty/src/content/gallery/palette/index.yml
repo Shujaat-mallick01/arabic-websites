@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: باليت الظلال على الطاولة
+  alt: باليت الظلال على الطاولة
+  style: lounge
+  featured: true
+  order: 9
+en:
+  caption: The eyeshadow palette on the table
+  alt: The eyeshadow palette on the table

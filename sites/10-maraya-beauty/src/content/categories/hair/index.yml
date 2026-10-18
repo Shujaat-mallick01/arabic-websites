@@ -3,5 +3,6 @@ ar:
   title: الشعر
   order: 1
   season: none
+  image: ./cover.webp
 en:
   title: Hair

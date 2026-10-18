@@ -1,0 +1,72 @@
+---
+// The row of reassurances under the hero (delivery, cash on delivery, easy returns, secure
+// payment / deposit, cancellation, late hours). Every line is derived from the site's own
+// settings, so it can never promise something the business does not do.
+import { METHOD_LABELS, availableMethods } from '@aw/payments';
+import Icon, { type IconName } from '../primitives/Icon.astro';
+import type { PageContext } from '../context.ts';
+import { latestClose } from '../primitives/hours.ts';
+import { getBookingRules, getFulfilment, getHours, getPages } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+  class?: string;
+  /** Leave out the late-opening item (when the hero already says it). */
+  skipLate?: boolean;
+}
+const { ctx, class: cls = '', skipLate = false } = Astro.props;
+const ar = ctx.lang === 'ar';
+const f = ctx.site.locale.audience === 'women';
+const items: Array<{ icon: IconName; title: string; text: string }> = [];
+
+if (ctx.has('fulfilment')) {
+  const r = await getFulfilment();
+  const zones = r.delivery?.zones.filter((z) => z.active) ?? [];
+  const free = zones.map((z) => z.freeOver).filter(Boolean)[0];
+  const minEta = Math.min(...zones.map((z) => z.eta.min), ...(r.shipping?.countries ?? []).filter((c) => c.active).map((c) => c.eta.min));
+  const gcc = (r.shipping?.countries ?? []).filter((c) => c.active).length;
+  items.push({
+    icon: 'truck',
+    title: gcc > 0 ? (ar ? 'نشحن لكل الخليج' : 'We ship across the GCC') : ar ? 'توصيل سريع' : 'Fast delivery',
+    text: free ? (ar ? `مجاني للطلبات فوق ${ctx.money(free, { trimZeroFraction: true })}` : `Free over ${ctx.money(free, { trimZeroFraction: true })}`) : Number.isFinite(minEta) ? (ar ? `خلال ${ctx.num(minEta)}–${ctx.num(minEta + 1)} يوم عمل` : `In ${minEta}–${minEta + 1} working days`) : '',
+  });
+  if (r.cod?.enabled) items.push({ icon: 'cash', title: ar ? 'الدفع عند الاستلام' : 'Cash on delivery', text: ar ? (f ? 'ادفعي نقداً أو بالبطاقة للمندوب' : 'ادفع نقداً أو بالبطاقة للمندوب') : 'Pay the courier in cash or by card' });
+  const pages = await getPages(ctx.lang);
+  if (pages.some((p) => p.slug === 'returns')) items.push({ icon: 'refresh', title: ar ? 'استبدال سهل' : 'Easy exchanges', text: ar ? 'التفاصيل في سياسة الاستبدال' : 'See our returns policy' });
+}
+
+if (ctx.has('bookingCalendar') || ctx.has('bookingRequest')) {
+  const b = await getBookingRules();
+  if (b.deposit.kind !== 'none') items.push({ icon: 'calendar', title: ar ? (f ? 'احجزي أونلاين بعربون' : 'احجز أونلاين بعربون') : 'Book online with a deposit', text: b.deposit.kind === 'percent' ? (ar ? `${ctx.num(b.deposit.bps / 100)}٪ فقط، والباقي في الموعد` : `Only ${b.deposit.bps / 100}% now, the rest on the day`) : ar ? 'يُخصم من الحساب في الموعد' : 'Deducted on the day' });
+  if (b.cancellation.freeUntilHours > 0) items.push({ icon: 'refresh', title: ar ? 'إلغاء مجاني' : 'Free cancellation', text: ar ? `حتى ${ctx.num(b.cancellation.freeUntilHours)} ساعة قبل الموعد` : `Up to ${b.cancellation.freeUntilHours} hours before` });
+  if (ctx.site.booking?.staffChoice && ctx.site.booking.staffChoice !== 'none') items.push({ icon: 'users', title: ar ? (f ? 'اختاري خبيرتك' : 'اختر خبيرك') : 'Choose your stylist', text: ar ? 'أو نختار لك أول وحدة فاضية' : 'Or we pick the first free one' });
+}
+
+// Late opening: the latest close in the weekly table, when it is after midnight.
+if (ctx.has('hours') && items.length < 4 && !skipLate) {
+  const latest = latestClose(await getHours());
+  if (latest > 1440) items.push({ icon: 'moon', title: ar ? 'فاتحين لآخر الليل' : 'Open late', text: ar ? `كل يوم لحد ${ctx.time(latest)}` : `Every day until ${ctx.time(latest)}` });
+}
+
+const p = ctx.site.payments;
+if (p && items.length < 4) {
+  const methods = availableMethods(ctx.site.locale.currency, p.provider ?? null, p.methods).slice(0, 3);
+  items.push({ icon: 'lock', title: ar ? 'دفع آمن' : 'Secure payment', text: methods.map((m) => METHOD_LABELS[m][ctx.lang]).join(ar ? '، ' : ', ') });
+}
+const list = items.slice(0, 4);
+---
+{list.length > 0 && (
+  <section class:list={['container-page', cls]} aria-label={ar ? 'لماذا تطلب منا' : 'Why order with us'}>
+    <ul class="m-0 p-4 md:p-6 list-none grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-5 aw-card-elev">
+      {list.map((it) => (
+        <li class="flex items-center gap-3 min-w-0">
+          <span class="aw-icon-tile max-sm:w-10 max-sm:h-10"><Icon name={it.icon} size={22} /></span>
+          <span class="flex flex-col min-w-0">
+            <span class="text-small md:text-ui leading-snug" style="font-weight: var(--brand-fw-ui)">{it.title}</span>
+            {it.text && <span class="text-[0.8rem] md:text-small text-muted leading-snug line-clamp-2">{it.text}</span>}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

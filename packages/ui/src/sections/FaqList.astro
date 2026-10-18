@@ -1,7 +1,9 @@
 ---
-// FAQ as native <details> (no FAQ rich-result markup). Variants: accordion-plain, two-column.
+// FAQ as native <details> cards (no FAQ rich-result markup). On wide screens the heading and a
+// WhatsApp prompt sit beside the questions.
 import { marked } from './markdown.ts';
 import SectionHeader from './SectionHeader.astro';
+import Icon from '../primitives/Icon.astro';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
 import { bi } from '@aw/content';
@@ -16,23 +18,44 @@ interface Props {
   level?: 1 | 2;
 }
 const { ctx, section: s = {}, items, limit = 99, heading, link = false, level = 2 } = Astro.props;
-const variant = ctx.site.layout.sectionVariants.faq ?? 'accordion-plain';
 const list = items.slice(0, limit).map((f) => ({ id: f.id, q: bi(f.entry as never, 'question'), a: bi(f.entry as never, 'answer') }));
+const ar = ctx.lang === 'ar';
+const f = ctx.site.locale.audience === 'women';
 ---
 {list.length > 0 && (
   <section class="section-gap" aria-labelledby="faq-title">
-    <div class="container-page">
-      {level === 1 ? <h1 id="faq-title" class="text-h1 mb-8">{heading}</h1> : (
-        <SectionHeader id="faq-title" title={heading ?? (ctx.pick(s.title) || ctx.tr('section.faq'))} link={link ? { label: ctx.tr('viewAll'), href: ctx.href('/faq/') } : undefined} />
-      )}
-      <div class:list={['border-t border-line', variant === 'two-column' && 'md:grid md:grid-cols-2 md:gap-x-10']}>
-        {list.map((f) => (
-          <details class="aw-details border-b border-line">
+    <div class="container-page grid gap-8 lg:grid-cols-12 lg:gap-14">
+      <div class="lg:col-span-4 flex flex-col gap-6">
+        <SectionHeader id="faq-title" level={level === 1 ? 1 : 2} eyebrow={ctx.pick(s.eyebrow) || (ar ? 'عندك سؤال؟' : 'Questions')} title={heading ?? (ctx.pick(s.title) || ctx.tr('section.faq'))} subtitle={ctx.pick(s.subtitle) || undefined} class="!mb-0" />
+        <div class="aw-card-elev p-5 flex items-center gap-4 max-lg:hidden">
+          <span class="aw-icon-tile rounded-full"><Icon name="whatsapp" size={22} /></span>
+          <span class="flex flex-col gap-1">
+            <span class="text-small" style="font-weight: var(--brand-fw-ui)">{ar ? (f ? 'ما لقيتي جوابج؟' : 'ما لقيت جوابك؟') : 'Still have a question?'}</span>
+            <a href="#" data-wa-faq class="text-small text-accent">{ar ? (f ? 'كلمينا على الواتساب' : 'كلمنا على الواتساب') : 'Message us on WhatsApp'}</a>
+          </span>
+        </div>
+        {link && <a href={ctx.href('/faq/')} class="aw-more self-start max-lg:hidden">{ctx.tr('viewAll')}<Icon name="arrow" size={16} class="aw-btn-arrow" /></a>}
+      </div>
+      <div class="lg:col-span-8 flex flex-col gap-3">
+        {list.map((f, i) => (
+          <details class="aw-faq-item" open={i === 0 && level !== 1}>
             <summary class="text-body py-3" style="font-weight: var(--brand-fw-ui)">{ctx.pick(f.q)}</summary>
             <div class="aw-prose pb-5 text-muted" set:html={marked(ctx.pick(f.a))} />
           </details>
         ))}
+        {link && <a href={ctx.href('/faq/')} class="aw-more self-start lg:hidden mt-2">{ctx.tr('viewAll')}<Icon name="arrow" size={16} class="aw-btn-arrow" /></a>}
       </div>
     </div>
   </section>
 )}
+
+<script>
+  import { siteBlob } from '../client/runtime.ts';
+  import { waLink } from '@aw/whatsapp';
+  document.querySelectorAll<HTMLAnchorElement>('[data-wa-faq]').forEach((a) => {
+    const s = siteBlob();
+    a.href = waLink(s.whatsapp, s.lang === 'ar' ? 'مرحبا، عندي سؤال' : 'Hello, I have a question');
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+</script>

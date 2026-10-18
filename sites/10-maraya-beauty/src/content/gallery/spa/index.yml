@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: ركن السبا للأقدام
+  alt: ركن السبا للأقدام
+  style: lounge
+  featured: true
+  order: 7
+en:
+  caption: The foot spa corner
+  alt: The foot spa corner

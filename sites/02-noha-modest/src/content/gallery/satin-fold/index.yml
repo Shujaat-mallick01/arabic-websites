@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: ساتان زيتي في ضوء الدريشة
+  alt: ساتان زيتي في ضوء الدريشة
+  style: lookbook
+  featured: true
+  order: 6
+en:
+  caption: Olive satin in window light
+  alt: Olive satin in window light

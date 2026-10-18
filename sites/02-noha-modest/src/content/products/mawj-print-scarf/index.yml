@@ -1,0 +1,41 @@
+ar:
+  id: p011
+  _slug: mawj-print-scarf
+  title: طرحة «موج»
+  summary: أزرق ملكي بخطوط موج بارزة.
+  description: |-
+    أزرق ملكي بخطوط موج بارزة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "4.250"
+  category: printed
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 11
+  images:
+    - src: ./front.webp
+      alt_ar: طرحة «موج»
+      alt_en: Mawj print scarf
+    - src: ./detail.webp
+      alt_ar: طرحة «موج»، تفصيل القماش
+      alt_en: Mawj print scarf, fabric detail
+  sizes: []
+  colors:
+    - id: royal
+      name_ar: أزرق ملكي
+      name_en: Royal blue
+      hex: "#2D55A5"
+  fabric: جاكار
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Mawj print scarf
+  summary: Royal blue with raised wave lines.
+  description: |-
+    Royal blue with raised wave lines.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Jacquard
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

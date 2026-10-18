@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: روجات بعلب ذهبية
+  alt: روجات بعلب ذهبية
+  style: lounge
+  featured: true
+  order: 2
+en:
+  caption: Lipsticks in gold cases
+  alt: Lipsticks in gold cases

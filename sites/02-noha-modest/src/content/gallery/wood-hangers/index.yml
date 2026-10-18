@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: علّاقات الخشب قبل التصوير
+  alt: علّاقات الخشب قبل التصوير
+  style: lookbook
+  featured: true
+  order: 5
+en:
+  caption: Wooden hangers before the shoot
+  alt: Wooden hangers before the shoot

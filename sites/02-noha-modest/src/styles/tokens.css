@@ -1,12 +1,12 @@
 /* GENERATED from brand/tokens.ts by pnpm site:sync. Do not edit. */
 :root {
-  --brand-bg: #DCE5EE;
-  --brand-surface: #F3F6FA;
+  --brand-bg: #EEF2F6;
+  --brand-surface: #FFFFFF;
   --brand-ink: #16202B;
   --brand-muted: #4A5664;
-  --brand-line: #C3CFDB;
+  --brand-line: #D6DEE7;
   --brand-accent: #7E560F;
-  --brand-accent-ink: #F3F6FA;
+  --brand-accent-ink: #FFFFFF;
   --brand-accent-press: #694609;
   --brand-deep: #22303F;
   --brand-deep-ink: #F3F6FA;
@@ -31,11 +31,11 @@
   --brand-lh-heading: 1.4;
   --brand-lh-body: 1.85;
   --brand-lh-ui: 1.4;
-  --brand-fw-display: 300;
-  --brand-fw-heading: 400;
-  --brand-fw-body: 300;
+  --brand-fw-display: 500;
+  --brand-fw-heading: 500;
+  --brand-fw-body: 400;
   --brand-fw-ui: 500;
-  --brand-fw-price: 500;
+  --brand-fw-price: 600;
   --brand-latin-scale: 1.17;
   --brand-radius-control: 10px;
   --brand-radius-card: 14px;
@@ -43,7 +43,7 @@
   --brand-radius-pill: 10px;
   --brand-border-width: 1px;
   --brand-border-style: solid;
-  --brand-shadow-card: none;
+  --brand-shadow-card: 0 6px 20px -8px rgb(34 48 63 / 0.2);
   --brand-shadow-overlay: 0 12px 40px rgb(22 32 43 / 0.18);
   --brand-gutter: clamp(16px, -7.77px + 6.1vw, 80px);
   --brand-max-width: 1280px;

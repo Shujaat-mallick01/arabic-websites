@@ -20,7 +20,8 @@
     "check-all": "tsx scripts/check-all.ts",
     "brand:render": "tsx scripts/brand-render.ts",
     "preview": "tsx scripts/preview.ts",
-    "shots": "tsx scripts/shots.ts"
+    "shots": "tsx scripts/shots.ts",
+    "photos": "tsx scripts/photos.ts"
   },
   "devDependencies": {
     "@aw/booking": "workspace:*",

@@ -21,6 +21,7 @@ ar:
   durationMinutes: 240
   featured: true
   order: 1
+  image: ./cover.webp
 en:
   title: The Jalwa package
   summary: Bridal makeup and hair, veil fitting, lashes and a touch-up kit, in the bridal suite.

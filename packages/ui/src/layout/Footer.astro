@@ -1,11 +1,13 @@
 ---
-// Footer variants: columns, band, centered-mark. Always on the deep band. Carries the trust
-// signals (policies, CR slot, payment methods as text), the demo price footnote and the credit.
+// Footer on the deep band: a WhatsApp call-to-action card, then brand + columns with headings
+// (browse, help, contact), payment methods, and the legal line with the demo footnote, the
+// studio credit and the image credits link.
 import Logo from './Logo.astro';
 import Icon from '../primitives/Icon.astro';
 import type { PageContext } from '../context.ts';
 import type { NavItem } from '../nav/nav.ts';
 import { METHOD_LABELS, availableMethods } from '@aw/payments';
+import { credits } from 'virtual:aw/config';
 
 interface Props {
   ctx: PageContext;
@@ -19,63 +21,81 @@ interface Props {
   variant: 'columns' | 'band' | 'centered-mark';
 }
 
-const { ctx, name, about, primary, secondary, policies, contact, crNumber, variant } = Astro.props;
+const { ctx, name, about, primary, secondary, policies, contact, crNumber } = Astro.props;
+const ar = ctx.lang === 'ar';
+const f = ctx.site.locale.audience === 'women';
 const p = ctx.site.payments;
 const methods = p ? availableMethods(ctx.site.locale.currency, p.provider ?? null, p.methods) : [];
 const methodLabels = [...methods.map((m) => METHOD_LABELS[m][ctx.lang]), ...(p?.cod ? [METHOD_LABELS.cod[ctx.lang]] : [])];
 const demo = ctx.site.demo;
-const cr = demo.enabled ? ctx.tr('demo.cr') : crNumber ? `${ctx.lang === 'ar' ? 'سجل تجاري' : 'CR'}: ${crNumber}` : '';
+const cr = demo.enabled ? ctx.tr('demo.cr') : crNumber ? `${ar ? 'سجل تجاري' : 'CR'}: ${crNumber}` : '';
 const creditText = demo.credit === 'demo' ? ctx.pick(ctx.studio.credit) : demo.credit === 'designer' ? ctx.tr('demo.creditLive', { studio: ctx.studio.name }) : '';
 const year = new Date().getFullYear();
-const centered = variant === 'centered-mark';
+const wa = ctx.whatsapp(contact.whatsapp);
+const waHref = `https://wa.me/${wa.replace('+', '')}`;
+const browse = primary.slice(0, 7);
+const help = [...secondary.filter((i) => !browse.some((b) => b.href === i.href)), ...policies.map((pg) => ({ label: pg.title, href: ctx.href(`/policies/${pg.slug}/`) }))].slice(0, 8);
+const heading = 'text-ui text-deep-ink mb-4';
+const link = 'inline-flex min-h-10 items-center text-small text-deep-muted no-underline hover:text-deep-accent transition-colors';
 ---
-<footer class="bg-deep text-deep-ink mt-auto">
-  <div class:list={['container-page', variant === 'band' ? 'py-10 md:py-14' : 'py-12 md:py-16']}>
-    <div class:list={[centered ? 'flex flex-col items-center text-center gap-8' : 'grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]']}>
-      <div class:list={['flex flex-col gap-4', centered && 'items-center']}>
-        <Logo ctx={ctx} name={name} variant="dark" size={centered ? 'lg' : 'md'} />
-        {ctx.pick(about) && <p class="m-0 max-w-sm text-small text-deep-muted">{ctx.pick(about)}</p>}
+<footer class="aw-on-deep bg-deep text-deep-ink mt-auto">
+  <div class="container-page pt-14 md:pt-20 pb-8">
+    <div class="relative overflow-hidden rounded-[calc(var(--brand-radius-card)*1.4)] border border-deep-muted/20 bg-deep-ink/5 p-6 md:p-10 mb-14 md:mb-16 flex flex-col md:flex-row md:items-center gap-6 md:justify-between">
+      <div class="absolute -top-24 -inset-e-24 w-72 h-72 rounded-full bg-deep-accent/15 blur-3xl" aria-hidden="true"></div>
+      <div class="relative flex items-center gap-4">
+        <span class="aw-icon-tile w-14 h-14 rounded-full"><Icon name="whatsapp" size={28} /></span>
+        <div>
+          <p class="m-0 text-h3 font-display text-deep-ink">{ar ? (f ? 'عندج سؤال؟ حنا هني' : 'عندك سؤال؟ إحنا هنا') : 'Questions? We are here'}</p>
+          <p class="m-0 text-small text-deep-muted">{ar ? 'نرد على الواتساب خلال ساعات الدوام' : 'We reply on WhatsApp during opening hours'}</p>
+        </div>
+      </div>
+      <a href={waHref} class="relative aw-btn aw-btn-primary self-start md:self-auto" data-track="whatsapp" data-track-context="footer"><Icon name="whatsapp" size={20} />{ar ? (f ? 'كلمينا على الواتساب' : 'كلمنا على الواتساب') : 'Chat on WhatsApp'}</a>
+    </div>
+
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+      <div class="flex flex-col gap-5">
+        <Logo ctx={ctx} name={name} variant="dark" size="md" />
+        {ctx.pick(about) && <p class="m-0 max-w-sm text-small text-deep-muted leading-relaxed">{ctx.pick(about)}</p>}
+        <div class="flex gap-2">
+          {contact.instagram && <a href={`https://instagram.com/${contact.instagram}`} class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-deep-muted/30 text-deep-ink hover:border-deep-accent hover:text-deep-accent transition-colors" aria-label="Instagram" rel="noopener"><Icon name="instagram" size={18} /></a>}
+          <a href={waHref} class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-deep-muted/30 text-deep-ink hover:border-deep-accent hover:text-deep-accent transition-colors" aria-label="WhatsApp"><Icon name="whatsapp" size={18} /></a>
+          {contact.email && <a href={`mailto:${contact.email}`} class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-deep-muted/30 text-deep-ink hover:border-deep-accent hover:text-deep-accent transition-colors" aria-label="Email"><Icon name="mail" size={18} /></a>}
+        </div>
       </div>
 
-      <nav aria-label={ctx.tr('nav.main')} class:list={[centered && 'w-full']}>
-        <ul class:list={['m-0 p-0 list-none flex flex-col gap-1', centered && 'flex-row flex-wrap justify-center gap-x-6']}>
-          {[...primary, ...secondary].slice(0, 9).map((i) => <li><a href={i.href} class="inline-flex min-h-11 items-center text-small text-deep-ink no-underline hover:text-deep-accent">{i.label}</a></li>)}
-        </ul>
+      <nav aria-label={ctx.tr('nav.main')}>
+        <p class={heading} style="font-weight: var(--brand-fw-ui)">{ar ? 'تصفّح' : 'Browse'}</p>
+        <ul class="m-0 p-0 list-none flex flex-col">{browse.map((i) => <li><a href={i.href} class={link}>{i.label}</a></li>)}</ul>
       </nav>
 
-      {policies.length > 0 && (
-        <nav aria-label={ctx.tr('nav.policies')} class:list={[centered && 'w-full']}>
-          <ul class:list={['m-0 p-0 list-none flex flex-col gap-1', centered && 'flex-row flex-wrap justify-center gap-x-6']}>
-            {policies.map((pg) => <li><a href={ctx.href(`/policies/${pg.slug}/`)} class="inline-flex min-h-11 items-center text-small text-deep-ink no-underline hover:text-deep-accent">{pg.title}</a></li>)}
-          </ul>
+      {help.length > 0 && (
+        <nav aria-label={ctx.tr('nav.policies')}>
+          <p class={heading} style="font-weight: var(--brand-fw-ui)">{ar ? 'المساعدة' : 'Help'}</p>
+          <ul class="m-0 p-0 list-none flex flex-col">{help.map((i) => <li><a href={i.href} class={link}>{i.label}</a></li>)}</ul>
         </nav>
       )}
 
-      <div class:list={['flex flex-col gap-3 text-small', centered && 'items-center']}>
-        <a href={`https://wa.me/${ctx.whatsapp(contact.whatsapp).replace('+', '')}`} class="inline-flex min-h-11 items-center gap-2 text-deep-ink no-underline hover:text-deep-accent" data-track="whatsapp" data-track-context="contact">
-          <Icon name="whatsapp" size={20} />
-          <bdi dir="ltr">{ctx.phone(ctx.whatsapp(contact.whatsapp))}</bdi>
-        </a>
-        {contact.instagram && (
-          <p class="m-0 inline-flex items-center gap-2 text-deep-muted">
-            <span>{ctx.tr('contact.instagram')}:</span>
-            <bdi dir="ltr">@{contact.instagram}</bdi>
-          </p>
-        )}
-        {contact.email && <p class="m-0 text-deep-muted"><bdi dir="ltr">{contact.email}</bdi></p>}
-        {ctx.pick(contact.address) && <p class="m-0 text-deep-muted max-w-xs">{ctx.pick(contact.address)}</p>}
+      <div>
+        <p class={heading} style="font-weight: var(--brand-fw-ui)">{ar ? 'تواصل' : 'Contact'}</p>
+        <ul class="m-0 p-0 list-none flex flex-col gap-3 text-small text-deep-muted">
+          <li class="flex items-center gap-3"><Icon name="phone" size={18} class="text-deep-accent" /><bdi dir="ltr">{ctx.phone(wa)}</bdi></li>
+          {contact.email && <li class="flex items-center gap-3"><Icon name="mail" size={18} class="text-deep-accent" /><bdi dir="ltr">{contact.email}</bdi></li>}
+          {ctx.pick(contact.address) && <li class="flex items-start gap-3"><Icon name="pin" size={18} class="text-deep-accent mt-0.5" /><span>{ctx.pick(contact.address)}</span></li>}
+        </ul>
       </div>
     </div>
 
     {methodLabels.length > 0 && (
-      <ul class:list={['m-0 mt-10 p-0 list-none flex flex-wrap gap-2', centered && 'justify-center']} aria-label={ctx.tr('checkout.payment')}>
-        {methodLabels.map((m) => <li class="px-2.5 py-1 border border-deep-muted/40 rounded-control text-small text-deep-muted">{m}</li>)}
+      <ul class="m-0 mt-12 p-0 list-none flex flex-wrap items-center gap-2" aria-label={ctx.tr('checkout.payment')}>
+        <li class="text-small text-deep-muted me-2 inline-flex items-center gap-2"><Icon name="lock" size={16} />{ar ? 'دفع آمن' : 'Secure payment'}</li>
+        {methodLabels.map((m) => <li class="px-3 py-1.5 rounded-lg bg-deep-ink/8 border border-deep-muted/20 text-small text-deep-ink">{m}</li>)}
       </ul>
     )}
 
-    <div class:list={['mt-10 pt-6 border-t border-deep-muted/25 flex flex-col gap-2 text-small text-deep-muted', centered ? 'items-center text-center' : 'md:flex-row md:justify-between']}>
+    <div class="mt-10 pt-6 border-t border-deep-muted/20 flex flex-col gap-2 text-small text-deep-muted md:flex-row md:flex-wrap md:justify-between md:gap-x-8">
       <p class="m-0">© {ctx.num(year)} {ctx.pick(name)}{cr && <> · {cr}</>}</p>
       {demo.enabled && demo.priceAsterisk && <p id="price-note" class="m-0">{ctx.tr('demo.priceNote')}</p>}
+      {credits.length > 0 && <p class="m-0"><a href={ctx.href('/credits/')} class="text-deep-muted hover:text-deep-accent">{ar ? 'مصادر الصور' : 'Image credits'}</a></p>}
       {creditText && <p class="m-0"><a href={ctx.studio.hubUrl} class="text-deep-accent">{creditText}</a></p>}
     </div>
   </div>

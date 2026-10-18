@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: جل نود بعد الجلسة
+  alt: جل نود بعد الجلسة
+  style: lounge
+  featured: true
+  order: 3
+en:
+  caption: Nude gel after a session
+  alt: Nude gel after a session

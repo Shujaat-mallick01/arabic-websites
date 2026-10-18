@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: رموش كلاسيك وحواجب مرتّبة
+  alt: رموش كلاسيك وحواجب مرتّبة
+  style: lounge
+  featured: true
+  order: 4
+en:
+  caption: Classic lashes and tidy brows
+  alt: Classic lashes and tidy brows

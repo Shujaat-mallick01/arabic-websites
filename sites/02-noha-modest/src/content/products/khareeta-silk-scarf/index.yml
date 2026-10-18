@@ -1,0 +1,41 @@
+ar:
+  id: p006
+  _slug: khareeta-silk-scarf
+  title: طرحة حرير «خريطة»
+  summary: طرحة حرير بنقشة خطوط ونقاط، تنربط على الشنطة أو تنلبس.
+  description: |-
+    طرحة حرير بنقشة خطوط ونقاط، تنربط على الشنطة أو تنلبس.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "9.000"
+  category: printed
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 6
+  images:
+    - src: ./front.webp
+      alt_ar: طرحة حرير «خريطة»
+      alt_en: Khareeta silk scarf
+    - src: ./detail.webp
+      alt_ar: طرحة حرير «خريطة»، تفصيل القماش
+      alt_en: Khareeta silk scarf, fabric detail
+  sizes: []
+  colors:
+    - id: blue
+      name_ar: أزرق فاتح
+      name_en: Pale blue
+      hex: "#A9B9CC"
+  fabric: حرير طبيعي
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Khareeta silk scarf
+  summary: A silk scarf with a line-and-dot print; tie it on a bag or wear it.
+  description: |-
+    A silk scarf with a line-and-dot print; tie it on a bag or wear it.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Silk
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

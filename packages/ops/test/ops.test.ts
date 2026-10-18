@@ -40,9 +40,9 @@ function rig(site: SiteConfig = site02, data: ServerData = data02, env: Record<s
   return { rt, post, payOpts };
 }
 
-const kaftan = data02.products.find((p) => p.slug === 'naseem-linen-kaftan')!;
-const abaya = data02.products.find((p) => p.slug === 'seef-open-abaya')!;
-const line = { productId: kaftan.id, selection: { size: 'free', color: 'mist' }, qty: 1 };
+const robe = data02.products.find((p) => p.slug === 'ghaima-home-robe')!;
+const sized = robe;
+const line = { productId: robe.id, selection: { size: 'm', color: 'grey' }, qty: 1 };
 const customer = { name: 'مريم علي', phone: '36001234' };
 const address = { area: 'السيف', block: '428', road: '2832', building: '2425' };
 const started = NOW.getTime() - 60_000;
@@ -53,9 +53,9 @@ describe('quote and checkout (site 02)', () => {
     const res = await post(quoteHandler(rt), '/api/quote', { lines: [line], fulfilment: { kind: 'delivery', zoneId: 'capital' } });
     const q = await res.json();
     expect(q.ok).toBe(true);
-    expect(q.subtotal).toEqual(money(18500, 'BHD'));
+    expect(q.subtotal).toEqual(money(14500, 'BHD'));
     expect(q.shipping).toEqual(money(1500, 'BHD'));
-    expect(q.freeShippingGap).toEqual(money(6500, 'BHD'));
+    expect(q.freeShippingGap).toEqual(money(10500, 'BHD'));
     expect(q.codOffered).toBe(true);
   });
 
@@ -67,7 +67,7 @@ describe('quote and checkout (site 02)', () => {
     expect(body.orderId).toMatch(/^DR-261018-/);
     expect(body.redirectUrl).toContain('/order/?o=');
     const o = await (await rt.orders()).get(body.orderId);
-    expect(o).toMatchObject({ status: 'placed', payment: { provider: 'cod', state: 'cod' }, pricing: { total: money(20500, 'BHD') } });
+    expect(o).toMatchObject({ status: 'placed', payment: { provider: 'cod', state: 'cod' }, pricing: { total: money(16500, 'BHD') } });
     const outbox = await (await rt.mailer()).list();
     expect(outbox[0]?.subject).toContain(body.orderId);
   });
@@ -76,12 +76,12 @@ describe('quote and checkout (site 02)', () => {
     const { rt, post } = rig();
     const res = await post(checkoutHandler(rt), '/api/checkout', { lines: [{ ...line, unit: { minor: 1, currency: 'BHD' } }], fulfilment: { kind: 'delivery', zoneId: 'capital' }, address, customer, payment: 'cod', startedAt: started });
     const o = await (await rt.orders()).get((await res.json()).orderId);
-    expect(o?.lines[0]?.unit).toEqual(money(18500, 'BHD'));
+    expect(o?.lines[0]?.unit).toEqual(money(14500, 'BHD'));
   });
 
   it('explains exactly what to fix', async () => {
     const { rt, post } = rig();
-    const res = await post(checkoutHandler(rt), '/api/checkout', { lines: [{ productId: abaya.id, selection: {}, qty: 1 }], fulfilment: { kind: 'delivery', zoneId: 'capital' }, address: {}, customer: { name: 'م', phone: '3600123' }, payment: 'online', lang: 'ar', startedAt: started });
+    const res = await post(checkoutHandler(rt), '/api/checkout', { lines: [{ productId: sized.id, selection: {}, qty: 1 }], fulfilment: { kind: 'delivery', zoneId: 'capital' }, address: {}, customer: { name: 'م', phone: '3600123' }, payment: 'online', lang: 'ar', startedAt: started });
     expect(res.status).toBe(422);
     const body = await res.json();
     const messages = body.errors.map((e: { message: string }) => e.message).join(' | ');
@@ -140,8 +140,8 @@ describe('online payment end to end (mock gateway)', () => {
     const b2 = await res2.json();
     expect(b2.redirectUrl).toContain('/order/?o=');
     const o2 = await (await rt.orders()).get(b2.orderId);
-    expect(o2).toMatchObject({ status: 'paid', pricing: { payable: money(0, 'BHD'), giftCard: { applied: money(20000, 'BHD') } } });
-    expect((await (await rt.orders()).giftCards.check(code!))?.balance).toEqual(money(30000, 'BHD'));
+    expect(o2).toMatchObject({ status: 'paid', pricing: { payable: money(0, 'BHD'), giftCard: { applied: money(16000, 'BHD') } } });
+    expect((await (await rt.orders()).giftCards.check(code!))?.balance).toEqual(money(34000, 'BHD'));
   });
 });
 

@@ -1,0 +1,300 @@
+[
+  {
+    "dest": "services/blowdry/cover.webp",
+    "ref": "salon#0",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/cut-blowdry/cover.webp",
+    "ref": "salon#0",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.4,0.5",
+    "zoom": 1.3
+  },
+  {
+    "dest": "services/root-colour/cover.webp",
+    "ref": "salon#1",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/full-colour/cover.webp",
+    "ref": "salon#1",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.6",
+    "zoom": 1.5
+  },
+  {
+    "dest": "services/highlights/cover.webp",
+    "ref": "makeup#12",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/keratin/cover.webp",
+    "ref": "hair#9",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.55,0.5",
+    "zoom": 1.4
+  },
+  {
+    "dest": "services/hair-treatment/cover.webp",
+    "ref": "candle#9",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/evening-hairstyle/cover.webp",
+    "ref": "hair#9",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/gel-mani-pedi/cover.webp",
+    "ref": "nails#9",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/gel-manicure/cover.webp",
+    "ref": "nails#7",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/classic-pedicure/cover.webp",
+    "ref": "nails#8",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/nail-art/cover.webp",
+    "ref": "nails#6",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/gel-removal/cover.webp",
+    "ref": "nails#3",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/spa-pedicure/cover.webp",
+    "ref": "candle#3",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/classic-lashes/cover.webp",
+    "ref": "lash#19",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/volume-lashes/cover.webp",
+    "ref": "lash#9",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/lash-refill/cover.webp",
+    "ref": "lash#11",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/brow-shaping/cover.webp",
+    "ref": "lash#7",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/brow-lamination/cover.webp",
+    "ref": "lash#12",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/lash-lift/cover.webp",
+    "ref": "lash#7",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.35",
+    "zoom": 1.6
+  },
+  {
+    "dest": "services/evening-makeup/cover.webp",
+    "ref": "makeup#16",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/makeup-hairstyle/cover.webp",
+    "ref": "mirror#3",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/soft-makeup/cover.webp",
+    "ref": "makeup#7",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/bridal-trial/cover.webp",
+    "ref": "lipstick#1",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/mother-makeup/cover.webp",
+    "ref": "lipstick#2",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/jalwa-package/cover.webp",
+    "ref": "bride#16",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/ghumra-package/cover.webp",
+    "ref": "bride#10",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "services/milka-package/cover.webp",
+    "ref": "bride#4",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "categories/hair/cover.webp",
+    "ref": "hair#9",
+    "w": 1200,
+    "h": 800,
+    "pos": "0.55,0.45"
+  },
+  {
+    "dest": "categories/nails/cover.webp",
+    "ref": "nails#9",
+    "w": 1200,
+    "h": 800
+  },
+  {
+    "dest": "categories/lashes/cover.webp",
+    "ref": "lash#7",
+    "w": 1200,
+    "h": 800
+  },
+  {
+    "dest": "categories/makeup/cover.webp",
+    "ref": "makeup#16",
+    "w": 1200,
+    "h": 800
+  },
+  {
+    "dest": "categories/bridal/cover.webp",
+    "ref": "bride#16",
+    "w": 1200,
+    "h": 800
+  },
+  {
+    "dest": "packages/jalwa-package/cover.webp",
+    "ref": "bride#16",
+    "w": 1000,
+    "h": 750
+  },
+  {
+    "dest": "packages/ghumra-package/cover.webp",
+    "ref": "bride#10",
+    "w": 1000,
+    "h": 750
+  },
+  {
+    "dest": "packages/milka-package/cover.webp",
+    "ref": "bride#4",
+    "w": 1000,
+    "h": 750
+  },
+  {
+    "dest": "gallery/vanity/photo.webp",
+    "ref": "makeup#2",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/gold-lipsticks/photo.webp",
+    "ref": "lipstick#1",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/nude-nails/photo.webp",
+    "ref": "nails#7",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/eyes/photo.webp",
+    "ref": "lash#7",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/brush-cup/photo.webp",
+    "ref": "brushes#9",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/candles/photo.webp",
+    "ref": "candle#1",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/spa/photo.webp",
+    "ref": "candle#0",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/bouquet/photo.webp",
+    "ref": "bride#10",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/palette/photo.webp",
+    "ref": "makeup#14",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/lace/photo.webp",
+    "ref": "bride#16",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "settings/media/hero.webp",
+    "ref": "makeup#2",
+    "w": 1200,
+    "h": 1600,
+    "pos": "0.62,0.5"
+  },
+  {
+    "dest": "settings/media/share.webp",
+    "ref": "makeup#2",
+    "w": 1200,
+    "h": 630
+  }
+]

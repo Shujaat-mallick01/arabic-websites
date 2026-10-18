@@ -1,13 +1,20 @@
 /* Shared component classes. Brand-agnostic: every value comes from the --brand-* variables. */
 
+@layer base {
+  :root {
+    --aw-shadow-1: 0 1px 2px color-mix(in srgb, var(--brand-deep) 6%, transparent), 0 6px 20px -8px color-mix(in srgb, var(--brand-deep) 20%, transparent);
+    --aw-shadow-2: 0 2px 4px color-mix(in srgb, var(--brand-deep) 8%, transparent), 0 18px 40px -14px color-mix(in srgb, var(--brand-deep) 32%, transparent);
+  }
+}
+
 @layer components {
   .aw-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    min-height: 3rem;
-    padding-inline: 1.25rem;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding-inline: 1.6rem;
     border-radius: var(--brand-radius-control);
     border: var(--brand-border-width) solid transparent;
     font-family: var(--brand-font-body);
@@ -15,18 +22,50 @@
     font-weight: var(--brand-fw-ui);
     line-height: var(--brand-lh-ui);
     text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
-    transition: background-color var(--brand-motion-ms) var(--brand-motion-ease), color var(--brand-motion-ms) var(--brand-motion-ease);
+    transition: background-color var(--brand-motion-ms) var(--brand-motion-ease), color var(--brand-motion-ms) var(--brand-motion-ease), transform var(--brand-motion-ms) var(--brand-motion-ease), box-shadow var(--brand-motion-ms) var(--brand-motion-ease);
     -webkit-tap-highlight-color: transparent;
   }
   .aw-btn:disabled, .aw-btn[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
-  .aw-btn-primary { background: var(--brand-accent); color: var(--brand-accent-ink); }
-  .aw-btn-primary:hover { background: var(--brand-accent-press); }
-  .aw-btn-ink { background: var(--brand-ink); color: var(--brand-bg); }
-  .aw-btn-secondary { background: transparent; color: var(--brand-ink); border-color: var(--brand-ink); }
-  .aw-btn-secondary:hover { background: color-mix(in srgb, var(--brand-ink) 6%, transparent); }
+  .aw-btn:not(:disabled):active { transform: translateY(1px); }
+  .aw-btn-primary {
+    background: var(--brand-accent);
+    color: var(--brand-accent-ink);
+    box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--brand-accent) 80%, transparent), inset 0 1px 0 color-mix(in srgb, white 18%, transparent);
+  }
+  .aw-btn-primary:not(:disabled):hover { background: var(--brand-accent-press); transform: translateY(-1px); box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--brand-accent) 90%, transparent); }
+  .aw-btn-ink { background: var(--brand-ink); color: var(--brand-bg); box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--brand-ink) 70%, transparent); }
+  .aw-btn-ink:not(:disabled):hover { transform: translateY(-1px); }
+  .aw-btn-secondary { background: transparent; color: var(--brand-ink); border-color: color-mix(in srgb, var(--brand-ink) 35%, transparent); }
+  .aw-btn-secondary:hover { background: color-mix(in srgb, var(--brand-ink) 6%, transparent); border-color: var(--brand-ink); }
   .aw-btn-ghost { background: transparent; color: var(--brand-ink); padding-inline: 0.5rem; }
+  .aw-btn-light { background: var(--brand-surface); color: var(--brand-ink); box-shadow: var(--aw-shadow-1); }
+  .aw-btn-light:hover { transform: translateY(-1px); box-shadow: var(--aw-shadow-2); }
+  .aw-btn-sm { min-height: 2.75rem; padding-inline: 1.1rem; font-size: var(--brand-fs-small); }
   .aw-btn-block { width: 100%; }
+  .aw-btn .aw-btn-arrow { transition: transform var(--brand-motion-ms) var(--brand-motion-ease); }
+  .aw-btn:hover .aw-btn-arrow { transform: translateX(-3px); }
+  [dir='ltr'] .aw-btn:hover .aw-btn-arrow { transform: translateX(3px); }
+
+  /* "View all" link next to section headings. */
+  .aw-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 1.1rem;
+    border: 1px solid var(--brand-line);
+    border-radius: 999px;
+    background: var(--brand-surface);
+    color: var(--brand-ink);
+    font-size: var(--brand-fs-small);
+    font-weight: var(--brand-fw-ui);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color var(--brand-motion-ms) var(--brand-motion-ease), color var(--brand-motion-ms) var(--brand-motion-ease);
+  }
+  .aw-more:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
 
   .aw-link { color: var(--brand-accent); text-decoration: underline; text-underline-offset: 0.2em; }
 
@@ -38,16 +77,17 @@
     width: 100%;
     min-height: 3rem;
     padding: 0.625rem 0.875rem;
-    border: 1px solid var(--brand-muted);
+    border: 1px solid color-mix(in srgb, var(--brand-muted) 55%, var(--brand-line));
     border-radius: var(--brand-radius-control);
     background: var(--brand-surface);
     color: var(--brand-ink);
     font-size: max(16px, var(--brand-fs-body));
+    transition: border-color var(--brand-motion-ms), box-shadow var(--brand-motion-ms);
     line-height: 1.4;
   }
   .aw-textarea { min-height: 6rem; resize: vertical; }
   .aw-input[aria-invalid='true'], .aw-select[aria-invalid='true'], .aw-textarea[aria-invalid='true'] { border-color: var(--brand-danger); border-width: 2px; }
-  .aw-input:focus-visible, .aw-select:focus-visible, .aw-textarea:focus-visible { outline: 2px solid var(--brand-focus); outline-offset: 1px; }
+  .aw-input:focus-visible, .aw-select:focus-visible, .aw-textarea:focus-visible { outline: none; border-color: var(--brand-accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-accent) 18%, transparent); }
 
   /* Option chips: sizes, slots, amounts. Real radio inputs underneath for accessibility. */
   .aw-chip {
@@ -58,16 +98,18 @@
     min-width: 3rem;
     min-height: 3rem;
     padding-inline: 0.875rem;
-    border: 1px solid var(--brand-muted);
+    border: 1px solid color-mix(in srgb, var(--brand-muted) 50%, var(--brand-line));
     border-radius: var(--brand-radius-control);
     background: var(--brand-surface);
     color: var(--brand-ink);
     cursor: pointer;
+    transition: border-color var(--brand-motion-ms), background-color var(--brand-motion-ms);
     font-variant-numeric: tabular-nums lining-nums;
     user-select: none;
   }
   .aw-chip > input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-  .aw-chip:has(input:checked) { background: var(--brand-ink); color: var(--brand-bg); border-color: var(--brand-ink); }
+  .aw-chip:hover { border-color: var(--brand-ink); }
+  .aw-chip:has(input:checked) { background: var(--brand-ink); color: var(--brand-bg); border-color: var(--brand-ink); box-shadow: var(--aw-shadow-1); }
   .aw-chip:has(input:focus-visible) { outline: 2px solid var(--brand-focus); outline-offset: 2px; }
   .aw-chip:has(input:disabled) { opacity: 0.45; text-decoration: line-through; cursor: not-allowed; }
 
@@ -85,6 +127,138 @@
 
   .aw-eyebrow { font-size: var(--brand-fs-small); color: var(--brand-muted); }
   :lang(en) .aw-eyebrow { letter-spacing: var(--brand-tracking-caps, 0.08em); text-transform: uppercase; }
+
+  /* Eyebrow with a short accent rule before it. */
+  .aw-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: var(--brand-fs-small);
+    font-weight: var(--brand-fw-ui);
+    color: var(--brand-accent);
+  }
+  .aw-kicker::before { content: ''; width: 2rem; height: 1.5px; background: currentColor; border-radius: 2px; }
+  .aw-on-deep .aw-kicker { color: var(--brand-deep-accent); }
+  :lang(en) .aw-kicker { letter-spacing: var(--brand-tracking-caps, 0.08em); text-transform: uppercase; }
+
+  /* The accent phrase in a heading, marked *like this* in content. */
+  .aw-hl {
+    color: var(--brand-accent);
+    background-image: linear-gradient(transparent 86%, color-mix(in srgb, var(--brand-highlight) 45%, transparent) 86%, color-mix(in srgb, var(--brand-highlight) 45%, transparent) 96%, transparent 96%);
+    padding-inline: 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .aw-on-deep .aw-hl { color: var(--brand-deep-accent); background-image: none; }
+
+  /* Elevated card: surface, hairline, soft shadow. */
+  .aw-card-elev {
+    background: var(--brand-surface);
+    border: 1px solid color-mix(in srgb, var(--brand-line) 70%, transparent);
+    border-radius: var(--brand-radius-card);
+    box-shadow: var(--aw-shadow-1);
+  }
+  .aw-lift { transition: transform var(--brand-motion-ms) var(--brand-motion-ease), box-shadow var(--brand-motion-ms) var(--brand-motion-ease), border-color var(--brand-motion-ms) var(--brand-motion-ease); }
+  .aw-lift:hover { transform: translateY(-4px); box-shadow: var(--aw-shadow-2); }
+
+  /* Icon in a tinted tile. */
+  .aw-icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: calc(var(--brand-radius-control) + 2px);
+    background: color-mix(in srgb, var(--brand-accent) 13%, var(--brand-surface));
+    color: var(--brand-accent);
+  }
+  .aw-on-deep .aw-icon-tile { background: color-mix(in srgb, var(--brand-deep-accent) 16%, transparent); color: var(--brand-deep-accent); }
+
+  .aw-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--brand-accent);
+    color: var(--brand-accent-ink);
+    font-size: 0.78rem;
+    font-weight: var(--brand-fw-ui);
+    line-height: 1.5;
+  }
+  .aw-badge-soft { background: color-mix(in srgb, var(--brand-surface) 92%, transparent); color: var(--brand-ink); box-shadow: var(--aw-shadow-1); }
+  .aw-badge-danger { background: var(--brand-danger); color: #fff; }
+
+  /* Section bands: alternate the ground so long pages have rhythm. */
+  .aw-band { background: var(--brand-surface); }
+  .aw-band-deep { background: var(--brand-deep); color: var(--brand-deep-ink); }
+  .aw-texture {
+    background-image: radial-gradient(color-mix(in srgb, var(--brand-ink) 9%, transparent) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+  .aw-band-deep.aw-texture { background-image: radial-gradient(color-mix(in srgb, var(--brand-deep-ink) 10%, transparent) 1px, transparent 1.2px); }
+  .aw-glow { position: relative; isolation: isolate; }
+  .aw-glow::before {
+    content: '';
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: min(60vw, 640px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--brand-accent) 16%, transparent), transparent);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Rail arrow buttons. */
+  .aw-rail-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--brand-line);
+    background: var(--brand-surface);
+    color: var(--brand-ink);
+    cursor: pointer;
+    box-shadow: var(--aw-shadow-1);
+    transition: opacity var(--brand-motion-ms), border-color var(--brand-motion-ms), color var(--brand-motion-ms);
+  }
+  .aw-rail-btn:hover:not(:disabled) { border-color: var(--brand-accent); color: var(--brand-accent); }
+  .aw-rail-btn:disabled { opacity: 0.35; cursor: default; }
+
+  /* FAQ items as cards. */
+  .aw-faq-item {
+    background: var(--brand-surface);
+    border: 1px solid color-mix(in srgb, var(--brand-line) 70%, transparent);
+    border-radius: var(--brand-radius-card);
+    box-shadow: var(--aw-shadow-1);
+    padding-inline: 1.25rem;
+    transition: border-color var(--brand-motion-ms);
+  }
+  .aw-faq-item[open] { border-color: color-mix(in srgb, var(--brand-accent) 45%, transparent); }
+  .aw-faq-item > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.75rem; }
+  .aw-faq-item > summary::-webkit-details-marker { display: none; }
+  .aw-faq-item > summary::after {
+    content: '+';
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--brand-accent) 13%, var(--brand-surface));
+    color: var(--brand-accent);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  .aw-faq-item[open] > summary::after { content: '\2212'; }
+
+  .aw-stars { display: inline-flex; gap: 2px; color: var(--brand-highlight); }
 
   .aw-details > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.25rem; }
   .aw-details > summary::-webkit-details-marker { display: none; }

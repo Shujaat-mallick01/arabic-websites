@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: تفصيل دانتيل وفيونكة ساتان
+  alt: تفصيل دانتيل وفيونكة ساتان
+  style: lounge
+  featured: true
+  order: 10
+en:
+  caption: Lace detail and a satin bow
+  alt: Lace detail and a satin bow

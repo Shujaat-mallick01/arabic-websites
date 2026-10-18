@@ -1,6 +1,6 @@
 ---
 title: Size guide
-description: Size chart in centimetres and abaya lengths.
+description: Robe and tee sizes in centimetres, and shayla dimensions.
 ---
 
 Measurements are in centimetres, taken on the body. Between sizes? Choose the larger one.
@@ -13,8 +13,8 @@ Measurements are in centimetres, taken on the body. Between sizes? Choose the la
 | L | 96–102 | 78–84 | 102–108 |
 | XL | 102–110 | 84–92 | 108–116 |
 
-## Abaya lengths
-Lengths in inches from the top of the shoulder to the hem: 52, 54, 56, 58 and 60. To find yours, measure from the shoulder to the floor in shoes and subtract 2 inches.
+## Robe lengths
+The Ghaima robe is 135 cm and the Naseem robe 120 cm from the top of the shoulder, both with a relaxed cut.
 
-## Free size
-Free-size kaftans fit XS to XL, with a 140 cm chest width.
+## Shaylas and scarves
+All shaylas and scarves are one size: about 180 × 70 cm; silk scarves are 90 × 90 cm.

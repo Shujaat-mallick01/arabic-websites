@@ -2,6 +2,8 @@
 // Weekly hours as a static table (never a stale "open now"). After-midnight closes are marked.
 import { rangesForBusinessDay, rangeToMinutes, WEEKDAYS, type HoursSettings } from '@aw/core';
 import SectionHeader from './SectionHeader.astro';
+import Icon from '../primitives/Icon.astro';
+import { getSettings } from '../data.ts';
 import type { PageContext } from '../context.ts';
 
 interface Props {
@@ -14,17 +16,22 @@ const { ctx, hours, title, compact = false } = Astro.props;
 // Use the weekly table only (seasons and exceptions are listed underneath).
 const weeklyOnly: HoursSettings = { ...hours, seasons: [], exceptions: [] };
 const sampleDate = { sat: '2026-01-03', sun: '2026-01-04', mon: '2026-01-05', tue: '2026-01-06', wed: '2026-01-07', thu: '2026-01-08', fri: '2026-01-09' } as const;
+const contact = compact ? {} : await getSettings('contact');
+const ar = ctx.lang === 'ar';
+const wa = compact ? '' : ctx.whatsapp(contact.whatsapp);
 const rows = WEEKDAYS.map((d) => ({ day: d, ranges: rangesForBusinessDay(weeklyOnly, sampleDate[d]) }));
 ---
 <section class:list={[!compact && 'section-gap']} aria-labelledby="hours-title">
   <div class:list={[!compact && 'container-page']}>
     {!compact && <SectionHeader id="hours-title" title={title ?? ctx.tr('section.hours')} />}
-    <table class="w-full max-w-lg border-collapse">
+    <div class:list={[!compact && 'grid gap-6 md:grid-cols-2 md:items-start']}>
+    <div>
+    <table class:list={['w-full border-collapse', compact ? 'max-w-lg' : 'aw-card-elev overflow-hidden']}>
       <tbody>
         {rows.map((r) => (
-          <tr class="border-b border-line">
-            <th scope="row" class="py-3 pe-4 text-start font-normal">{ctx.tr(`day.${r.day}` as 'day.sat')}</th>
-            <td class="py-3 text-end tabular">
+          <tr class="border-b border-line last:border-b-0">
+            <th scope="row" class:list={['py-3.5 pe-4 text-start font-normal', !compact && 'ps-5']}>{ctx.tr(`day.${r.day}` as 'day.sat')}</th>
+            <td class:list={['py-3.5 text-end tabular', !compact && 'pe-5']}>
               {r.ranges.length === 0 ? <span class="text-muted">{ctx.tr('hours.closed')}</span> : r.ranges.map((x) => <div>{ctx.timeRange(x.start, x.end)}</div>)}
             </td>
           </tr>
@@ -38,5 +45,18 @@ const rows = WEEKDAYS.map((d) => ({ day: d, ranges: rangesForBusinessDay(weeklyO
         ))}
       </ul>
     )}
+    </div>
+    {!compact && (
+      <aside class="aw-card-elev p-6 md:p-8 flex flex-col gap-5">
+        <p class="aw-kicker">{ar ? 'زورونا' : 'Visit us'}</p>
+        {ctx.pick(contact.address) && <p class="m-0 flex items-start gap-3"><span class="aw-icon-tile"><Icon name="pin" size={22} /></span><span class="pt-2.5">{ctx.pick(contact.address)}</span></p>}
+        {ctx.pick(hours.note) && <p class="m-0 flex items-start gap-3 text-muted"><span class="aw-icon-tile"><Icon name="clock" size={22} /></span><span class="pt-2.5">{ctx.pick(hours.note)}</span></p>}
+        <div class="flex flex-wrap gap-3 mt-1">
+          <a href={`https://wa.me/${wa.replace('+', '')}`} class="aw-btn aw-btn-primary" data-track="whatsapp" data-track-context="hours"><Icon name="whatsapp" size={20} />{ar ? 'واتساب' : 'WhatsApp'}</a>
+          {ctx.hasPage('contact') && <a href={ctx.href('/contact/')} class="aw-btn aw-btn-secondary">{ar ? 'الموقع والتواصل' : 'Location & contact'}</a>}
+        </div>
+      </aside>
+    )}
+    </div>
   </div>
 </section>

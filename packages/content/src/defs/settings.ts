@@ -55,7 +55,8 @@ const SECTION_LABELS: Record<SectionId, { ar: string; en: string }> = {
 function sectionFields(id: SectionId): Field[] {
   const base: Field[] = [
     f.boolean('enabled', 'ظاهر', 'Visible', { default: true }),
-    f.i18nText('title', 'العنوان', 'Title'),
+    f.i18nText('eyebrow', 'سطر صغير فوق العنوان', 'Eyebrow'),
+    f.i18nText('title', 'العنوان', 'Title', { hint: { ar: 'ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز', en: 'Wrap a word in *asterisks* to highlight it' } }),
     f.i18nText('subtitle', 'العنوان الفرعي', 'Subtitle', { multiline: true }),
   ];
   const withCta: Field[] = [f.i18nText('ctaLabel', 'نص الزر', 'Button text'), f.string('ctaHref', 'رابط الزر', 'Button link', { hint: { ar: 'مثل /shop/', en: 'e.g. /shop/' } })];
@@ -66,14 +67,14 @@ function sectionFields(id: SectionId): Field[] {
   ];
   switch (id) {
     case 'hero':
-      return [...base, f.i18nText('eyebrow', 'سطر صغير فوق العنوان', 'Eyebrow'), ...withCta, f.i18nText('secondaryLabel', 'نص الزر الثاني', 'Second button'), f.string('secondaryHref', 'رابط الزر الثاني', 'Second link'), f.i18nText('priceNote', 'ملاحظة السعر', 'Price note'), f.image('image', 'الصورة', 'Image'), f.image('imageWide', 'صورة الشاشات الكبيرة', 'Wide image'), f.i18nText('imageAlt', 'وصف الصورة', 'Image alt')];
+      return [...base, ...withCta, f.i18nText('secondaryLabel', 'نص الزر الثاني', 'Second button'), f.string('secondaryHref', 'رابط الزر الثاني', 'Second link'), f.i18nText('priceNote', 'ملاحظة السعر', 'Price note'), f.image('image', 'الصورة', 'Image'), f.image('imageWide', 'صورة الشاشات الكبيرة', 'Wide image'), f.i18nText('imageAlt', 'وصف الصورة', 'Image alt'), f.i18nText('categoriesEyebrow', 'سطر فوق الأقسام', 'Categories eyebrow'), f.i18nText('categoriesTitle', 'عنوان الأقسام', 'Categories title')];
     case 'campaign':
     case 'about':
       return [...base, ...withCta, f.i18nText('priceNote', 'ملاحظة السعر', 'Price note'), f.image('image', 'الصورة', 'Image'), f.i18nText('imageAlt', 'وصف الصورة', 'Image alt')];
     case 'featured':
     case 'new-arrivals':
     case 'rail':
-      return [...base, ...product, ...withCta];
+      return [...base, ...product, ...withCta, f.boolean('band', 'خلفية ملوّنة', 'Tinted background')];
     default:
       return [...base, f.number('limit', 'العدد', 'How many', { int: true, min: 1, max: 24 }), ...withCta];
   }

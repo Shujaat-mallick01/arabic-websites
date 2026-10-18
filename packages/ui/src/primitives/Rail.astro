@@ -1,0 +1,55 @@
+---
+// Horizontal rail with previous/next buttons on wider screens. Swipe on phones; the buttons
+// scroll one viewport of cards and disable themselves at the ends (RTL-aware).
+import Icon from './Icon.astro';
+
+interface Props {
+  label?: string;
+  class?: string;
+  /** Classes for the <ul>; items are passed as <li> children. */
+  listClass?: string;
+  controls?: boolean;
+}
+const { label, class: cls = '', listClass = 'gap-3 md:gap-5', controls = true } = Astro.props;
+---
+<aw-rail class:list={['block relative', cls]}>
+  <ul class:list={['scroll-rail m-0 p-0 list-none -mx-[var(--brand-gutter)] px-[var(--brand-gutter)] scroll-px-[var(--brand-gutter)] pb-2', listClass]} aria-label={label} data-rail>
+    <slot />
+  </ul>
+  {controls && (
+    <div class="contents max-md:hidden" data-rail-controls hidden>
+      <button type="button" class="aw-rail-btn absolute z-10 top-[38%] inset-s-0 -ms-5" data-prev aria-label="Previous"><Icon name="chevron" size={18} class="rotate-180" /></button>
+      <button type="button" class="aw-rail-btn absolute z-10 top-[38%] inset-e-0 -me-5" data-next aria-label="Next"><Icon name="chevron" size={18} /></button>
+    </div>
+  )}
+</aw-rail>
+
+<script>
+  class AwRail extends HTMLElement {
+    connectedCallback() {
+      const list = this.querySelector<HTMLElement>('[data-rail]')!;
+      const box = this.querySelector<HTMLElement>('[data-rail-controls]');
+      if (!box) return;
+      const prev = box.querySelector<HTMLButtonElement>('[data-prev]')!;
+      const next = box.querySelector<HTMLButtonElement>('[data-next]')!;
+      const rtl = getComputedStyle(list).direction === 'rtl';
+      const ar = document.documentElement.lang === 'ar';
+      prev.setAttribute('aria-label', ar ? 'السابق' : 'Previous');
+      next.setAttribute('aria-label', ar ? 'التالي' : 'Next');
+      const update = () => {
+        const max = list.scrollWidth - list.clientWidth;
+        const pos = Math.abs(list.scrollLeft);
+        box.hidden = max < 8;
+        prev.disabled = pos < 4;
+        next.disabled = pos > max - 4;
+      };
+      const go = (dir: 1 | -1) => list.scrollBy({ left: dir * (rtl ? -1 : 1) * list.clientWidth * 0.85, behavior: 'smooth' });
+      prev.addEventListener('click', () => go(-1));
+      next.addEventListener('click', () => go(1));
+      list.addEventListener('scroll', update, { passive: true });
+      new ResizeObserver(update).observe(list);
+      update();
+    }
+  }
+  if (!customElements.get('aw-rail')) customElements.define('aw-rail', AwRail);
+</script>

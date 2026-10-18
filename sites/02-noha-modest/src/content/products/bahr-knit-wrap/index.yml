@@ -1,0 +1,42 @@
+ar:
+  id: p004
+  _slug: bahr-knit-wrap
+  title: لفّة تريكو «بحر»
+  summary: لفّة تريكو دافية للمكيّف والسفر، تنلبس شيلة أو على الكتوف.
+  description: |-
+    لفّة تريكو دافية للمكيّف والسفر، تنلبس شيلة أو على الكتوف.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "6.500"
+  compareAt: "8.000"
+  category: shaylas
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 4
+  images:
+    - src: ./front.webp
+      alt_ar: لفّة تريكو «بحر»
+      alt_en: Bahr knit wrap
+    - src: ./detail.webp
+      alt_ar: لفّة تريكو «بحر»، تفصيل القماش
+      alt_en: Bahr knit wrap, fabric detail
+  sizes: []
+  colors:
+    - id: sky
+      name_ar: سماوي
+      name_en: Sky
+      hex: "#8DB7DA"
+  fabric: تريكو أكريليك ناعم
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Bahr knit wrap
+  summary: A warm knit wrap for air-conditioning and travel; wear it as a shayla or over the shoulders.
+  description: |-
+    A warm knit wrap for air-conditioning and travel; wear it as a shayla or over the shoulders.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Soft acrylic knit
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

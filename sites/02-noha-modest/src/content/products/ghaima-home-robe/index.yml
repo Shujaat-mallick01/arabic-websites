@@ -1,0 +1,45 @@
+ar:
+  id: p012
+  _slug: ghaima-home-robe
+  title: روب بيت «غيمة»
+  summary: روب طويل ناعم بحزام، للصبح والقعدات.
+  description: |-
+    روب طويل ناعم بحزام، للصبح والقعدات.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "14.500"
+  category: homewear
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 12
+  images:
+    - src: ./front.webp
+      alt_ar: روب بيت «غيمة»
+      alt_en: Ghaima home robe
+    - src: ./detail.webp
+      alt_ar: روب بيت «غيمة»، تفصيل القماش
+      alt_en: Ghaima home robe, fabric detail
+  sizes:
+    - s
+    - m
+    - l
+    - xl
+  colors:
+    - id: grey
+      name_ar: رمادي
+      name_en: Grey
+      hex: "#7D7F84"
+  fabric: قطن مخملي
+  care: غسيل على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة متوسطة.
+  fit: المقاس مطابق لجدول المقاسات، والقصّة واسعة.
+en:
+  title: Ghaima home robe
+  summary: A long soft robe with a belt for mornings at home.
+  description: |-
+    A long soft robe with a belt for mornings at home.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Cotton velour
+  care: Delicate cycle in cold water; iron on medium.
+  fit: True to the size chart, with a relaxed cut.

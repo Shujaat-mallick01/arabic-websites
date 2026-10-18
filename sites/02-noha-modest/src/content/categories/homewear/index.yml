@@ -1,0 +1,10 @@
+ar:
+  _slug: homewear
+  title: لبس البيت
+  summary: أرواب وقطع قطنية مريحة للبيت والقعدات.
+  image: ./cover.webp
+  order: 3
+  season: none
+en:
+  title: Homewear
+  summary: Robes and soft cotton pieces for home.

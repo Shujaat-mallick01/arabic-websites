@@ -5,10 +5,10 @@ import { defineTokens } from '@aw/brand';
 export default defineTokens({
   color: {
     bg: '#2B131A',
-    surface: '#3B1E27',
+    surface: '#3A1C26',
     ink: '#F6ECE7',
     muted: '#CDB3B1',
-    line: '#633A47',
+    line: '#5A3442',
     accent: '#E2C2A8',
     accentInk: '#1C0B10',
     accentPress: '#ECD3BE',

@@ -3,5 +3,6 @@ ar:
   title: الرموش والحواجب
   order: 3
   season: none
+  image: ./cover.webp
 en:
   title: Lashes and brows

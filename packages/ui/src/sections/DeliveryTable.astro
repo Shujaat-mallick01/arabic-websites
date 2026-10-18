@@ -3,6 +3,7 @@
 import { COUNTRY_INFO } from '@aw/core';
 import type { FulfilmentRules } from '@aw/commerce';
 import SectionHeader from './SectionHeader.astro';
+import Icon from '../primitives/Icon.astro';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
 
@@ -32,24 +33,24 @@ const rows = [
 {rows.length > 0 && (
   <section class="section-gap" aria-labelledby="delivery-title">
     <div class="container-page">
-      <SectionHeader id="delivery-title" title={ctx.pick(s.title) || ctx.tr('section.delivery')} subtitle={ctx.pick(s.subtitle)} />
-      <div class="overflow-x-auto">
+      <SectionHeader id="delivery-title" eyebrow={ctx.pick(s.eyebrow) || undefined} title={ctx.pick(s.title) || ctx.tr('section.delivery')} subtitle={ctx.pick(s.subtitle)} />
+      <div class="overflow-x-auto aw-card-elev">
         <table class="w-full border-collapse text-body">
           <thead>
-            <tr class="text-small text-muted text-start">
-              <th scope="col" class="py-2 pe-4 text-start font-normal">{ctx.tr('checkout.country')}</th>
+            <tr class="text-small text-muted text-start bg-bg/60">
+              <th scope="col" class="py-3.5 ps-5 pe-4 text-start font-normal">{ctx.tr('checkout.country')}</th>
               <th scope="col" class="py-2 pe-4 text-start font-normal">{ctx.tr('checkout.shippingFee')}</th>
               <th scope="col" class="py-2 pe-4 text-start font-normal">{ctx.lang === 'ar' ? 'مجاني من' : 'Free from'}</th>
-              <th scope="col" class="py-2 text-start font-normal">{ctx.lang === 'ar' ? 'المدة' : 'Time'}</th>
+              <th scope="col" class="py-3.5 pe-5 text-start font-normal">{ctx.lang === 'ar' ? 'المدة' : 'Time'}</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
-              <tr class="border-t border-line">
-                <th scope="row" class="py-3.5 pe-4 text-start font-normal">{r.name}</th>
-                <td class="py-3.5 pe-4 price">{r.fee.minor === 0 ? ctx.tr('checkout.free') : ctx.money(r.fee)}</td>
-                <td class="py-3.5 pe-4 price">{r.freeOver ? ctx.money(r.freeOver) : '—'}</td>
-                <td class="py-3.5 text-muted">{eta(r.min, r.max)}</td>
+            {rows.map((r, i) => (
+              <tr class="border-t border-line hover:bg-bg/40 transition-colors">
+                <th scope="row" class="py-4 ps-5 pe-4 text-start font-normal"><span class="inline-flex items-center gap-3"><span class="aw-icon-tile w-9 h-9 max-sm:hidden"><Icon name={i === 0 ? 'truck' : 'globe'} size={18} /></span>{r.name}</span></th>
+                <td class="py-4 pe-4 price">{r.fee.minor === 0 ? ctx.tr('checkout.free') : ctx.money(r.fee)}</td>
+                <td class="py-4 pe-4 price">{r.freeOver ? ctx.money(r.freeOver) : '—'}</td>
+                <td class="py-4 pe-5 text-muted">{eta(r.min, r.max)}</td>
               </tr>
             ))}
           </tbody>

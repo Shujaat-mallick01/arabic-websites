@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: زاوية الأرواب في الاستوديو
+  alt: زاوية الأرواب في الاستوديو
+  style: lookbook
+  featured: true
+  order: 8
+en:
+  caption: The robe corner of the studio
+  alt: The robe corner of the studio

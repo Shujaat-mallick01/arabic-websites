@@ -17,6 +17,7 @@ ar:
   durationMinutes: 150
   featured: true
   order: 3
+  image: ./cover.webp
 en:
   title: The Milka package
   summary: Soft makeup and hair for the contract night.

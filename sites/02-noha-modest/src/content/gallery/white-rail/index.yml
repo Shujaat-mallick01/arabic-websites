@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: راك القطع البيضاء في الاستوديو
+  alt: راك القطع البيضاء في الاستوديو
+  style: lookbook
+  featured: true
+  order: 3
+en:
+  caption: The white rail in the studio
+  alt: The white rail in the studio

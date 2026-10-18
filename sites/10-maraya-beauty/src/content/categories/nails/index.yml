@@ -3,5 +3,6 @@ ar:
   title: الأظافر
   order: 2
   season: none
+  image: ./cover.webp
 en:
   title: Nails

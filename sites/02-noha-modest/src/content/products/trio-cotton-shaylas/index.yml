@@ -1,0 +1,50 @@
+ar:
+  id: p005
+  _slug: trio-cotton-shaylas
+  title: طقم ٣ شيلات قطن «يوميّات»
+  summary: ثلاث شيلات قطن بألوان البحر لكل أيام الأسبوع.
+  description: |-
+    ثلاث شيلات قطن بألوان البحر لكل أيام الأسبوع.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "7.500"
+  category: shaylas
+  tags:
+    - new
+  availability: in_stock
+  featured: true
+  order: 5
+  images:
+    - src: ./front.webp
+      alt_ar: طقم ٣ شيلات قطن «يوميّات»
+      alt_en: Yawmiyyat set of 3 cotton shaylas
+    - src: ./detail.webp
+      alt_ar: طقم ٣ شيلات قطن «يوميّات»، تفصيل القماش
+      alt_en: Yawmiyyat set of 3 cotton shaylas, fabric detail
+  sizes: []
+  colors:
+    - id: teal
+      name_ar: فيروزي
+      name_en: Teal
+      hex: "#2E7F86"
+    - id: navy
+      name_ar: كحلي
+      name_en: Navy
+      hex: "#1F3A5F"
+    - id: grey
+      name_ar: رمادي
+      name_en: Grey
+      hex: "#8C959E"
+  fabric: قطن
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Yawmiyyat set of 3 cotton shaylas
+  summary: Three cotton shaylas in sea colours for every day of the week.
+  description: |-
+    Three cotton shaylas in sea colours for every day of the week.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Cotton
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

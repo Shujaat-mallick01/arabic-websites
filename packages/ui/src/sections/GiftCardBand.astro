@@ -1,7 +1,9 @@
 ---
-// Gift cards on a contrasting band: a card visual, the denominations and a link to buy.
+// Gift cards on a deep, textured band: a tilted card visual (brand, amount, code dots), the
+// denominations as chips and a buy button.
 import { money as mk } from '@aw/core';
 import Icon from '../primitives/Icon.astro';
+import { hl } from '../primitives/hl.ts';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
 
@@ -13,24 +15,34 @@ interface Props {
 const { ctx, section: s, name } = Astro.props;
 const denoms = ctx.site.commerce?.giftCards?.denominations ?? [];
 const cur = ctx.site.locale.currency;
+const shown = denoms[Math.min(1, denoms.length - 1)];
 ---
 {denoms.length > 0 && (
-  <section class="section-gap bg-surface py-12 md:py-16" aria-labelledby="gift-title">
-    <div class="container-page grid gap-8 md:grid-cols-2 md:items-center">
-      <div class="aspect-[1.6/1] max-w-md w-full rounded-card bg-deep text-deep-ink p-6 flex flex-col justify-between">
-        <div class="flex items-center justify-between">
-          <span class="font-display text-h3">{ctx.pick(name)}</span>
-          <Icon name="gift" size={28} />
+  <section class="section-gap" aria-labelledby="gift-title">
+    <div class="container-page">
+      <div class="aw-band-deep aw-texture aw-on-deep overflow-hidden rounded-[calc(var(--brand-radius-card)*1.6)] px-6 py-12 md:px-16 md:py-16 grid gap-12 md:grid-cols-2 md:items-center">
+        <div class="flex flex-col gap-5 md:order-2">
+          <p class="aw-kicker">{ctx.pick(s.eyebrow) || ctx.tr('nav.giftCards')}</p>
+          <h2 id="gift-title" class="text-h1 text-deep-ink" set:html={hl(ctx.pick(s.title) || ctx.tr('nav.giftCards'))} />
+          {ctx.pick(s.subtitle) && <p class="m-0 text-deep-muted max-w-md">{ctx.pick(s.subtitle)}</p>}
+          <ul class="m-0 p-0 list-none flex flex-wrap gap-2">
+            {denoms.map((d) => <li class="price inline-flex items-center min-h-11 px-4 rounded-full border border-deep-muted/40 text-deep-ink">{ctx.money(mk(d, cur), { trimZeroFraction: true })}</li>)}
+          </ul>
+          <a href={ctx.href('/gift-cards/')} class="aw-btn aw-btn-primary self-start mt-1">{ctx.pick(s.ctaLabel) || ctx.tr('nav.giftCards')}<Icon name="arrow" size={18} class="aw-btn-arrow" /></a>
         </div>
-        <span class="text-small text-deep-muted">{ctx.tr('nav.giftCards')}</span>
-      </div>
-      <div class="flex flex-col gap-4">
-        <h2 id="gift-title" class="text-h2">{ctx.pick(s.title) || ctx.tr('nav.giftCards')}</h2>
-        {ctx.pick(s.subtitle) && <p class="m-0 text-muted">{ctx.pick(s.subtitle)}</p>}
-        <ul class="m-0 p-0 list-none flex flex-wrap gap-2">
-          {denoms.map((d) => <li class="aw-chip price">{ctx.money(mk(d, cur), { trimZeroFraction: true })}</li>)}
-        </ul>
-        <a href={ctx.href('/gift-cards/')} class="aw-btn aw-btn-primary self-start">{ctx.pick(s.ctaLabel) || ctx.tr('nav.giftCards')}</a>
+        <div class="relative flex justify-center py-6" aria-hidden="true">
+          <div class="absolute w-[78%] max-w-sm aspect-[1.6/1] rounded-2xl bg-deep-accent/25 rotate-[8deg] translate-y-4"></div>
+          <div class="relative w-[82%] max-w-sm aspect-[1.6/1] rounded-2xl p-6 flex flex-col justify-between text-accent-ink shadow-[0_30px_60px_-20px_rgb(0_0_0/0.55)] -rotate-[4deg]" style="background: linear-gradient(135deg, var(--brand-accent), color-mix(in srgb, var(--brand-accent) 55%, var(--brand-deep)))">
+            <div class="flex items-start justify-between">
+              <span class="font-display text-h3 leading-none">{ctx.pick(name)}</span>
+              <Icon name="gift" size={28} />
+            </div>
+            <div class="flex items-end justify-between gap-3">
+              <span class="tabular tracking-[0.25em] opacity-80 text-small" dir="ltr">•••• ••••</span>
+              {shown && <span class="price text-h2 leading-none">{ctx.money(mk(shown, cur), { trimZeroFraction: true })}</span>}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

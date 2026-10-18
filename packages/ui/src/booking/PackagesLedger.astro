@@ -1,7 +1,9 @@
 ---
-// Packages with their inclusions, price and (for bookings) duration.
+// Packages as feature cards: photo, name, price, inclusions with check marks and a book button.
+// The middle card is raised on wide screens.
 import { Picture } from 'astro:assets';
 import Price from '../primitives/Price.astro';
+import Icon from '../primitives/Icon.astro';
 import SectionHeader from '../sections/SectionHeader.astro';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
@@ -24,24 +26,34 @@ interface Props {
   full?: boolean;
 }
 const { ctx, section: s = {}, packages, full = false } = Astro.props;
+const featured = packages.length === 3 ? 1 : -1;
+const hours = (n: number) => (ctx.lang === 'ar' ? `${ctx.num(Math.round((n / 60) * 10) / 10)} ساعات` : `${Math.round((n / 60) * 10) / 10} hours`);
 ---
 {packages.length > 0 && (
-  <section class:list={[!full && 'section-gap']} aria-labelledby="packages-title">
+  <section class:list={[!full && 'aw-band aw-texture py-16 md:py-24']} aria-labelledby={full ? undefined : 'packages-title'}>
     <div class="container-page">
-      {!full && <SectionHeader id="packages-title" title={ctx.pick(s.title) || ctx.tr('nav.packages')} subtitle={ctx.pick(s.subtitle)} />}
-      <ol class="m-0 p-0 list-none grid gap-6 md:grid-cols-3">
-        {packages.map((p) => (
-          <li class="flex flex-col gap-4 p-5 md:p-6 rounded-card bg-surface border border-line">
-            {p.image && <div class="overflow-hidden rounded-image aspect-[4/3]"><Picture src={p.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[360, 720]} sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" class="h-full w-full object-cover" /></div>}
-            <div class="flex items-baseline justify-between gap-3">
-              <h3 class="text-h3">{ctx.pick(p.title)}</h3>
-              <Price ctx={ctx} value={p.price} trim class="text-body" />
+      {!full && <SectionHeader id="packages-title" eyebrow={ctx.pick(s.eyebrow) || undefined} title={ctx.pick(s.title) || ctx.tr('nav.packages')} subtitle={ctx.pick(s.subtitle)} align="center" />}
+      <ol class="m-0 p-0 list-none grid gap-6 md:grid-cols-3 md:items-center">
+        {packages.map((p, i) => (
+          <li class:list={['aw-card-elev overflow-hidden flex flex-col', i === featured && 'md:scale-[1.04] md:shadow-[var(--aw-shadow-2)] border-accent/50']}>
+            <div class="relative overflow-hidden aspect-[4/3] bg-deep">
+              {p.image && <Picture src={p.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[360, 720]} sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" class="h-full w-full object-cover" />}
+              {i === featured && <span class="absolute top-4 inset-s-4 aw-badge"><Icon name="star" size={12} />{ctx.lang === 'ar' ? 'الأكثر طلباً' : 'Most booked'}</span>}
             </div>
-            {ctx.pick(p.summary) && <p class="m-0 text-muted">{ctx.pick(p.summary)}</p>}
-            <ul class="m-0 p-0 list-none flex flex-col gap-1.5 text-small">
-              {(ctx.lang === 'ar' ? p.inclusions.ar : p.inclusions.en).map((inc) => <li class="flex gap-2"><span aria-hidden="true" class="text-accent">—</span><span>{inc}</span></li>)}
-            </ul>
-            <a href={ctx.href(`/book/?service=${p.id}`)} class="aw-btn aw-btn-secondary mt-auto">{ctx.tr('cta.book')}</a>
+            <div class="flex flex-col gap-4 p-6 flex-1">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-h3">{ctx.pick(p.title)}</h3>
+                <span class="inline-flex items-center gap-1 text-small text-muted shrink-0 mt-1"><Icon name="clock" size={14} />{hours(p.durationMinutes)}</span>
+              </div>
+              <Price ctx={ctx} value={p.price} trim class="text-h2" />
+              {ctx.pick(p.summary) && <p class="m-0 text-small text-muted">{ctx.pick(p.summary)}</p>}
+              <ul class="m-0 p-0 list-none flex flex-col gap-2 text-small">
+                {(ctx.lang === 'ar' ? p.inclusions.ar : p.inclusions.en).map((inc) => (
+                  <li class="flex items-start gap-2.5"><span class="inline-flex items-center justify-center w-5 h-5 mt-0.5 rounded-full bg-accent/15 text-accent shrink-0"><Icon name="check" size={13} /></span><span>{inc}</span></li>
+                ))}
+              </ul>
+              <a href={ctx.href(`/book/?service=${p.id}`)} class:list={['aw-btn mt-auto', i === featured ? 'aw-btn-primary' : 'aw-btn-secondary']}>{ctx.tr('cta.book')}</a>
+            </div>
           </li>
         ))}
       </ol>

@@ -1,6 +1,9 @@
 ---
-// A wide photo band with a text panel at the inline start. Nothing centred.
+// Campaign / about band: a large rounded photo with a floating accent badge, and the story
+// beside it (kicker, headline with an accent phrase, text, button).
 import { Picture } from 'astro:assets';
+import Icon from '../primitives/Icon.astro';
+import { hl } from '../primitives/hl.ts';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
 
@@ -13,15 +16,24 @@ const { ctx, section: s, reverse = false } = Astro.props;
 ---
 <section class="section-gap">
   <div class="container-page">
-    <div class="grid gap-6 md:grid-cols-12 md:items-center">
-      <div class:list={['md:col-span-7 overflow-hidden rounded-image bg-surface aspect-[4/5] md:aspect-[4/3]', reverse && 'md:order-2']}>
-        {s.image && <Picture src={s.image} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 780, 1100]} sizes="(min-width: 768px) 58vw, 100vw" loading="lazy" class="h-full w-full object-cover" />}
+    <div class="grid gap-8 md:grid-cols-12 md:gap-12 md:items-center">
+      <div class:list={['relative md:col-span-6', reverse && 'md:order-2']}>
+        <div class="overflow-hidden rounded-[calc(var(--brand-radius-image)*1.6)] bg-surface aspect-[4/5] md:aspect-[5/6] shadow-[var(--aw-shadow-2)]">
+          {s.image && <Picture src={s.image} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 780, 1100]} sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" class="h-full w-full object-cover" />}
+        </div>
+        <div class="absolute -bottom-5 inset-e-4 md:-inset-e-6 md:bottom-10 aw-card-elev px-5 py-4 flex items-center gap-3 max-w-[16rem]" aria-hidden="true">
+          <span class="aw-icon-tile"><Icon name="sparkle" size={22} /></span>
+          <span class="text-small leading-snug" style="font-weight: var(--brand-fw-ui)">{ctx.pick(ctx.site.showcase?.highlights?.[0]) || ctx.pick(s.eyebrow)}</span>
+        </div>
       </div>
-      <div class="md:col-span-5 flex flex-col gap-4">
-        {ctx.pick(s.title) && <h2 class="text-h1">{ctx.pick(s.title)}</h2>}
-        {ctx.pick(s.subtitle) && <p class="m-0 text-muted">{ctx.pick(s.subtitle)}</p>}
+      <div class="md:col-span-6 flex flex-col gap-5 pt-4 md:pt-0">
+        {ctx.pick(s.eyebrow) && <p class="aw-kicker">{ctx.pick(s.eyebrow)}</p>}
+        {ctx.pick(s.title) && <h2 class="text-h1" set:html={hl(ctx.pick(s.title))} />}
+        {ctx.pick(s.subtitle) && <p class="m-0 text-muted text-body max-w-lg">{ctx.pick(s.subtitle)}</p>}
         {ctx.pick(s.priceNote) && <p class="m-0 price">{ctx.pick(s.priceNote)}</p>}
-        {s.ctaHref && ctx.pick(s.ctaLabel) && <a href={ctx.href(s.ctaHref)} class="aw-btn aw-btn-primary self-start">{ctx.pick(s.ctaLabel)}</a>}
+        {s.ctaHref && ctx.pick(s.ctaLabel) && (
+          <a href={ctx.href(s.ctaHref)} class="aw-btn aw-btn-primary self-start mt-2">{ctx.pick(s.ctaLabel)}<Icon name="arrow" size={18} class="aw-btn-arrow" /></a>
+        )}
       </div>
     </div>
   </div>

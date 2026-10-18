@@ -3,5 +3,6 @@ ar:
   title: العرايس
   order: 5
   season: none
+  image: ./cover.webp
 en:
   title: Bridal

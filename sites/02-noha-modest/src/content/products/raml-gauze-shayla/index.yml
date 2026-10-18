@@ -1,0 +1,41 @@
+ar:
+  id: p003
+  _slug: raml-gauze-shayla
+  title: شيلة شاش «رمل»
+  summary: شاش قطني خفيف يتنفّس في الصيف، بأطراف مهدّبة.
+  description: |-
+    شاش قطني خفيف يتنفّس في الصيف، بأطراف مهدّبة.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "2.750"
+  category: shaylas
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 3
+  images:
+    - src: ./front.webp
+      alt_ar: شيلة شاش «رمل»
+      alt_en: Raml gauze shayla
+    - src: ./detail.webp
+      alt_ar: شيلة شاش «رمل»، تفصيل القماش
+      alt_en: Raml gauze shayla, fabric detail
+  sizes: []
+  colors:
+    - id: sand
+      name_ar: رملي
+      name_en: Sand
+      hex: "#C9A86A"
+  fabric: شاش قطن
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Raml gauze shayla
+  summary: Airy cotton gauze for summer, with frayed edges.
+  description: |-
+    Airy cotton gauze for summer, with frayed edges.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Cotton gauze
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

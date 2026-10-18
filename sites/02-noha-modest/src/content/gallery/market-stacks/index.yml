@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: أقمشة مطوية بألوان الصيف
+  alt: أقمشة مطوية بألوان الصيف
+  style: lookbook
+  featured: true
+  order: 2
+en:
+  caption: Folded fabric in summer colours
+  alt: Folded fabric in summer colours

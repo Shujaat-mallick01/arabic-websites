@@ -1,0 +1,41 @@
+ar:
+  id: p007
+  _slug: awraq-print-scarf
+  title: طرحة «أوراق»
+  summary: أخضر الربيع بنقشة أوراق ذهبية.
+  description: |-
+    أخضر الربيع بنقشة أوراق ذهبية.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "4.250"
+  category: printed
+  tags: []
+  availability: in_stock
+  featured: true
+  order: 7
+  images:
+    - src: ./front.webp
+      alt_ar: طرحة «أوراق»
+      alt_en: Awraq print scarf
+    - src: ./detail.webp
+      alt_ar: طرحة «أوراق»، تفصيل القماش
+      alt_en: Awraq print scarf, fabric detail
+  sizes: []
+  colors:
+    - id: green
+      name_ar: أخضر
+      name_en: Green
+      hex: "#7E9A2E"
+  fabric: شيفون مطبوع
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Awraq print scarf
+  summary: Spring green with a golden leaf print.
+  description: |-
+    Spring green with a golden leaf print.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Printed chiffon
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

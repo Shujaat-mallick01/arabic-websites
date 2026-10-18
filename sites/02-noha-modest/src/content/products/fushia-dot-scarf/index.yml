@@ -1,0 +1,42 @@
+ar:
+  id: p008
+  _slug: fushia-dot-scarf
+  title: طرحة «فوشي منقّط»
+  summary: فوشي غامق بنقط كحلي، تفتح الوجه.
+  description: |-
+    فوشي غامق بنقط كحلي، تفتح الوجه.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "4.250"
+  compareAt: "5.500"
+  category: printed
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 8
+  images:
+    - src: ./front.webp
+      alt_ar: طرحة «فوشي منقّط»
+      alt_en: Fushia dot scarf
+    - src: ./detail.webp
+      alt_ar: طرحة «فوشي منقّط»، تفصيل القماش
+      alt_en: Fushia dot scarf, fabric detail
+  sizes: []
+  colors:
+    - id: fuchsia
+      name_ar: فوشي
+      name_en: Fuchsia
+      hex: "#A31D52"
+  fabric: كريب مطبوع
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Fushia dot scarf
+  summary: Deep fuchsia with navy dots that brighten the face.
+  description: |-
+    Deep fuchsia with navy dots that brighten the face.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Printed crepe
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

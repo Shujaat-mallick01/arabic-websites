@@ -1,8 +1,12 @@
 ---
-// Hero "story-rail": the category story cards come first (the brand's Instagram highlights),
-// then one wide campaign band with a surface panel overlapping the photo at the inline start.
+// Hero "story-rail": one large campaign photo with the headline on a gradient at the inline
+// start, then the category tiles (the brand's Instagram highlights) as their own row.
 import { Picture } from 'astro:assets';
 import CategoryEntry from '../sections/CategoryEntry.astro';
+import SectionHeader from '../sections/SectionHeader.astro';
+import TrustStrip from '../sections/TrustStrip.astro';
+import Icon from '../primitives/Icon.astro';
+import { hl } from '../primitives/hl.ts';
 import type { PageContext } from '../context.ts';
 import type { Category, Raw } from '../data.ts';
 
@@ -12,36 +16,47 @@ interface Props {
   categories: Category[];
 }
 const { ctx, section: s, categories } = Astro.props;
-const title = ctx.pick(s.title);
 ---
-<section class="pt-4 md:pt-8" aria-labelledby="hero-title">
-  <div class="container-page">
-    <CategoryEntry ctx={ctx} categories={categories} variant="story-cards" />
-  </div>
-
-  <div class="relative mt-6 md:mt-10 md:container-page">
-    <div class="relative overflow-hidden aspect-[4/5] md:aspect-[16/7] md:rounded-image bg-surface">
+<section class="pt-3 md:pt-6" aria-labelledby="hero-title">
+  <div class="md:container-page">
+    <div class="relative overflow-hidden md:rounded-[calc(var(--brand-radius-image)*1.6)] bg-deep aspect-[4/5] sm:aspect-[16/10] md:aspect-[16/7] shadow-[var(--aw-shadow-2)]">
       {s.image && (
-        <div class:list={['h-full', s.imageWide && 'md:hidden']}>
+        <div class:list={['absolute inset-0', s.imageWide && 'md:hidden']}>
           <Picture src={s.image} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[390, 780, 1080]} sizes="100vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
         </div>
       )}
       {s.imageWide && (
-        <div class="hidden md:block h-full">
-          <Picture src={s.imageWide} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[1280, 1920]} sizes="1280px" loading="lazy" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 hidden md:block">
+          <Picture src={s.imageWide} alt={ctx.pick(s.imageAlt)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[1280, 1920]} sizes="1280px" loading="eager" class="h-full w-full object-cover" />
         </div>
       )}
-    </div>
-    <div class="relative -mt-12 mx-[var(--brand-gutter)] md:absolute md:bottom-10 md:inset-s-[calc(var(--brand-gutter)+2.5rem)] md:mx-0 md:mt-0 md:w-[480px] bg-surface p-5 md:p-8 rounded-card">
-      {s.eyebrow && ctx.pick(s.eyebrow) && <p class="aw-eyebrow m-0 mb-2">{ctx.pick(s.eyebrow)}</p>}
-      <h1 id="hero-title" class="text-display" style="font-weight: var(--brand-fw-display)">{title}</h1>
-      {ctx.pick(s.subtitle) && <p class="m-0 mt-3 text-muted">{ctx.pick(s.subtitle)}</p>}
-      {ctx.pick(s.priceNote) && (
-        <p class="m-0 mt-4 inline-flex px-3 py-1.5 rounded-control bg-bg text-small price">{ctx.pick(s.priceNote)}{ctx.site.demo.priceAsterisk && ctx.site.demo.enabled && <span aria-hidden="true">*</span>}</p>
-      )}
-      {s.ctaHref && ctx.pick(s.ctaLabel) && (
-        <a href={ctx.href(s.ctaHref)} class="aw-btn aw-btn-primary aw-btn-block mt-5">{ctx.pick(s.ctaLabel)}</a>
-      )}
+      <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/35 to-black/0 md:bg-linear-to-l md:from-black/75 md:via-black/35 md:to-black/0 ltr:md:bg-linear-to-r" aria-hidden="true"></div>
+      <div class="absolute inset-x-0 bottom-0 md:inset-y-0 md:inset-e-auto md:w-[min(560px,52%)] flex flex-col justify-end md:justify-center gap-4 p-5 pb-7 sm:p-8 md:p-14 text-white">
+        {ctx.pick(s.eyebrow) && <p class="m-0 inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-small"><Icon name="sparkle" size={16} />{ctx.pick(s.eyebrow)}</p>}
+        <h1 id="hero-title" class="text-display text-white [&_.aw-hl]:text-[color:var(--brand-deep-accent)] [&_.aw-hl]:bg-none" style="font-weight: var(--brand-fw-display)" set:html={hl(ctx.pick(s.title))} />
+        {ctx.pick(s.subtitle) && <p class="m-0 text-white/85 max-w-md max-sm:text-small">{ctx.pick(s.subtitle)}</p>}
+        <div class="flex flex-wrap items-center gap-3 mt-1">
+          {s.ctaHref && ctx.pick(s.ctaLabel) && (
+            <a href={ctx.href(s.ctaHref)} class="aw-btn aw-btn-primary">
+              {ctx.pick(s.ctaLabel)}
+              <Icon name="arrow" size={18} class="aw-btn-arrow" />
+            </a>
+          )}
+          {s.secondaryHref && ctx.pick(s.secondaryLabel) && <a href={ctx.href(s.secondaryHref)} class="aw-btn aw-btn-light">{ctx.pick(s.secondaryLabel)}</a>}
+        </div>
+        {ctx.pick(s.priceNote) && (
+          <p class="m-0 text-small text-white/80 price">{ctx.pick(s.priceNote)}{ctx.site.demo.priceAsterisk && ctx.site.demo.enabled && <span aria-hidden="true">*</span>}</p>
+        )}
+      </div>
     </div>
   </div>
 </section>
+
+<TrustStrip ctx={ctx} class="relative z-10 mt-4 md:-mt-12 md:px-[calc(var(--brand-gutter)+2.5rem)]" />
+
+{categories.length > 0 && (
+  <section class="container-page mt-14 md:mt-20" aria-labelledby="cat-title">
+    <SectionHeader id="cat-title" eyebrow={ctx.pick(s.categoriesEyebrow) || undefined} title={ctx.pick(s.categoriesTitle) || ctx.tr('section.categories')} link={{ label: ctx.tr('viewAll'), href: ctx.href('/shop/') }} />
+    <CategoryEntry ctx={ctx} categories={categories} variant="story-cards" />
+  </section>
+)}

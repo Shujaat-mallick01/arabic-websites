@@ -17,6 +17,7 @@ ar:
   durationMinutes: 180
   featured: true
   order: 2
+  image: ./cover.webp
 en:
   title: The Ghumra package
   summary: Makeup and hair styled for the Hijazi ghumra headdress.

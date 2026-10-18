@@ -3,5 +3,6 @@ ar:
   title: المكياج
   order: 4
   season: none
+  image: ./cover.webp
 en:
   title: Makeup

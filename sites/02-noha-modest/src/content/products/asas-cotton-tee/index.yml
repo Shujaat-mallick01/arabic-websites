@@ -1,0 +1,57 @@
+ar:
+  id: p014
+  _slug: asas-cotton-tee
+  title: بلوزة قطن «أساس»
+  summary: بلوزة قطن ناعمة تنلبس تحت العباية أو في البيت.
+  description: |-
+    بلوزة قطن ناعمة تنلبس تحت العباية أو في البيت.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "3.900"
+  category: homewear
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 14
+  images:
+    - src: ./front.webp
+      alt_ar: بلوزة قطن «أساس»
+      alt_en: Asas cotton tee
+    - src: ./detail.webp
+      alt_ar: بلوزة قطن «أساس»، تفصيل القماش
+      alt_en: Asas cotton tee, fabric detail
+  sizes:
+    - s
+    - m
+    - l
+    - xl
+  colors:
+    - id: white
+      name_ar: أبيض
+      name_en: White
+      hex: "#F2F2F0"
+    - id: navy
+      name_ar: كحلي
+      name_en: Navy
+      hex: "#22324A"
+    - id: red
+      name_ar: أحمر
+      name_en: Red
+      hex: "#B83A45"
+    - id: olive
+      name_ar: زيتي
+      name_en: Olive
+      hex: "#5E6B4B"
+  fabric: قطن مصري
+  care: غسيل على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة متوسطة.
+  fit: المقاس مطابق لجدول المقاسات، والقصّة واسعة.
+en:
+  title: Asas cotton tee
+  summary: A soft cotton tee for under the abaya or at home.
+  description: |-
+    A soft cotton tee for under the abaya or at home.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Egyptian cotton
+  care: Delicate cycle in cold water; iron on medium.
+  fit: True to the size chart, with a relaxed cut.

@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: فرش المكياج قبل السهرة
+  alt: فرش المكياج قبل السهرة
+  style: lounge
+  featured: true
+  order: 5
+en:
+  caption: Makeup brushes before an evening
+  alt: Makeup brushes before an evening

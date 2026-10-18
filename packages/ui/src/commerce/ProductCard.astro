@@ -1,9 +1,11 @@
 ---
-// Product card variants. Photography leads; the name and price support it.
+// Product card. The photo leads (second photo fades in on hover), badges sit on the photo,
+// and the name, category and price sit underneath. The whole card is one link.
 import { Picture } from 'astro:assets';
 import type { Product } from '@aw/commerce';
 import { fromPrice, hasVariablePrice } from '@aw/commerce';
 import Price from '../primitives/Price.astro';
+import Icon from '../primitives/Icon.astro';
 import type { PageContext } from '../context.ts';
 import type { Img } from '../data.ts';
 
@@ -13,21 +15,25 @@ interface Props {
   variant?: 'portrait-minimal' | 'square-caption' | 'overlay-caption' | 'menu-row' | 'swatch-card' | 'swing-tag' | 'service-ledger';
   eager?: boolean;
   sizes?: string;
+  categoryLabel?: string;
   class?: string;
 }
 
-const { ctx, product: p, variant = ctx.site.layout.productCard, eager = false, sizes = '(min-width: 1024px) 25vw, 50vw', class: cls = '' } = Astro.props;
+const { ctx, product: p, variant = ctx.site.layout.productCard, eager = false, sizes = '(min-width: 1024px) 25vw, 50vw', categoryLabel, class: cls = '' } = Astro.props;
 const img = p.images[0];
+const alt = p.images[1];
 const variable = hasVariablePrice(p);
 const price = variable ? fromPrice(p) : p.price;
 const href = ctx.href(`/products/${p.slug}/`);
 const square = variant === 'square-caption' || variant === 'swatch-card';
 const colors = (p.attributes.colors as Array<{ hex: string; name_ar: string; name_en: string }> | undefined) ?? [];
 const soldOut = p.availability === 'sold_out';
-const badge = soldOut ? ctx.tr('product.soldOut') : p.compareAt && p.compareAt.minor > p.price.minor ? ctx.tr('product.sale') : p.availability === 'ready_now' ? ctx.tr('product.readyNow') : '';
+const onSale = !!p.compareAt && p.compareAt.minor > p.price.minor;
+const pct = onSale ? Math.round((1 - p.price.minor / p.compareAt!.minor) * 100) : 0;
+const isNew = p.tags.includes('new');
 ---
-<article class:list={['aw-card group relative flex flex-col gap-2.5', cls]}>
-  <a href={href} tabindex="-1" aria-hidden="true" class="block no-underline relative overflow-hidden rounded-image bg-surface" style={`aspect-ratio: ${square ? '1 / 1' : 'var(--brand-aspect-card)'}`}>
+<article class:list={['aw-card group relative flex flex-col gap-3', cls]}>
+  <div class="relative overflow-hidden rounded-image bg-surface shadow-[var(--aw-shadow-1)]" style={`aspect-ratio: ${square ? '1 / 1' : 'var(--brand-aspect-card)'}`}>
     {img && (
       <Picture
         src={img.src}
@@ -37,17 +43,27 @@ const badge = soldOut ? ctx.tr('product.soldOut') : p.compareAt && p.compareAt.m
         sizes={sizes}
         loading={eager ? 'eager' : 'lazy'}
         fetchpriority={eager ? 'high' : 'auto'}
-        class="h-full w-full object-cover transition-brand group-hover:scale-[1.02]"
+        class:list={['absolute inset-0 h-full w-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-[1.04]', alt && 'group-hover:opacity-0', soldOut && 'grayscale-[60%] opacity-80']}
       />
     )}
-    {badge && <span class="absolute top-2 inset-s-2 px-2 py-0.5 rounded-control bg-surface/90 text-small">{badge}</span>}
-  </a>
-  <div class="flex flex-col gap-1">
-    <h3 class="m-0 text-body font-body" style="font-weight: var(--brand-fw-ui)">
-      <a href={href} class="no-underline after:absolute after:inset-0 after:content-['']">{ctx.pick(p.title)}</a>
+    {alt && (
+      <Picture src={alt.src} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[240, 360, 480, 720]} sizes={sizes} loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100" />
+    )}
+    <div class="absolute top-3 inset-s-3 flex flex-col items-start gap-1.5">
+      {soldOut ? <span class="aw-badge aw-badge-soft">{ctx.tr('product.soldOut')}</span> : onSale ? <span class="aw-badge aw-badge-danger tabular">{ctx.lang === 'ar' ? `خصم ${ctx.num(pct)}٪` : `−${pct}%`}</span> : isNew ? <span class="aw-badge">{ctx.lang === 'ar' ? 'جديد' : 'New'}</span> : null}
+      {p.availability === 'ready_now' && !soldOut && <span class="aw-badge aw-badge-soft">{ctx.tr('product.readyNow')}</span>}
+    </div>
+    <span class="absolute bottom-3 inset-e-3 inline-flex items-center justify-center w-11 h-11 rounded-full bg-surface text-ink shadow-[var(--aw-shadow-2)] opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 max-md:hidden" aria-hidden="true">
+      <Icon name="eye" size={20} />
+    </span>
+  </div>
+  <div class="flex flex-col gap-1 px-0.5">
+    {categoryLabel && <span class="text-small text-muted">{categoryLabel}</span>}
+    <h3 class="m-0 text-body font-body leading-snug" style="font-weight: var(--brand-fw-ui)">
+      <a href={href} class="no-underline after:absolute after:inset-0 after:content-[''] after:z-[1] group-hover:text-accent transition-colors">{ctx.pick(p.title)}</a>
     </h3>
     <Price ctx={ctx} value={price} compareAt={p.compareAt} from={variable} class="text-body" />
-    {variant === 'swatch-card' && colors.length > 0 && (
+    {colors.length > 0 && (
       <ul class="m-0 p-0 list-none flex gap-1.5 mt-1" aria-label={ctx.tr('product.color')}>
         {colors.slice(0, 5).map((c) => <li class="aw-swatch w-4 h-4" style={`--swatch: ${c.hex}`} title={ctx.lang === 'ar' ? c.name_ar : c.name_en}></li>)}
       </ul>

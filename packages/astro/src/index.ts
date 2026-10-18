@@ -33,6 +33,11 @@ function siteDirOf(root: string | URL): string {
   return p.replace(/[\\/][^\\/]*$/, '');
 }
 
+function readCredits(dir: string): unknown[] {
+  const p = join(dir, 'brand', 'image-credits.json');
+  return existsSync(p) ? (JSON.parse(readFileSync(p, 'utf8')) as unknown[]) : [];
+}
+
 function readLogo(dir: string, file: string): string {
   const p = join(dir, 'brand', file);
   if (!existsSync(p)) return '';
@@ -90,6 +95,10 @@ export function awIntegration(opts: AwSiteOptions, r: ResolvedPreset): AstroInte
           injectRoute({ pattern: route.pattern === '/' ? '/en' : `/en${route.pattern}`, entrypoint, prerender: true });
         }
         injectRoute({ pattern: '/404', entrypoint: '@aw/astro/pages/not-found.astro', prerender: true });
+        if (readCredits(dir).length) {
+          injectRoute({ pattern: '/credits', entrypoint: '@aw/astro/pages/credits.astro', prerender: true });
+          injectRoute({ pattern: '/en/credits', entrypoint: '@aw/astro/pages/credits.astro', prerender: true });
+        }
         injectRoute({ pattern: '/robots.txt', entrypoint: '@aw/astro/pages/robots.txt.ts', prerender: true });
         if (r.tier === 'full' && r.collections.includes('products')) injectRoute({ pattern: '/_aw/catalog.json', entrypoint: '@aw/astro/pages/catalog.json.ts', prerender: true });
 
@@ -104,6 +113,7 @@ export function awIntegration(opts: AwSiteOptions, r: ResolvedPreset): AstroInte
           `export const studio = ${JSON.stringify(opts.studio)};`,
           `export const resolved = ${JSON.stringify(liteResolved(r))};`,
           `export const logos = ${JSON.stringify({ main: readLogo(dir, 'logo.svg'), dark: readLogo(dir, 'logo-dark.svg'), mark: readLogo(dir, 'logo-mark.svg') })};`,
+          `export const credits = ${JSON.stringify(readCredits(dir))};`,
         ].join('\n');
         updateConfig({
           vite: {

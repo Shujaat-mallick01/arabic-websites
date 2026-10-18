@@ -1,10 +1,10 @@
 ar:
   image: ./photo.webp
-  caption: يدين العروس مع المسكة
-  alt: يدين العروس مع المسكة
+  caption: مسكة العروس
+  alt: مسكة العروس
   style: lounge
   featured: true
   order: 8
 en:
-  caption: A bride’s hands with the bouquet
-  alt: A bride’s hands with the bouquet
+  caption: A bride’s bouquet
+  alt: A bride’s bouquet

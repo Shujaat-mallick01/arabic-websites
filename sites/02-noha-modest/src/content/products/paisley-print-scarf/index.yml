@@ -1,0 +1,41 @@
+ar:
+  id: p010
+  _slug: paisley-print-scarf
+  title: طرحة «بيزلي»
+  summary: نقشة بيزلي بالأزرق والأحمر، لمسة سفر.
+  description: |-
+    نقشة بيزلي بالأزرق والأحمر، لمسة سفر.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "4.750"
+  category: printed
+  tags: []
+  availability: in_stock
+  featured: false
+  order: 10
+  images:
+    - src: ./front.webp
+      alt_ar: طرحة «بيزلي»
+      alt_en: Paisley print scarf
+    - src: ./detail.webp
+      alt_ar: طرحة «بيزلي»، تفصيل القماش
+      alt_en: Paisley print scarf, fabric detail
+  sizes: []
+  colors:
+    - id: multi
+      name_ar: ملوّن
+      name_en: Multi
+      hex: "#2F5DA8"
+  fabric: ساتان مطبوع
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Paisley print scarf
+  summary: Blue and red paisley with a travel feel.
+  description: |-
+    Blue and red paisley with a travel feel.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Printed satin
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

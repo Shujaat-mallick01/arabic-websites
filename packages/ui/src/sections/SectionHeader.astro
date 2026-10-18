@@ -1,6 +1,8 @@
 ---
-// Start-aligned section heading with an optional "view all" link. Never a centred stack.
+// Section heading: kicker line, title with an optional *accent phrase*, subtitle, and a
+// "view all" pill. Start-aligned by default; `align="center"` for statement sections.
 import Icon from '../primitives/Icon.astro';
+import { hl } from '../primitives/hl.ts';
 
 interface Props {
   title?: string;
@@ -8,23 +10,25 @@ interface Props {
   eyebrow?: string;
   link?: { label: string; href: string };
   id?: string;
-  level?: 2 | 3;
+  level?: 1 | 2 | 3;
+  align?: 'start' | 'center';
   class?: string;
 }
-const { title, subtitle, eyebrow, link, id, level = 2, class: cls = '' } = Astro.props;
-const H = level === 2 ? 'h2' : 'h3';
+const { title, subtitle, eyebrow, link, id, level = 2, align = 'start', class: cls = '' } = Astro.props;
+const H = level === 1 ? 'h1' : level === 2 ? 'h2' : 'h3';
+const center = align === 'center';
 ---
 {(title || link) && (
-  <div class:list={['flex items-end justify-between gap-4 mb-5 md:mb-8', cls]}>
-    <div class="flex flex-col gap-1.5 max-w-2xl">
-      {eyebrow && <p class="aw-eyebrow m-0">{eyebrow}</p>}
-      {title && <H id={id} class:list={[level === 2 ? 'text-h2' : 'text-h3']}>{title}</H>}
-      {subtitle && <p class="m-0 text-muted">{subtitle}</p>}
+  <div class:list={['flex gap-4 mb-7 md:mb-10', center ? 'flex-col items-center text-center' : 'flex-wrap items-end justify-between', cls]}>
+    <div class:list={['flex flex-col gap-2.5 max-w-2xl', center && 'items-center']}>
+      {eyebrow && <p class="aw-kicker">{eyebrow}</p>}
+      {title && <H id={id} class:list={[level === 3 ? 'text-h3' : level === 1 ? 'text-h1' : 'text-h2']} set:html={hl(title)} />}
+      {subtitle && <p class="m-0 text-muted max-w-xl">{subtitle}</p>}
     </div>
     {link && (
-      <a href={link.href} class="shrink-0 inline-flex items-center gap-1 min-h-11 text-ui no-underline text-accent">
+      <a href={link.href} class="aw-more shrink-0">
         <span>{link.label}</span>
-        <Icon name="chevron" size={18} />
+        <Icon name="arrow" size={16} class="aw-btn-arrow" />
       </a>
     )}
   </div>

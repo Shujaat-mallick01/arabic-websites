@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: قطع القطن مطويّة للشحن
+  alt: قطع القطن مطويّة للشحن
+  style: lookbook
+  featured: true
+  order: 7
+en:
+  caption: Cotton pieces folded for shipping
+  alt: Cotton pieces folded for shipping

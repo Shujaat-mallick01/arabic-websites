@@ -1,7 +1,9 @@
 ---
-// Service menu as a ledger: name at the start, duration and price as tabular columns at the end,
-// grouped by category with anchors (/services/#nails).
+// Service menu: one card per category (photo header, then rows of name · duration · price),
+// anchored for /services/#nails. The full page adds summaries and a book button per row.
+import { Picture } from 'astro:assets';
 import Price from '../primitives/Price.astro';
+import Icon from '../primitives/Icon.astro';
 import SectionHeader from '../sections/SectionHeader.astro';
 import type { PageContext } from '../context.ts';
 import type { Category, Raw, ServiceItem } from '../data.ts';
@@ -21,29 +23,43 @@ const mins = (n: number) => {
 };
 const limit = full ? Infinity : Number(s.limit ?? 4);
 ---
-<section class:list={[!full && 'section-gap']} aria-labelledby="services-title">
+<section class:list={[!full && 'section-gap']} aria-labelledby={full ? undefined : 'services-title'}>
   <div class="container-page">
-    {!full && <SectionHeader id="services-title" title={ctx.pick(s.title) || ctx.tr('nav.services')} link={{ label: ctx.tr('viewAll'), href: ctx.href('/services/') }} />}
-    <div class:list={['grid gap-10', !full && 'md:grid-cols-2 md:gap-x-16']}>
-      {groups.map((g) => (
-        <div id={g.c.id} class="scroll-mt-24">
-          <h3 class="text-h3 mb-2">{ctx.pick(g.c.title)}</h3>
-          <ul class="m-0 p-0 list-none">
-            {g.items.slice(0, limit).map((sv) => (
-              <li class="flex items-center justify-between gap-3 min-h-14 py-2 border-b border-line">
-                <a href={ctx.href(`/services/${sv.slug}/`)} class="no-underline">
-                  <span class="block text-body">{ctx.pick(sv.title)}</span>
-                  {full && ctx.pick(sv.summary) && <span class="block text-small text-muted">{ctx.pick(sv.summary)}</span>}
-                </a>
-                <span class="flex items-baseline gap-4 shrink-0 tabular">
-                  <span class="text-muted text-small">{mins(sv.durationMinutes)}</span>
-                  <Price ctx={ctx} value={sv.price.amount} from={sv.price.kind === 'from'} trim />
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    {!full && <SectionHeader id="services-title" eyebrow={ctx.pick(s.eyebrow) || undefined} title={ctx.pick(s.title) || ctx.tr('nav.services')} subtitle={ctx.pick(s.subtitle) || undefined} link={{ label: ctx.tr('viewAll'), href: ctx.href('/services/') }} />}
+    <div class:list={['grid gap-6', full ? 'lg:grid-cols-2 lg:[&>*:last-child:nth-child(odd)]:col-span-2' : 'md:grid-cols-2 md:[&>*:last-child:nth-child(odd)]:col-span-2']}>
+      {groups.map((g) => {
+        const cover = g.c.image ?? g.items.find((x) => x.images[0])?.images[0]?.src;
+        return (
+          <article id={g.c.id} class="aw-card-elev overflow-hidden scroll-mt-24 flex flex-col">
+            <header class="relative h-36 md:h-44 bg-deep">
+              {cover && <Picture src={cover} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[480, 720, 960]} sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />}
+              <span class="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent" aria-hidden="true"></span>
+              <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-3 text-white">
+                <h3 class="text-h3 text-white">{ctx.pick(g.c.title)}</h3>
+                <span class="text-small text-white/80">{ctx.lang === 'ar' ? `${ctx.num(g.items.length)} خدمات` : `${g.items.length} services`}</span>
+              </div>
+            </header>
+            <ul class="m-0 p-0 px-5 list-none flex-1">
+              {g.items.slice(0, limit).map((sv) => (
+                <li class="flex items-center justify-between gap-3 min-h-16 py-3 border-b border-line last:border-b-0">
+                  <a href={ctx.href(`/services/${sv.slug}/`)} class="no-underline min-w-0 group">
+                    <span class="block text-body group-hover:text-accent transition-colors" style="font-weight: var(--brand-fw-ui)">{ctx.pick(sv.title)}</span>
+                    {full && ctx.pick(sv.summary) && <span class="block text-small text-muted">{ctx.pick(sv.summary)}</span>}
+                    <span class="inline-flex items-center gap-1 text-small text-muted mt-0.5"><Icon name="clock" size={14} />{mins(sv.durationMinutes)}</span>
+                  </a>
+                  <span class="flex items-center gap-3 shrink-0">
+                    <Price ctx={ctx} value={sv.price.amount} from={sv.price.kind === 'from'} trim class="justify-end text-end max-w-[7.5rem]" />
+                    {full && sv.bookableOnline && <a href={ctx.href(`/book/?service=${sv.id}`)} class="aw-btn aw-btn-secondary aw-btn-sm max-sm:hidden">{ctx.tr('cta.book')}</a>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {!full && g.items.length > limit && (
+              <a href={ctx.href(`/services/#${g.c.id}`)} class="mx-5 mb-5 mt-1 aw-more self-start">{ctx.lang === 'ar' ? `+ ${ctx.num(g.items.length - limit)} خدمات أخرى` : `+ ${g.items.length - limit} more`}</a>
+            )}
+          </article>
+        );
+      })}
     </div>
   </div>
 </section>

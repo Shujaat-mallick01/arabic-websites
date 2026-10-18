@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: ملمس الكتان المغسول
+  alt: ملمس الكتان المغسول
+  style: lookbook
+  featured: true
+  order: 4
+en:
+  caption: Washed linen texture
+  alt: Washed linen texture

@@ -1,0 +1,10 @@
+ar:
+  _slug: shaylas
+  title: الشيلات
+  summary: شيلات ساتان وشاش وقطن بألوان هادية لكل يوم.
+  image: ./cover.webp
+  order: 1
+  season: none
+en:
+  title: Shaylas
+  summary: Satin, gauze and cotton shaylas in calm everyday colours.

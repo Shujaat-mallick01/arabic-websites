@@ -1,0 +1,42 @@
+ar:
+  id: p001
+  _slug: zaytouna-satin-shayla
+  title: شيلة ساتان «زيتونة»
+  summary: ساتان ناعم بلمعة خفيفة، ما يزحلق عن الراس.
+  description: |-
+    ساتان ناعم بلمعة خفيفة، ما يزحلق عن الراس.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "3.500"
+  category: shaylas
+  tags:
+    - new
+  availability: in_stock
+  featured: true
+  order: 1
+  images:
+    - src: ./front.webp
+      alt_ar: شيلة ساتان «زيتونة»
+      alt_en: Zaytouna satin shayla
+    - src: ./detail.webp
+      alt_ar: شيلة ساتان «زيتونة»، تفصيل القماش
+      alt_en: Zaytouna satin shayla, fabric detail
+  sizes: []
+  colors:
+    - id: olive
+      name_ar: زيتي
+      name_en: Olive
+      hex: "#7A7044"
+  fabric: ساتان حرير صناعي
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Zaytouna satin shayla
+  summary: Soft satin with a gentle sheen that stays in place.
+  description: |-
+    Soft satin with a gentle sheen that stays in place.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Satin (viscose silk)
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

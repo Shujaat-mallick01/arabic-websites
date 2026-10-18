@@ -1,7 +1,9 @@
 ---
 // Sample reviews, always labelled "تقييم توضيحي". Never marked up as Review/AggregateRating.
-// Variants: quote-rail, card-stack, single-large.
+// Variants: quote-rail (cards in a rail), card-stack (grid), single-large (one big quote + others).
 import SectionHeader from './SectionHeader.astro';
+import Icon from '../primitives/Icon.astro';
+import Rail from '../primitives/Rail.astro';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
 import { bi } from '@aw/content';
@@ -13,37 +15,64 @@ interface Props {
 }
 const { ctx, section: s, items } = Astro.props;
 const variant = (ctx.site.layout.sectionVariants.reviews ?? 'quote-rail') as 'quote-rail' | 'card-stack' | 'single-large';
-const list = items.slice(0, Number(s.limit ?? 4)).map((r) => ({
+const list = items.slice(0, Number(s.limit ?? 6)).map((r) => ({
   id: r.id,
   name: bi(r.entry as never, 'name'),
   city: bi(r.entry as never, 'city'),
   item: bi(r.entry as never, 'item'),
   body: bi(r.entry as never, 'body'),
+  rating: Number(r.entry.ar.rating ?? 5),
 }));
 const sample = ctx.site.demo.enabled;
+const initial = (n: string) => n.trim().charAt(0);
 ---
 {list.length > 0 && (
-  <section class="section-gap" aria-labelledby="reviews-title">
+  <section class="aw-band aw-texture py-16 md:py-24" aria-labelledby="reviews-title">
     <div class="container-page">
-      <SectionHeader id="reviews-title" title={ctx.pick(s.title) || ctx.tr('section.reviews')} subtitle={sample ? ctx.tr('demo.reviewsNote') : ctx.pick(s.subtitle)} />
+      <SectionHeader id="reviews-title" eyebrow={ctx.pick(s.eyebrow) || undefined} title={ctx.pick(s.title) || ctx.tr('section.reviews')} subtitle={sample ? ctx.tr('demo.reviewsNote') : ctx.pick(s.subtitle)} align={variant === 'single-large' ? 'center' : 'start'} />
       {variant === 'single-large' ? (
-        <figure class="m-0 max-w-3xl">
-          <blockquote class="m-0 text-h2 font-body" style="font-weight: var(--brand-fw-body); line-height: 1.6">“{ctx.pick(list[0]!.body)}”</blockquote>
-          <figcaption class="mt-4 text-muted">{ctx.pick(list[0]!.name)}{ctx.pick(list[0]!.city) && `، ${ctx.pick(list[0]!.city)}`}{sample && <span class="ms-3 text-small border border-muted rounded-control px-2 py-0.5">{ctx.tr('demo.reviewLabel')}</span>}</figcaption>
-        </figure>
+        <div class="flex flex-col items-center gap-10">
+          <figure class="m-0 max-w-3xl text-center flex flex-col items-center gap-6">
+            <span class="aw-icon-tile w-14 h-14 rounded-full"><Icon name="quote" size={26} /></span>
+            <blockquote class="m-0 text-h2 font-body" style="font-weight: var(--brand-fw-body); line-height: 1.65">{ctx.pick(list[0]!.body)}</blockquote>
+            <figcaption class="flex flex-col items-center gap-2">
+              <span class="aw-stars" aria-label={`${list[0]!.rating}/5`}>{Array.from({ length: list[0]!.rating }, () => <Icon name="star" size={16} />)}</span>
+              <span style="font-weight: var(--brand-fw-ui)">{ctx.pick(list[0]!.name)}</span>
+              <span class="text-small text-muted">{ctx.pick(list[0]!.city)}{sample && <span class="ms-2 border border-line rounded-full px-2 py-0.5">{ctx.tr('demo.reviewLabel')}</span>}</span>
+            </figcaption>
+          </figure>
+          {list.length > 1 && (
+            <ul class="m-0 p-0 list-none grid gap-4 md:grid-cols-3 w-full">
+              {list.slice(1, 4).map((r) => (
+                <li class="aw-card-elev p-5 flex flex-col gap-3">
+                  <span class="aw-stars">{Array.from({ length: r.rating }, () => <Icon name="star" size={14} />)}</span>
+                  <p class="m-0 text-small">{ctx.pick(r.body)}</p>
+                  <span class="mt-auto text-small text-muted">{ctx.pick(r.name)}{ctx.pick(r.city) && ` · ${ctx.pick(r.city)}`}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       ) : (
-        <ul class:list={['m-0 p-0 list-none', variant === 'quote-rail' ? 'scroll-rail gap-3 md:gap-5 -mx-[var(--brand-gutter)] px-[var(--brand-gutter)]' : 'grid gap-4 md:grid-cols-2']}>
+        <Rail label={ctx.pick(s.title) || ctx.tr('section.reviews')} controls={variant === 'quote-rail'} listClass={variant === 'quote-rail' ? 'gap-4 md:gap-5' : 'gap-4 md:gap-5 md:grid md:grid-cols-3 md:overflow-visible'}>
           {list.map((r) => (
-            <li class:list={['flex flex-col gap-3 p-5 md:p-6 rounded-card bg-surface', variant === 'quote-rail' && 'w-[82%] md:w-[30%]']}>
-              <p class="m-0 text-body">“{ctx.pick(r.body)}”</p>
-              <div class="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-muted">
-                <span>{ctx.pick(r.name)}{ctx.pick(r.city) && `، ${ctx.pick(r.city)}`}</span>
-                {ctx.pick(r.item) && <span>· {ctx.pick(r.item)}</span>}
-                {sample && <span class="border border-muted rounded-control px-2 py-0.5">{ctx.tr('demo.reviewLabel')}</span>}
+            <li class="w-[84%] sm:w-[48%] md:w-[calc((100%-2*1.25rem)/3)] aw-card-elev p-6 md:p-7 flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <span class="aw-stars" aria-label={`${r.rating}/5`}>{Array.from({ length: r.rating }, () => <Icon name="star" size={16} />)}</span>
+                <Icon name="quote" size={30} class="text-accent opacity-25" />
+              </div>
+              <p class="m-0 text-body leading-relaxed">{ctx.pick(r.body)}</p>
+              <div class="mt-auto pt-4 border-t border-line flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-accent text-accent-ink font-display text-h3 shrink-0" aria-hidden="true">{initial(ctx.pick(r.name))}</span>
+                <span class="flex flex-col min-w-0">
+                  <span style="font-weight: var(--brand-fw-ui)">{ctx.pick(r.name)}</span>
+                  <span class="text-small text-muted truncate">{[ctx.pick(r.city), ctx.pick(r.item)].filter(Boolean).join(' · ')}</span>
+                </span>
+                {sample && <span class="ms-auto text-[0.72rem] text-muted border border-line rounded-full px-2 py-0.5 shrink-0">{ctx.tr('demo.reviewLabel')}</span>}
               </div>
             </li>
           ))}
-        </ul>
+        </Rail>
       )}
     </div>
   </section>

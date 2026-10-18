@@ -6,7 +6,7 @@ description: Exchange and return conditions, time limits and refunds.
 Customers may request an exchange or return within fourteen days of delivery, provided the piece is unworn and carries its original tags.
 
 ## Not returnable
-- Pieces hemmed to order.
+- Shaylas and scarves once unwrapped, for hygiene reasons.
 - Shaylas and underscarves, for hygiene reasons.
 - Sale items, which can be exchanged only.
 

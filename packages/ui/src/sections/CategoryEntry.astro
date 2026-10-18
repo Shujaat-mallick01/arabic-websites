@@ -19,14 +19,18 @@ const aria = label ?? ctx.tr('section.categories');
 ---
 {variant === 'story-cards' && (
   <nav aria-label={aria}>
-    <ul class="scroll-rail m-0 p-0 list-none gap-2.5 md:gap-[22px] -mx-[var(--brand-gutter)] px-[var(--brand-gutter)] md:mx-0 md:px-0 md:grid md:grid-flow-col md:auto-cols-[164px] md:justify-start">
+    <ul class:list={['m-0 p-0 list-none', 'scroll-rail gap-3 -mx-[var(--brand-gutter)] px-[var(--brand-gutter)]', 'md:mx-0 md:px-0 md:grid md:gap-5', categories.length <= 3 ? 'md:grid-cols-3' : categories.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-5']}>
       {categories.map((c, i) => (
-        <li class="w-[104px] md:w-auto">
-          <a href={href(c)} class="group flex flex-col gap-2 no-underline">
-            <span class="block overflow-hidden rounded-card bg-surface aspect-[9/16]">
-              {c.image && <Picture src={c.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[120, 240, 330]} sizes="(min-width: 768px) 164px, 104px" loading={i < eager ? 'eager' : 'lazy'} class="h-full w-full object-cover transition-brand group-hover:scale-[1.03]" />}
+        <li class="w-[42%] sm:w-[30%] md:w-auto">
+          <a href={href(c)} class="group relative block overflow-hidden rounded-card bg-surface aspect-[3/4] no-underline shadow-[var(--aw-shadow-1)]">
+            {c.image && <Picture src={c.image} alt="" formats={['avif', 'webp']} fallbackFormat="webp" widths={[200, 360, 520]} sizes="(min-width: 768px) 30vw, 42vw" loading={i < eager ? 'eager' : 'lazy'} class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]" />}
+            <span class="absolute inset-0 bg-linear-to-t from-black/65 via-black/10 to-transparent" aria-hidden="true"></span>
+            <span class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3.5 md:p-5 text-white">
+              <span class="text-body md:text-h3 font-display leading-tight" style="font-weight: var(--brand-fw-heading)">{ctx.pick(c.title)}</span>
+              <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/90 text-black shrink-0 transition-transform group-hover:-translate-x-1 rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 max-md:hidden" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="rtl:-scale-x-100"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
             </span>
-            <span class="text-small text-center" style="font-weight: var(--brand-fw-ui)">{ctx.pick(c.title)}</span>
           </a>
         </li>
       ))}

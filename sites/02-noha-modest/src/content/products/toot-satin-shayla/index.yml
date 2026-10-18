@@ -1,0 +1,42 @@
+ar:
+  id: p002
+  _slug: toot-satin-shayla
+  title: شيلة ساتان «توت»
+  summary: لون التوت الغامق للعزايم والمناسبات.
+  description: |-
+    لون التوت الغامق للعزايم والمناسبات.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "3.500"
+  category: shaylas
+  tags:
+    - new
+  availability: in_stock
+  featured: true
+  order: 2
+  images:
+    - src: ./front.webp
+      alt_ar: شيلة ساتان «توت»
+      alt_en: Toot satin shayla
+    - src: ./detail.webp
+      alt_ar: شيلة ساتان «توت»، تفصيل القماش
+      alt_en: Toot satin shayla, fabric detail
+  sizes: []
+  colors:
+    - id: plum
+      name_ar: توتي
+      name_en: Plum
+      hex: "#4B1D52"
+  fabric: ساتان حرير صناعي
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Toot satin shayla
+  summary: Deep berry for gatherings and occasions.
+  description: |-
+    Deep berry for gatherings and occasions.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Satin (viscose silk)
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

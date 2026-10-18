@@ -8,4 +8,5 @@ declare module 'virtual:aw/config' {
   export const studio: StudioConfig;
   export const resolved: ResolvedLite;
   export const logos: { main: string; dark: string; mark: string };
+  export const credits: Array<{ file: string; title: string; creator: string | null; creatorUrl: string | null; source: string; landing: string; license: string; licenseUrl: string; modified: boolean }>;
 }

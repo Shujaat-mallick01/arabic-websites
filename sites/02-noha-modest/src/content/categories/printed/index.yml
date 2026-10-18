@@ -1,0 +1,10 @@
+ar:
+  _slug: printed
+  title: طرح مطبوعة
+  summary: طرح بنقشات مرسومة باليد وألوان تفرح.
+  image: ./cover.webp
+  order: 2
+  season: none
+en:
+  title: Printed scarves
+  summary: Hand-drawn prints in happy colours.

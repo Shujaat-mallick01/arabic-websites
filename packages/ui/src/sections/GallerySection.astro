@@ -3,6 +3,7 @@
 // links to its full-size file so it works without JS.
 import { Picture, getImage } from 'astro:assets';
 import SectionHeader from './SectionHeader.astro';
+import Rail from '../primitives/Rail.astro';
 import type { PageContext } from '../context.ts';
 import type { Raw } from '../data.ts';
 import { bi } from '@aw/content';
@@ -23,24 +24,29 @@ const full = await Promise.all(list.map((g) => (g.image ? getImage({ src: g.imag
 {list.length > 0 && (
   <section class="section-gap" aria-labelledby={`g-${variant}`}>
     <div class="container-page">
-      <SectionHeader id={`g-${variant}`} title={heading ?? ctx.pick(s.title)} subtitle={ctx.pick(s.subtitle)} link={link ? { label: ctx.tr('viewAll'), href: ctx.href(link) } : undefined} />
+      <SectionHeader id={`g-${variant}`} eyebrow={ctx.pick(s.eyebrow) || undefined} title={heading ?? ctx.pick(s.title)} subtitle={ctx.pick(s.subtitle)} link={link ? { label: ctx.tr('viewAll'), href: ctx.href(link) } : undefined} />
       {variant === 'rail' ? (
-        <ul class="scroll-rail m-0 p-0 list-none gap-3 md:gap-5 -mx-[var(--brand-gutter)] px-[var(--brand-gutter)]">
+        <Rail label={heading ?? ctx.pick(s.title)}>
           {list.map((g, i) => (
-            <li class="w-[58%] md:w-[22%]">
-              <a href={full[i]?.src} class="block overflow-hidden rounded-card aspect-[9/16] bg-surface" aria-label={ctx.pick(g.alt) || ctx.pick(g.caption)}>
-                {g.image && <Picture src={g.image} alt={ctx.pick(g.alt) || ctx.pick(g.caption)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[240, 480]} sizes="(min-width: 768px) 22vw, 58vw" loading="lazy" class="h-full w-full object-cover" />}
+            <li class="w-[62%] sm:w-[40%] md:w-[calc((100%-3*1.25rem)/4)]">
+              <a href={full[i]?.src} class="group relative block overflow-hidden rounded-card aspect-[3/4] bg-surface shadow-[var(--aw-shadow-1)]" aria-label={ctx.pick(g.alt) || ctx.pick(g.caption)}>
+                {g.image && <Picture src={g.image} alt={ctx.pick(g.alt) || ctx.pick(g.caption)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[240, 480, 640]} sizes="(min-width: 768px) 24vw, 62vw" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />}
+                {ctx.pick(g.caption) && (
+                  <span class="absolute inset-x-0 bottom-0 p-4 pt-12 bg-linear-to-t from-black/70 to-transparent text-white text-small">{ctx.pick(g.caption)}</span>
+                )}
               </a>
-              {ctx.pick(g.caption) && <p class="m-0 mt-2 text-small text-muted">{ctx.pick(g.caption)}</p>}
             </li>
           ))}
-        </ul>
+        </Rail>
       ) : (
-        <ul class:list={['m-0 p-0 list-none grid', variant === 'wall' ? 'grid-cols-3 gap-0.5' : 'grid-cols-2 md:grid-cols-3 gap-3 md:gap-5']}>
+        <ul class:list={['m-0 p-0 list-none grid', variant === 'wall' ? 'grid-cols-3 gap-0.5' : 'grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 md:auto-rows-[230px]']}>
           {list.map((g, i) => (
-            <li>
-              <a href={full[i]?.src} class:list={['block overflow-hidden bg-surface', variant === 'wall' ? 'aspect-square' : 'aspect-[3/4] rounded-image']} aria-label={ctx.pick(g.alt) || ctx.pick(g.caption)}>
-                {g.image && <Picture src={g.image} alt={ctx.pick(g.alt) || ctx.pick(g.caption)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[240, 480, 720]} sizes="(min-width: 768px) 33vw, 50vw" loading="lazy" class="h-full w-full object-cover" />}
+            <li class:list={[variant !== 'wall' && i % 5 === 0 && 'md:col-span-2 md:row-span-2']}>
+              <a href={full[i]?.src} class:list={['group relative block h-full overflow-hidden bg-surface', variant === 'wall' ? 'aspect-square' : 'aspect-[3/4] md:aspect-auto rounded-card shadow-[var(--aw-shadow-1)]']} aria-label={ctx.pick(g.alt) || ctx.pick(g.caption)}>
+                {g.image && <Picture src={g.image} alt={ctx.pick(g.alt) || ctx.pick(g.caption)} formats={['avif', 'webp']} fallbackFormat="webp" widths={[240, 480, 720, 960]} sizes="(min-width: 768px) 50vw, 50vw" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />}
+                {variant !== 'wall' && ctx.pick(g.caption) && (
+                  <span class="absolute inset-x-0 bottom-0 p-4 pt-12 bg-linear-to-t from-black/70 to-transparent text-white text-small md:opacity-0 md:group-hover:opacity-100 transition-opacity">{ctx.pick(g.caption)}</span>
+                )}
               </a>
             </li>
           ))}

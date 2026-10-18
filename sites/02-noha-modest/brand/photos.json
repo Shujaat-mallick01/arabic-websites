@@ -1,0 +1,303 @@
+[
+  {
+    "dest": "categories/shaylas/cover.webp",
+    "ref": "silk#14",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "categories/printed/cover.webp",
+    "ref": "silk#18",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "categories/homewear/cover.webp",
+    "ref": "robe#1",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.45"
+  },
+  {
+    "dest": "products/zaytouna-satin-shayla/front.webp",
+    "ref": "silk#14",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/zaytouna-satin-shayla/detail.webp",
+    "ref": "silk#14",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.4,0.4",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/toot-satin-shayla/front.webp",
+    "ref": "silk#15",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/toot-satin-shayla/detail.webp",
+    "ref": "silk#15",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.55,0.45",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/raml-gauze-shayla/front.webp",
+    "ref": "knit#6",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/raml-gauze-shayla/detail.webp",
+    "ref": "knit#6",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.6",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/bahr-knit-wrap/front.webp",
+    "ref": "knit#7",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.35,0.5"
+  },
+  {
+    "dest": "products/bahr-knit-wrap/detail.webp",
+    "ref": "knit#7",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.3,0.55",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/trio-cotton-shaylas/front.webp",
+    "ref": "hijab#0",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.55,0.74",
+    "zoom": 1.45
+  },
+  {
+    "dest": "products/trio-cotton-shaylas/detail.webp",
+    "ref": "hijab#0",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.75,0.75",
+    "zoom": 2.2
+  },
+  {
+    "dest": "products/khareeta-silk-scarf/front.webp",
+    "ref": "silk#18",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/khareeta-silk-scarf/detail.webp",
+    "ref": "silk#18",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.35",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/awraq-print-scarf/front.webp",
+    "ref": "silk#7",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/awraq-print-scarf/detail.webp",
+    "ref": "silk#7",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.5",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/fushia-dot-scarf/front.webp",
+    "ref": "silk#9",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/fushia-dot-scarf/detail.webp",
+    "ref": "silk#9",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.5",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/tulip-print-scarf/front.webp",
+    "ref": "silk#13",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/tulip-print-scarf/detail.webp",
+    "ref": "silk#13",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.75",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/paisley-print-scarf/front.webp",
+    "ref": "silk#5",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/paisley-print-scarf/detail.webp",
+    "ref": "silk#5",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.45,0.4",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/mawj-print-scarf/front.webp",
+    "ref": "silk#12",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "products/mawj-print-scarf/detail.webp",
+    "ref": "silk#12",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.5",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/ghaima-home-robe/front.webp",
+    "ref": "robe#1",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.5"
+  },
+  {
+    "dest": "products/ghaima-home-robe/detail.webp",
+    "ref": "robe#1",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.65",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/naseem-linen-robe/front.webp",
+    "ref": "rack#9",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.55"
+  },
+  {
+    "dest": "products/naseem-linen-robe/detail.webp",
+    "ref": "rack#9",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.6",
+    "zoom": 1.9
+  },
+  {
+    "dest": "products/asas-cotton-tee/front.webp",
+    "ref": "hanger#13",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.45,0.6"
+  },
+  {
+    "dest": "products/asas-cotton-tee/detail.webp",
+    "ref": "hanger#13",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.5,0.75",
+    "zoom": 1.9
+  },
+  {
+    "dest": "gallery/rail-of-blues/photo.webp",
+    "ref": "hijab#0",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.55,0.74",
+    "zoom": 1.45
+  },
+  {
+    "dest": "gallery/market-stacks/photo.webp",
+    "ref": "scarf#18",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/white-rail/photo.webp",
+    "ref": "rack#1",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/linen-texture/photo.webp",
+    "ref": "linen#0",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/wood-hangers/photo.webp",
+    "ref": "hanger#5",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/satin-fold/photo.webp",
+    "ref": "silk#14",
+    "w": 900,
+    "h": 1200,
+    "pos": "0.6,0.4"
+  },
+  {
+    "dest": "gallery/knit-stack/photo.webp",
+    "ref": "folded#18",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "gallery/studio-rail/photo.webp",
+    "ref": "rack#6",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "dest": "settings/media/hero.webp",
+    "ref": "hijab#0",
+    "w": 1000,
+    "h": 1250,
+    "pos": "0.55,0.74",
+    "zoom": 1.45
+  },
+  {
+    "dest": "settings/media/hero-wide.webp",
+    "ref": "hijab#0",
+    "w": 1920,
+    "h": 840,
+    "pos": "0.5,0.74"
+  },
+  {
+    "dest": "settings/media/share.webp",
+    "ref": "hijab#0",
+    "w": 1200,
+    "h": 630,
+    "pos": "0.5,0.74"
+  },
+  {
+    "dest": "settings/media/studio.webp",
+    "ref": "rack#9",
+    "w": 1000,
+    "h": 1200,
+    "pos": "0.5,0.5"
+  }
+]

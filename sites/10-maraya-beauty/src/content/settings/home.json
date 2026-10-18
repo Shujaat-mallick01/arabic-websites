@@ -4,8 +4,8 @@
       "type": "hero",
       "enabled": true,
       "title": {
-        "ar": "اتجلّي على مهلك، الليل لسّه طويل",
-        "en": "Take your time. The night’s still young."
+        "ar": "اتجلّي على *مهلك*، الليل لسّه طويل",
+        "en": "Take your time, *the night is young*"
       },
       "subtitle": {
         "ar": "كل خدمة قدّامك بوقتها وسعرها. اختاري خبيرتك وغرفتك، واحجزي بعربون بسيط. فاتحين كل يوم لحد الساعة 2 بالليل.",
@@ -20,62 +20,91 @@
       "imageAlt": {
         "ar": "مراية مقوّسة بإضاءة دافية في جناح العروس",
         "en": "An arched mirror with warm bulbs in the bridal suite"
-      }
+      },
+      "eyebrow": {
+        "ar": "بيوتي لاونج · حي الشاطئ، جدة",
+        "en": "Beauty lounge · Al Shati, Jeddah"
+      },
+      "secondaryLabel": {
+        "ar": "قائمة الخدمات",
+        "en": "Service menu"
+      },
+      "secondaryHref": "/services/"
     },
     {
       "type": "packages",
       "enabled": true,
       "title": {
-        "ar": "العرايس",
-        "en": "Brides"
+        "ar": "باقات *ليلة العمر*",
+        "en": "Packages for *the big night*"
       },
       "subtitle": {
         "ar": "باقات بعربون ثابت، ونحجز لك الجناح والخبيرتين بنفس الوقت.",
         "en": "Packages with a fixed deposit; we book the suite and both stylists together."
+      },
+      "eyebrow": {
+        "ar": "العرايس",
+        "en": "Brides"
       }
     },
     {
       "type": "reviews",
       "enabled": true,
       "title": {
-        "ar": "قالوا عنّا",
-        "en": "Kind words"
+        "ar": "قالوا *عنّا*",
+        "en": "Kind *words*"
+      },
+      "eyebrow": {
+        "ar": "آراء",
+        "en": "Reviews"
       }
     },
     {
       "type": "services",
       "enabled": true,
       "title": {
-        "ar": "قائمة الخدمات",
-        "en": "Service menu"
+        "ar": "قائمة *الخدمات*",
+        "en": "The service *menu*"
       },
-      "limit": 4
+      "limit": 3,
+      "eyebrow": {
+        "ar": "الخدمات",
+        "en": "Services"
+      },
+      "subtitle": {
+        "ar": "كل خدمة بوقتها وسعرها، والأسعار شاملة الضريبة.",
+        "en": "Every service with its time and price, VAT included."
+      }
     },
     {
       "type": "gallery",
       "enabled": true,
       "title": {
-        "ar": "من داخل جَلوة",
-        "en": "Inside Jalwa"
+        "ar": "من داخل *جَلوة*",
+        "en": "Inside *Jalwa*"
       },
-      "limit": 9
+      "limit": 10,
+      "eyebrow": {
+        "ar": "المكان",
+        "en": "The lounge"
+      }
     },
     {
       "type": "hours",
       "enabled": true,
       "title": {
-        "ar": "أوقات العمل",
-        "en": "Opening hours"
+        "ar": "أوقات *العمل*",
+        "en": "Opening *hours*"
       }
     },
     {
       "type": "faq-teaser",
       "enabled": true,
       "title": {
-        "ar": "أسئلة تتكرر",
-        "en": "Questions"
+        "ar": "أسئلة *تتكرر*",
+        "en": "Common *questions*"
       },
-      "limit": 6
+      "limit": 4
     }
   ]
 }

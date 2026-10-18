@@ -1,0 +1,10 @@
+ar:
+  image: ./photo.webp
+  caption: مراية التسريحة مع الورد والفرش
+  alt: مراية التسريحة مع الورد والفرش
+  style: lounge
+  featured: true
+  order: 1
+en:
+  caption: The vanity mirror with roses and brushes
+  alt: The vanity mirror with roses and brushes

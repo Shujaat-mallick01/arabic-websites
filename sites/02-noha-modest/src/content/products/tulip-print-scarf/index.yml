@@ -1,0 +1,42 @@
+ar:
+  id: p009
+  _slug: tulip-print-scarf
+  title: طرحة «توليب»
+  summary: أزرق متدرّج بنقشة توليب على الطرف.
+  description: |-
+    أزرق متدرّج بنقشة توليب على الطرف.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "4.500"
+  category: printed
+  tags:
+    - new
+  availability: in_stock
+  featured: false
+  order: 9
+  images:
+    - src: ./front.webp
+      alt_ar: طرحة «توليب»
+      alt_en: Tulip print scarf
+    - src: ./detail.webp
+      alt_ar: طرحة «توليب»، تفصيل القماش
+      alt_en: Tulip print scarf, fabric detail
+  sizes: []
+  colors:
+    - id: blue
+      name_ar: أزرق
+      name_en: Blue
+      hex: "#4C6FC4"
+  fabric: شيفون مطبوع
+  care: غسيل يدوي بماء بارد، وتنشيف على الظل، وكيّ على حرارة منخفضة.
+  fit: "مقاس واحد: 180 × 70 سم تقريباً."
+en:
+  title: Tulip print scarf
+  summary: Ombré blue with a tulip print along the edge.
+  description: |-
+    Ombré blue with a tulip print along the edge.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Printed chiffon
+  care: Hand wash cold, dry in the shade, iron on low.
+  fit: "One size: about 180 × 70 cm."

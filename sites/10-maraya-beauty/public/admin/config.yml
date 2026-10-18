@@ -1336,8 +1336,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1359,18 +1372,6 @@ collections:
                       - name: en
                         label: بالإنجليزي
                         widget: text
-                        required: false
-                  - name: eyebrow
-                    label: سطر صغير فوق العنوان
-                    widget: object
-                    fields:
-                      - name: ar
-                        label: بالعربي
-                        widget: string
-                        required: false
-                      - name: en
-                        label: بالإنجليزي
-                        widget: string
                         required: false
                   - name: ctaLabel
                     label: نص الزر
@@ -1439,6 +1440,30 @@ collections:
                         label: بالإنجليزي
                         widget: string
                         required: false
+                  - name: categoriesEyebrow
+                    label: سطر فوق الأقسام
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
+                  - name: categoriesTitle
+                    label: عنوان الأقسام
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
               - name: reviews
                 label: آراء العملاء
                 widget: object
@@ -1449,8 +1474,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1507,8 +1545,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1565,8 +1616,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1645,8 +1709,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1703,8 +1780,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1761,8 +1851,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1819,8 +1922,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1877,8 +1993,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1935,8 +2064,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar
@@ -1993,8 +2135,21 @@ collections:
                     widget: boolean
                     default: true
                     required: false
+                  - name: eyebrow
+                    label: سطر صغير فوق العنوان
+                    widget: object
+                    fields:
+                      - name: ar
+                        label: بالعربي
+                        widget: string
+                        required: false
+                      - name: en
+                        label: بالإنجليزي
+                        widget: string
+                        required: false
                   - name: title
                     label: العنوان
+                    hint: ضع كلمة بين نجمتين *هكذا* لتظهر بلون مميّز
                     widget: object
                     fields:
                       - name: ar

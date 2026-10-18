@@ -1,0 +1,45 @@
+ar:
+  id: p013
+  _slug: naseem-linen-robe
+  title: روب كتان «نسمة»
+  summary: كتان مغسول خفيف للصيف، يتعلّق وينلبس على طول.
+  description: |-
+    كتان مغسول خفيف للصيف، يتعلّق وينلبس على طول.
+
+    كل قطعة من دريشة تنشحن مكوية ومغلّفة بورق خفيف، مع بطاقة فيها تاريخ وصولها. الألوان في الصور قريبة من الحقيقة قدر الإمكان، وقد يختلف اللون قليلاً حسب الشاشة.
+  price: "16.000"
+  category: homewear
+  tags:
+    - new
+  availability: in_stock
+  featured: false
+  order: 13
+  images:
+    - src: ./front.webp
+      alt_ar: روب كتان «نسمة»
+      alt_en: Naseem linen robe
+    - src: ./detail.webp
+      alt_ar: روب كتان «نسمة»، تفصيل القماش
+      alt_en: Naseem linen robe, fabric detail
+  sizes:
+    - s
+    - m
+    - l
+  colors:
+    - id: blue-grey
+      name_ar: أزرق رمادي
+      name_en: Blue grey
+      hex: "#7D93A6"
+  fabric: كتان مغسول
+  care: غسيل على دورة الملابس الحساسة بماء بارد، وكيّ على حرارة متوسطة.
+  fit: المقاس مطابق لجدول المقاسات، والقصّة واسعة.
+en:
+  title: Naseem linen robe
+  summary: Light washed linen for summer, ready to wear.
+  description: |-
+    Light washed linen for summer, ready to wear.
+
+    Every Dareesha piece ships pressed and wrapped in tissue, with a card showing its arrival date. Colours are shown as accurately as we can; they may vary slightly by screen.
+  fabric: Washed linen
+  care: Delicate cycle in cold water; iron on medium.
+  fit: True to the size chart, with a relaxed cut.

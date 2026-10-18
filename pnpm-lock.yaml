@@ -215,6 +215,34 @@ importers:
         specifier: workspace:*
         version: link:../i18n
 
+  packages/content:
+    dependencies:
+      '@aw/booking':
+        specifier: workspace:*
+        version: link:../booking
+      '@aw/commerce':
+        specifier: workspace:*
+        version: link:../commerce
+      '@aw/core':
+        specifier: workspace:*
+        version: link:../core
+      '@aw/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+      '@aw/presets':
+        specifier: workspace:*
+        version: link:../presets
+      yaml:
+        specifier: ^2.9.1
+        version: 2.9.1
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+    devDependencies:
+      astro:
+        specifier: 7.4.0
+        version: 7.4.0(@netlify/blobs@11.1.4)(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
+
   packages/core:
     dependencies:
       '@netlify/blobs':
@@ -250,8 +278,6 @@ importers:
       '@aw/i18n':
         specifier: workspace:*
         version: link:../i18n
-
-  packages/zz-spike: {}
 
   sites/_spike:
     dependencies:

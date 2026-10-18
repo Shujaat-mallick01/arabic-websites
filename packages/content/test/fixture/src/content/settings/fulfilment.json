@@ -1,0 +1,12 @@
+{
+  "delivery": {
+    "zones": [
+      { "id": "hawalli", "kind": "governorate", "fee": "1.500", "freeOver": "25.000", "etaMin": 1, "etaMax": 2, "codAllowed": true, "active": true },
+      { "id": "custom-khiran", "kind": "custom", "name": { "ar": "الخيران", "en": "Khiran" }, "fee": "4.000", "etaMin": 2, "etaMax": 3 }
+    ],
+    "deliveryDays": ["sat", "sun", "mon", "tue", "wed", "thu"],
+    "leadHours": 24,
+    "leadByTag": [{ "tag": "personalised", "hours": 48 }]
+  },
+  "deliveryInfo": { "ar": "التوصيل خلال يوم إلى يومين.", "en": "Delivery in 1–2 days." }
+}

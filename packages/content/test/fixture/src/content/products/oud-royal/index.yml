@@ -1,0 +1,26 @@
+ar:
+  id: p1
+  title: عود ملكي
+  summary: عود كمبودي دافئ بلمسة عنبر.
+  description: |
+    عطر ثقيل يدوم.
+  price: "18.000"
+  category: oud
+  tags: [oud, gift]
+  availability: in_stock
+  featured: true
+  order: 1
+  images:
+    - src: ./front.webp
+  bottles:
+    - { ml: 30, price: "18.000" }
+    - { ml: 50, price: 26.5 }
+  family: oud
+  notesTop: [saffron]
+  notesHeart: [rose]
+  notesBase: [oud]
+  giftWrap: true
+  occasions: [eid, gift]
+en:
+  title: Royal Oud
+  summary: Warm Cambodian oud with a touch of amber.

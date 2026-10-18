@@ -291,6 +291,12 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/seo:
+    dependencies:
+      '@aw/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/whatsapp:
     dependencies:
       '@aw/core':

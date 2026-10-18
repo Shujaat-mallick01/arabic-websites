@@ -187,6 +187,9 @@ importers:
       '@aw/i18n':
         specifier: workspace:*
         version: link:packages/i18n
+      '@aw/ops':
+        specifier: workspace:*
+        version: link:packages/ops
       '@aw/payments':
         specifier: workspace:*
         version: link:packages/payments

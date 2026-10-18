@@ -1,0 +1,192 @@
+---
+// /owner/ — the shop owner's runtime dashboard. Static page + island over /api/owner/*.
+// Demo mode shows illustrative data with masked phones; live mode asks for an emailed code.
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+const statuses = ['pending_payment', 'payment_failed', 'placed', 'paid', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'shipped', 'completed', 'cancelled', 'refunded', 'partially_refunded', 'needs_attention'];
+const labels = Object.fromEntries(statuses.map((s) => [s, ctx.tr(`order.status.${s}` as 'order.status.paid')]));
+const ar = ctx.lang === 'ar';
+const ui = {
+  orders: ar ? 'الطلبات' : 'Orders',
+  bookings: ar ? 'الحجوزات' : 'Bookings',
+  outbox: ar ? 'البريد الصادر (تجريبي)' : 'Outbox (demo)',
+  all: ar ? 'الكل' : 'All',
+  sample: ctx.tr('demo.sampleOrder'),
+  back: ctx.tr('back'),
+  customer: ar ? 'العميل' : 'Customer',
+  delivery: ar ? 'الاستلام' : 'Delivery',
+  total: ctx.tr('checkout.total'),
+  history: ar ? 'السجل' : 'History',
+  waStatus: ar ? 'رسالة واتساب للعميل' : 'WhatsApp the customer',
+  print: ar ? 'طباعة' : 'Print',
+  login: ar ? 'دخول صاحب المتجر' : 'Owner sign-in',
+  email: ctx.tr('form.email'),
+  sendCode: ar ? 'إرسال رمز الدخول' : 'Send sign-in code',
+  code: ar ? 'الرمز المكوّن من ٦ أرقام' : '6-digit code',
+  verify: ar ? 'دخول' : 'Sign in',
+  closeDay: ar ? 'إغلاق اليوم للحجز' : 'Close this day',
+  reopenDay: ar ? 'فتح اليوم' : 'Reopen this day',
+  empty: ar ? 'لا توجد بيانات بعد.' : 'Nothing here yet.',
+  to: ar ? 'تغيير الحالة إلى' : 'Change status to',
+};
+---
+<aw-owner class="block container-page py-6 md:py-10" data-labels={JSON.stringify(labels)} data-ui={JSON.stringify(ui)}>
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+    <h1 class="text-h1">{ctx.tr('owner.title')}</h1>
+    <p class="m-0 px-3 py-1 rounded-control bg-accent text-accent-ink text-small" data-demo hidden>{ctx.tr('owner.demoBanner')}</p>
+  </div>
+  <form data-login hidden class="max-w-sm flex flex-col gap-3">
+    <h2 class="text-h3">{ui.login}</h2>
+    <label class="aw-label" for="ow-email">{ui.email}</label>
+    <input id="ow-email" name="email" type="email" class="aw-input" dir="ltr" autocomplete="email" required />
+    <button type="button" class="aw-btn aw-btn-secondary" data-send>{ui.sendCode}</button>
+    <label class="aw-label" for="ow-code">{ui.code}</label>
+    <input id="ow-code" name="code" class="aw-input tabular" dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="6" />
+    <button type="submit" class="aw-btn aw-btn-primary">{ui.verify}</button>
+    <p class="aw-error" data-login-error hidden></p>
+  </form>
+  <div data-app hidden>
+    <nav class="flex gap-1 border-b border-line mb-6" aria-label={ctx.tr('owner.title')} data-tabs></nav>
+    <div data-view aria-live="polite"></div>
+  </div>
+</aw-owner>
+
+<style is:global>
+  @media print {
+    .aw-demo-banner, header, footer, .aw-fab, [data-tabs], [data-noprint] { display: none !important; }
+  }
+</style>
+
+<script>
+  import { escapeHtml, money, siteBlob } from '../client/runtime.ts';
+  import { waLink } from '@aw/whatsapp';
+
+  type Any = Record<string, any>;
+  class AwOwner extends HTMLElement {
+    labels: Record<string, string> = {};
+    ui: Record<string, string> = {};
+    me: Any = {};
+    async connectedCallback() {
+      this.labels = JSON.parse(this.dataset.labels ?? '{}');
+      this.ui = JSON.parse(this.dataset.ui ?? '{}');
+      const me = await fetch('/api/owner/me');
+      if (me.status === 401) return this.login();
+      this.me = await me.json();
+      this.start();
+    }
+    $(sel: string) {
+      return this.querySelector<HTMLElement>(sel)!;
+    }
+    login() {
+      const form = this.$('[data-login]') as HTMLFormElement;
+      form.hidden = false;
+      this.$('[data-send]').addEventListener('click', async () => {
+        await fetch('/api/owner/auth/request', { method: 'POST', body: JSON.stringify({ email: (form.elements.namedItem('email') as HTMLInputElement).value }) });
+      });
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const res = await fetch('/api/owner/auth/verify', { method: 'POST', body: JSON.stringify({ email: (form.elements.namedItem('email') as HTMLInputElement).value, code: (form.elements.namedItem('code') as HTMLInputElement).value }) });
+        if (res.ok) location.reload();
+        else {
+          const er = this.$('[data-login-error]');
+          er.hidden = false;
+          er.textContent = '✕';
+        }
+      });
+    }
+    start() {
+      this.$('[data-app]').hidden = false;
+      this.$('[data-demo]').hidden = !this.me.demo;
+      const tabs: Array<[string, string]> = [];
+      if (this.me.commerce) tabs.push(['orders', this.ui.orders!]);
+      if (this.me.bookings) tabs.push(['bookings', this.ui.bookings!]);
+      if (this.me.demo) tabs.push(['outbox', this.ui.outbox!]);
+      this.$('[data-tabs]').innerHTML = tabs.map(([id, l]) => `<button type="button" data-tab="${id}" class="min-h-11 px-3 bg-transparent border-0 border-b-2 border-transparent cursor-pointer text-ui">${escapeHtml(l)}</button>`).join('');
+      this.$('[data-tabs]').addEventListener('click', (e) => {
+        const t = (e.target as HTMLElement).closest<HTMLElement>('[data-tab]');
+        if (t) this.show(t.dataset.tab!);
+      });
+      this.show(tabs[0]?.[0] ?? 'outbox');
+    }
+    show(tab: string, arg?: string) {
+      this.querySelectorAll<HTMLElement>('[data-tab]').forEach((b) => b.classList.toggle('border-accent', b.dataset.tab === tab));
+      if (tab === 'orders') return arg ? this.order(arg) : this.orders();
+      if (tab === 'bookings') return this.bookings();
+      if (tab === 'outbox') return this.outbox();
+    }
+    async orders(status = '') {
+      const v = this.$('[data-view]');
+      const data = await (await fetch(`/api/owner/orders${status ? `?status=${status}` : ''}`)).json();
+      const s = siteBlob();
+      const fmt = new Intl.DateTimeFormat(s.lang === 'ar' ? `ar-${s.locale.country}` : 'en', { dateStyle: 'medium', timeStyle: 'short', timeZone: s.locale.timeZone });
+      const chips = ['', 'pending_payment', 'placed', 'paid', 'preparing', 'shipped', 'completed'].map((st) => `<button type="button" data-filter="${st}" class="aw-chip text-small ${st === status ? 'bg-ink text-bg' : ''}">${escapeHtml(st ? this.labels[st]! : this.ui.all!)}</button>`).join('');
+      v.innerHTML = `<div class="scroll-rail gap-2 mb-4">${chips}</div>` + (data.orders.length ? `<ul class="m-0 p-0 list-none border-t border-line">${data.orders.map((o: Any) => `<li class="border-b border-line"><button type="button" data-order="${escapeHtml(o.id)}" class="w-full grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-3 text-start bg-transparent border-0 cursor-pointer text-ink"><span class="tabular" dir="ltr">${escapeHtml(o.id)}</span><span class="price">${money(o.total)}</span><span class="text-small text-muted">${escapeHtml(o.customerName)} · ${fmt.format(new Date(o.createdAt))}${o.sample ? ` · ${escapeHtml(this.ui.sample!)}` : ''}</span><span class="text-small">${escapeHtml(this.labels[o.status] ?? o.status)}</span></button></li>`).join('')}</ul>` : `<p class="text-muted">${escapeHtml(this.ui.empty!)}</p>`);
+      v.querySelectorAll<HTMLElement>('[data-filter]').forEach((b) => b.addEventListener('click', () => this.orders(b.dataset.filter)));
+      v.querySelectorAll<HTMLElement>('[data-order]').forEach((b) => b.addEventListener('click', () => this.order(b.dataset.order!)));
+    }
+    async order(id: string) {
+      const v = this.$('[data-view]');
+      const { order: o, allowed, sample } = await (await fetch(`/api/owner/orders/${encodeURIComponent(id)}`)).json();
+      const s = siteBlob();
+      const L = (t: Any) => escapeHtml(t?.[s.lang] || t?.ar || '');
+      const f = o.fulfilment;
+      const where = f.kind === 'delivery' ? `${L(f.zoneName)} — ${escapeHtml(Object.values(f.address).join('، '))}` : f.kind === 'shipping' ? `${escapeHtml(f.country)} — ${escapeHtml(Object.values(f.address).join('، '))}` : f.kind === 'pickup' ? L(f.branchName) : '—';
+      const statusText = `${this.labels[o.status] ?? o.status}`;
+      const wa = waLink(o.customer.phone.includes('•') ? null : o.customer.phone, s.lang === 'ar' ? `مرحباً ${o.customer.name}، تحديث طلبك ${o.id}: ${statusText}` : `Hello ${o.customer.name}, update on your order ${o.id}: ${statusText}`);
+      v.innerHTML = `<button type="button" data-back data-noprint class="aw-btn aw-btn-ghost mb-4">${escapeHtml(this.ui.back!)}</button>
+        <div class="grid gap-6 md:grid-cols-12">
+          <div class="md:col-span-7 flex flex-col gap-3">
+            <h2 class="text-h2 tabular" dir="ltr">${escapeHtml(o.id)}</h2>
+            <p class="m-0"><span class="px-3 py-1 rounded-control bg-surface">${escapeHtml(statusText)}</span>${sample ? ` <span class="text-small text-muted">${escapeHtml(this.ui.sample!)}</span>` : ''}</p>
+            <dl class="m-0 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+              <dt class="text-muted">${escapeHtml(this.ui.customer!)}</dt><dd class="m-0">${escapeHtml(o.customer.name)} · <bdi dir="ltr">${escapeHtml(o.customer.phone)}</bdi></dd>
+              <dt class="text-muted">${escapeHtml(this.ui.delivery!)}</dt><dd class="m-0">${where}</dd>
+              <dt class="text-muted">${escapeHtml(this.ui.total!)}</dt><dd class="m-0 price">${money(o.pricing.total)}</dd>
+            </dl>
+            <ul class="m-0 p-0 list-none border-t border-line">${o.lines.map((l: Any) => `<li class="flex justify-between gap-3 py-2 border-b border-line text-small"><span>${L(l.title)} × ${l.qty}${l.labels.length ? ` <span class="text-muted">(${l.labels.map((x: Any) => L(x.value)).join(' · ')})</span>` : ''}</span><span class="price">${money(l.total)}</span></li>`).join('')}</ul>
+            ${o.notes ? `<p class="m-0 text-small">${escapeHtml(o.notes)}</p>` : ''}
+          </div>
+          <div class="md:col-span-5 flex flex-col gap-3" data-noprint>
+            ${allowed.length && !sample ? `<p class="m-0 aw-label">${escapeHtml(this.ui.to!)}</p><div class="flex flex-wrap gap-2">${allowed.map((st: string) => `<button type="button" class="aw-btn aw-btn-secondary" data-to="${st}">${escapeHtml(this.labels[st] ?? st)}</button>`).join('')}</div>` : ''}
+            <a class="aw-btn aw-btn-ink" target="_blank" rel="noopener" href="${escapeHtml(wa)}">${escapeHtml(this.ui.waStatus!)}</a>
+            <button type="button" class="aw-btn aw-btn-ghost" data-print>${escapeHtml(this.ui.print!)}</button>
+            <h3 class="text-body mt-4">${escapeHtml(this.ui.history!)}</h3>
+            <ol class="m-0 ps-5 text-small text-muted">${o.history.map((h: Any) => `<li>${escapeHtml(this.labels[h.to] ?? h.to)} — ${new Date(h.at).toLocaleString(s.lang === 'ar' ? 'ar' : 'en', { timeZone: s.locale.timeZone })}</li>`).join('')}</ol>
+          </div>
+        </div>`;
+      v.querySelector('[data-back]')!.addEventListener('click', () => this.orders());
+      v.querySelector('[data-print]')!.addEventListener('click', () => print());
+      v.querySelectorAll<HTMLElement>('[data-to]').forEach((b) =>
+        b.addEventListener('click', async () => {
+          await fetch(`/api/owner/orders/${encodeURIComponent(id)}/transition`, { method: 'POST', body: JSON.stringify({ to: b.dataset.to }) });
+          this.order(id);
+        }),
+      );
+    }
+    async bookings() {
+      const v = this.$('[data-view]');
+      const data = await (await fetch('/api/owner/bookings')).json();
+      const s = siteBlob();
+      const byDay = new Map<string, Any[]>();
+      for (const b of data.bookings) byDay.set(b.businessDate, [...(byDay.get(b.businessDate) ?? []), b]);
+      const time = new Intl.DateTimeFormat(s.lang === 'ar' ? `ar-${s.locale.country}-u-nu-${s.locale.numberingSystem}` : 'en', { hour: 'numeric', minute: '2-digit', timeZone: s.locale.timeZone });
+      v.innerHTML = byDay.size
+        ? [...byDay.entries()].map(([day, list]) => `<section class="mb-6"><div class="flex items-center justify-between gap-3 mb-2"><h2 class="text-h3" dir="ltr">${escapeHtml(day)}</h2><button type="button" class="aw-btn aw-btn-ghost text-small" data-close="${day}">${escapeHtml(this.ui.closeDay!)}</button></div><ul class="m-0 p-0 list-none border-t border-line">${list.sort((a, b) => a.startMin - b.startMin).map((b) => `<li class="grid grid-cols-[auto_1fr_auto] gap-3 py-2 border-b border-line text-small"><span class="tabular">${time.format(new Date(b.start))}</span><span>${escapeHtml(b.serviceTitle?.[s.lang] || b.serviceTitle?.ar || '')} · ${escapeHtml(b.customer.name)}</span><span>${escapeHtml(b.status)}</span></li>`).join('')}</ul></section>`).join('')
+        : `<p class="text-muted">${escapeHtml(this.ui.empty!)}</p>`;
+      v.querySelectorAll<HTMLElement>('[data-close]').forEach((b) => b.addEventListener('click', async () => {
+        await fetch(`/api/owner/days/${b.dataset.close}`, { method: 'POST', body: JSON.stringify({ closed: true }) });
+        b.textContent = '✓';
+      }));
+    }
+    async outbox() {
+      const v = this.$('[data-view]');
+      const data = await (await fetch('/api/owner/outbox')).json();
+      v.innerHTML = data.items.length ? `<ul class="m-0 p-0 list-none flex flex-col gap-4">${data.items.map((m: Any) => `<li class="p-4 rounded-card bg-surface"><p class="m-0 font-bold">${escapeHtml(m.subject)}</p><p class="m-0 text-small text-muted" dir="ltr">${escapeHtml(m.to.join(', '))} · ${escapeHtml(m.at)}</p><pre class="m-0 mt-2 whitespace-pre-wrap text-small" dir="auto">${escapeHtml(m.text)}</pre></li>`).join('')}</ul>` : `<p class="text-muted">${escapeHtml(this.ui.empty!)}</p>`;
+    }
+  }
+  if (!customElements.get('aw-owner')) customElements.define('aw-owner', AwOwner);
+</script>

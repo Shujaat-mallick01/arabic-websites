@@ -18,7 +18,9 @@
     "new-site": "tsx scripts/new-site.ts",
     "rebrand": "tsx scripts/rebrand.ts",
     "check-all": "tsx scripts/check-all.ts",
-    "brand:render": "tsx scripts/brand-render.ts"
+    "brand:render": "tsx scripts/brand-render.ts",
+    "preview": "tsx scripts/preview.ts",
+    "shots": "tsx scripts/shots.ts"
   },
   "devDependencies": {
     "@aw/booking": "workspace:*",
@@ -40,6 +42,7 @@
     "typescript": "^6.0.3",
     "vitest": "^5.0.5",
     "yaml": "^2.9.1",
-    "zod": "^4.6.7"
+    "zod": "^4.6.7",
+    "@aw/ops": "workspace:*"
   }
 }

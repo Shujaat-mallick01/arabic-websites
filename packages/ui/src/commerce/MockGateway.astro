@@ -1,0 +1,80 @@
+---
+// The demo payment page. No money moves. It shows which real gateway it stands in for, and lets
+// you play every outcome the real integration has to handle.
+import { CAPABILITIES } from '@aw/payments';
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+const labels = Object.fromEntries(Object.entries(CAPABILITIES).map(([k, v]) => [k, v.label]));
+const ar = ctx.lang === 'ar';
+const outcomes = [
+  ['success', ar ? 'نجاح الدفع' : 'Payment succeeds'],
+  ['failure', ar ? 'رفض البطاقة' : 'Card declined'],
+  ['cancel', ar ? 'إلغاء من العميل' : 'Customer cancels'],
+  ['timeout', ar ? 'انتهاء المهلة' : 'Gateway times out'],
+  ['mismatch', ar ? 'مبلغ مختلف' : 'Mismatched amount'],
+];
+const webhooks = [
+  ['once', ar ? 'إشعار واحد' : 'Webhook once'],
+  ['twice', ar ? 'إشعار مكرر (يُتجاهل الثاني)' : 'Duplicate webhook (second ignored)'],
+  ['out-of-order', ar ? 'إشعارات بترتيب مختلف' : 'Out-of-order webhooks'],
+  ['never', ar ? 'بدون إشعار (صفحة العودة فقط)' : 'No webhook (return page only)'],
+];
+---
+<aw-mock-gateway class="block container-page py-10 max-w-xl" data-labels={JSON.stringify(labels)}>
+  <div class="p-6 rounded-card border-2 border-dashed border-muted bg-surface flex flex-col gap-5">
+    <p class="m-0 aw-eyebrow">{ctx.tr('pay.mockTitle')}</p>
+    <div>
+      <p class="m-0 text-small text-muted" data-provider></p>
+      <p class="m-0 mt-1 text-h1 price" data-amount aria-live="polite">—</p>
+      <p class="m-0 text-small text-muted" dir="ltr" data-order></p>
+    </div>
+    <fieldset class="m-0 p-0 border-0 flex flex-col gap-2">
+      <legend class="aw-label mb-2">{ar ? 'النتيجة' : 'Outcome'}</legend>
+      {outcomes.map(([v, l], i) => <label class="flex items-center gap-3 min-h-11"><input type="radio" name="outcome" value={v} checked={i === 0} class="w-5 h-5" /><span>{l}</span></label>)}
+    </fieldset>
+    <div class="aw-field">
+      <label class="aw-label" for="mg-webhook">{ar ? 'إشعار البوابة (Webhook)' : 'Gateway webhook'}</label>
+      <select id="mg-webhook" class="aw-select" name="webhook">{webhooks.map(([v, l]) => <option value={v}>{l}</option>)}</select>
+    </div>
+    <button type="button" class="aw-btn aw-btn-primary aw-btn-block" data-go>{ar ? 'متابعة' : 'Continue'}</button>
+    <p class="m-0 text-small text-danger" data-error hidden></p>
+  </div>
+</aw-mock-gateway>
+
+<script>
+  import { money, str } from '../client/runtime.ts';
+
+  class AwMockGateway extends HTMLElement {
+    async connectedCallback() {
+      const s = new URLSearchParams(location.search).get('s') ?? '';
+      const labels = JSON.parse(this.dataset.labels ?? '{}');
+      const err = this.querySelector<HTMLElement>('[data-error]')!;
+      try {
+        const info = await (await fetch(`/api/pay/mock/complete?s=${encodeURIComponent(s)}`)).json();
+        if (info.error) throw new Error(info.error);
+        this.querySelector('[data-amount]')!.textContent = money(info.amount);
+        this.querySelector('[data-provider]')!.textContent = str('pay.mockProvider', { provider: labels[info.emulates] ?? info.emulates });
+        this.querySelector('[data-order]')!.textContent = info.orderId;
+      } catch {
+        err.textContent = str('form.err.generic');
+        err.hidden = false;
+      }
+      this.querySelector('[data-go]')!.addEventListener('click', async () => {
+        const outcome = (this.querySelector<HTMLInputElement>('[name="outcome"]:checked')!).value;
+        const webhook = (this.querySelector<HTMLSelectElement>('[name="webhook"]')!).value;
+        const res = await fetch('/api/pay/mock/complete', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ s, outcome, webhook, reason: outcome === 'failure' ? 'card_declined' : undefined }) });
+        const out = await res.json();
+        if (out.redirectUrl) location.href = new URL(out.redirectUrl).pathname.replace(/^\/pay/, document.documentElement.lang === 'en' ? '/en/pay' : '/pay') + new URL(out.redirectUrl).search;
+        else {
+          err.textContent = str('form.err.generic');
+          err.hidden = false;
+        }
+      });
+    }
+  }
+  if (!customElements.get('aw-mock-gateway')) customElements.define('aw-mock-gateway', AwMockGateway);
+</script>

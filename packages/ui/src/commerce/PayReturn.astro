@@ -1,0 +1,62 @@
+---
+// Where every gateway sends the shopper back. Asks the server to verify (never trusts the URL),
+// then goes to the order or booking page. Polls while the gateway hasn't confirmed yet.
+import type { PageContext } from '../context.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+---
+<aw-pay-return class="block container-page py-16 max-w-xl">
+  <div class="flex flex-col items-start gap-4" aria-live="polite">
+    <h1 class="text-h1" data-title>{ctx.tr('pay.checking')}</h1>
+    <p class="m-0 text-muted" data-body></p>
+    <a href={ctx.href('/checkout/')} class="aw-btn aw-btn-primary" data-retry hidden>{ctx.tr('pay.retry')}</a>
+  </div>
+</aw-pay-return>
+
+<script>
+  import { siteBlob, str } from '../client/runtime.ts';
+
+  class AwPayReturn extends HTMLElement {
+    connectedCallback() {
+      const s = siteBlob();
+      const params = new URLSearchParams(location.search);
+      const sid = params.get('s');
+      const title = this.querySelector('[data-title]')!;
+      const body = this.querySelector('[data-body]')!;
+      const retry = this.querySelector<HTMLElement>('[data-retry]')!;
+      const fail = (t: string, b = '') => {
+        title.textContent = t;
+        body.textContent = b;
+        retry.hidden = false;
+      };
+      if (!sid) return fail(str('pay.failed'));
+      params.set('lang', s.lang);
+      let tries = 0;
+      const tick = async () => {
+        tries++;
+        try {
+          const res = await fetch(`/api/pay/status?${params.toString()}`);
+          const st = await res.json();
+          if (st.state === 'paid' || st.state === 'authorized') {
+            title.textContent = str('pay.success');
+            location.replace(st.orderUrl);
+            return;
+          }
+          if (st.state === 'failed') return fail(str('pay.failed'), st.failure?.message?.[s.lang] ?? '');
+          if (st.state === 'cancelled') return fail(str('pay.cancelled'));
+          if (st.state === 'expired') return fail(str('pay.pending'));
+          if (tries > 40) return fail(str('pay.pending'));
+          title.textContent = tries > 3 ? str('pay.pending') : str('pay.checking');
+        } catch {
+          if (tries > 5) return fail(str('form.err.network'));
+        }
+        setTimeout(tick, Math.min(1000 * tries, 5000));
+      };
+      tick();
+    }
+  }
+  if (!customElements.get('aw-pay-return')) customElements.define('aw-pay-return', AwPayReturn);
+</script>

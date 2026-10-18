@@ -1,4 +1,10 @@
 ---
-import Shell from './_shell.astro';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import OrderView from '@aw/ui/commerce/OrderView.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
 ---
-<Shell titleKey="order.title" path="/order/" />
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('order.title'), description: '', path: '/order/', noindex: true }} hideFab>
+  <OrderView ctx={ctx} />
+</BaseLayout>

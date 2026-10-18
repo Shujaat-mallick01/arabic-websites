@@ -23,9 +23,36 @@ const TYPES: Record<string, string> = {
   '.yml': 'text/yaml; charset=utf-8',
 };
 
-export function serveDir(dir: string, port = 0): Promise<{ server: Server; url: string }> {
-  const server = createServer((req, res) => {
+export type Api = (req: Request) => Promise<Response | null>;
+
+async function toRequest(req: import('node:http').IncomingMessage, base: string): Promise<Request> {
+  const chunks: Buffer[] = [];
+  for await (const c of req) chunks.push(c as Buffer);
+  const headers = new Headers();
+  for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
+  const body = chunks.length && req.method !== 'GET' && req.method !== 'HEAD' ? Buffer.concat(chunks) : undefined;
+  return new Request(new URL(req.url ?? '/', base), { method: req.method, headers, ...(body ? { body } : {}) });
+}
+
+export function serveDir(dir: string, port = 0, api?: Api): Promise<{ server: Server; url: string }> {
+  let base = 'http://127.0.0.1';
+  const server = createServer(async (req, res) => {
     const url = new URL(req.url ?? '/', 'http://localhost');
+    if (api && url.pathname.startsWith('/api/')) {
+      try {
+        const out = await api(await toRequest(req, base));
+        if (out) {
+          const headers: Record<string, string> = {};
+          out.headers.forEach((v, k) => (headers[k] = v));
+          res.writeHead(out.status, headers);
+          res.end(Buffer.from(await out.arrayBuffer()));
+          return;
+        }
+      } catch (e) {
+        res.writeHead(500).end(String(e));
+        return;
+      }
+    }
     let path = normalize(decodeURIComponent(url.pathname)).replace(/^([\\/])+/, '');
     if (path.includes('..')) {
       res.writeHead(400).end();
@@ -48,7 +75,8 @@ export function serveDir(dir: string, port = 0): Promise<{ server: Server; url: 
     server.listen(port, '127.0.0.1', () => {
       const addr = server.address();
       const p = typeof addr === 'object' && addr ? addr.port : port;
-      resolve({ server, url: `http://127.0.0.1:${p}` });
+      base = `http://127.0.0.1:${p}`;
+      resolve({ server, url: base });
     });
   });
 }

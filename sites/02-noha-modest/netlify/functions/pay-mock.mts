@@ -4,4 +4,4 @@ import site from '../../site.config.ts';
 import data from '../../.aw/server-data.json' with { type: 'json' };
 
 export default createPayMockFunction(site, data);
-export const config = { path: '/api/pay/mock/complete', method: ["POST"], rateLimit: { windowLimit: 30, windowSize: 60, aggregateBy: ['ip', 'domain'] } };
+export const config = { path: '/api/pay/mock/complete', method: ["GET","POST"], rateLimit: { windowLimit: 30, windowSize: 60, aggregateBy: ['ip', 'domain'] } };

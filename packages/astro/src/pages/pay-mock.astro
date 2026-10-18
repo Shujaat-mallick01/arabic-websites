@@ -1,4 +1,10 @@
 ---
-import Shell from './_shell.astro';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import MockGateway from '@aw/ui/commerce/MockGateway.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
 ---
-<Shell titleKey="pay.mockTitle" path="/pay/mock/" />
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('pay.mockTitle'), description: '', path: '/pay/mock/', noindex: true }} hideFab>
+  <MockGateway ctx={ctx} />
+</BaseLayout>

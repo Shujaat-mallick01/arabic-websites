@@ -3,7 +3,7 @@
 
 import { getCollection, getEntry } from 'astro:content';
 import type { ImageMetadata } from 'astro';
-import { site } from 'virtual:aw/config';
+import { site, resolved } from 'virtual:aw/config';
 import { COUNTRY_INFO, money, type HoursSettings, type I18nText } from '@aw/core';
 import { zoneName, DEFAULT_SEED_BY_COUNTRY, type ZoneSeedListId } from '@aw/i18n';
 import type { Branch, CheckoutRules, FulfilmentRules, Product } from '@aw/commerce';
@@ -67,6 +67,7 @@ export async function getSettings(id: SettingsId): Promise<Raw> {
 
 async function entries(name: string): Promise<Entry[]> {
   return once(`c:${name}`, async () => {
+    if (!resolved.collections.includes(name as never)) return [];
     try {
       const list = await getCollection(name);
       return list.map((e: { id: string; data: RawEntry }) => ({ id: e.id, data: e.data }));
@@ -203,25 +204,24 @@ export async function getBookingRules(): Promise<BookingRules> {
 
 /** Pages (about, policies, size guide): the entry for one language, falling back to Arabic. */
 export async function getPage(slug: string, lang: 'ar' | 'en') {
-  const all = await once('pages', async () => {
-    try {
-      return await getCollection('pages');
-    } catch {
-      return [];
-    }
-  });
+  const all = await allPages();
   const hit = all.find((p: { id: string }) => p.id === `${slug}.${lang}`) ?? all.find((p: { id: string }) => p.id === `${slug}.ar`);
   return hit as { id: string; data: Raw; body?: string } | undefined;
 }
 
-export async function getPages(lang: 'ar' | 'en') {
-  const all = await once('pages', async () => {
+function allPages() {
+  return once('pages', async () => {
+    if (!resolved.collections.includes('pages')) return [];
     try {
       return await getCollection('pages');
     } catch {
       return [];
     }
   });
+}
+
+export async function getPages(lang: 'ar' | 'en') {
+  const all = await allPages();
   const slugs = new Set(all.map((p: { id: string }) => p.id.replace(/\.(ar|en)$/, '')));
   const out: Array<{ slug: string; title: string; kind: string; order: number }> = [];
   for (const slug of slugs) {

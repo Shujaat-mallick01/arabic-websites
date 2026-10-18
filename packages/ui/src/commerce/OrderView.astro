@@ -1,0 +1,85 @@
+---
+// Order status page: reads /api/order with the order's view token; offers to send the details
+// to the shop on WhatsApp (their real confirmation channel).
+import type { PageContext } from '../context.ts';
+import { getCheckoutRules, getSettings } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+await getCheckoutRules();
+const checkout = await getSettings('checkout');
+const statuses = ['placed', 'pending_payment', 'payment_failed', 'paid', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'shipped', 'completed', 'cancelled', 'refunded', 'partially_refunded', 'needs_attention'];
+const labels = Object.fromEntries(statuses.map((s) => [s, ctx.tr(`order.status.${s}` as 'order.status.paid')]));
+---
+<aw-order class="block container-page py-8 md:py-12" data-labels={JSON.stringify(labels)}>
+  <div data-loading class="text-muted">{ctx.tr('loading')}</div>
+  <div data-missing hidden class="flex flex-col gap-3 items-start">
+    <h1 class="text-h1">{ctx.tr('order.title')}</h1>
+    <p class="m-0 text-muted">{ctx.tr('order.notFound')}</p>
+    <a href={ctx.href('/')} class="aw-btn aw-btn-primary">{ctx.tr('notFound.home')}</a>
+  </div>
+  <div data-found hidden class="grid gap-8 md:grid-cols-12">
+    <div class="md:col-span-7 flex flex-col gap-4">
+      <p class="aw-eyebrow m-0">{ctx.tr('order.number')}: <bdi dir="ltr" class="tabular" data-id></bdi></p>
+      <h1 class="text-h1">{ctx.tr('order.thanks')}</h1>
+      <p class="m-0 inline-flex self-start px-3 py-1 rounded-control bg-surface" data-status></p>
+      {ctx.pick(checkout.confirmationNote) && <p class="m-0 text-muted">{ctx.pick(checkout.confirmationNote)}</p>}
+      <div data-gift class="p-5 rounded-card bg-deep text-deep-ink" hidden>
+        <p class="m-0 text-small text-deep-muted">{ctx.tr('nav.giftCards')}</p>
+        <p class="m-0 mt-1 text-h2 tabular" dir="ltr" data-code></p>
+      </div>
+      <a data-wa class="aw-btn aw-btn-ink self-start" target="_blank" rel="noopener">{ctx.tr('order.sendWhatsapp')}</a>
+    </div>
+    <aside class="md:col-span-5 p-5 rounded-card bg-surface flex flex-col gap-3">
+      <h2 class="text-h3">{ctx.tr('checkout.summary')}</h2>
+      <ul class="m-0 p-0 list-none flex flex-col gap-2" data-lines></ul>
+      <dl class="m-0 grid grid-cols-[1fr_auto] gap-x-4 gap-y-1.5 border-t border-line pt-3" data-totals></dl>
+    </aside>
+  </div>
+</aw-order>
+
+<script>
+  import { orderMessage, waLink } from '@aw/whatsapp';
+  import { escapeHtml, money, siteBlob, str } from '../client/runtime.ts';
+
+  class AwOrder extends HTMLElement {
+    async connectedCallback() {
+      const q = new URLSearchParams(location.search);
+      const s = siteBlob();
+      const labels = JSON.parse(this.dataset.labels ?? '{}');
+      const show = (sel: string, on: boolean) => ((this.querySelector<HTMLElement>(sel)!).hidden = !on);
+      try {
+        const res = await fetch(`/api/order?o=${encodeURIComponent(q.get('o') ?? '')}&t=${encodeURIComponent(q.get('t') ?? '')}`);
+        if (!res.ok) throw new Error('missing');
+        const o = await res.json();
+        this.querySelector('[data-id]')!.textContent = o.id;
+        this.querySelector('[data-status]')!.textContent = labels[o.status] ?? o.status;
+        this.querySelector('[data-lines]')!.innerHTML = o.lines.map((l: any) => `<li class="flex justify-between gap-3 text-small"><span>${escapeHtml(l.title[s.lang] || l.title.ar)} × ${l.qty}</span><span class="price">${money(l.total)}</span></li>`).join('');
+        const row = (a: string, b: string, strong = false) => `<dt class="${strong ? 'font-bold' : 'text-muted'}">${escapeHtml(a)}</dt><dd class="m-0 price ${strong ? 'font-bold' : ''}">${b}</dd>`;
+        const p = o.pricing;
+        this.querySelector('[data-totals]')!.innerHTML = row(str('cart.subtotal'), money(p.subtotal)) + row(str('checkout.shippingFee'), p.shipping.minor ? money(p.shipping) : str('checkout.free')) + (p.codFee ? row(str('checkout.codFee'), money(p.codFee)) : '') + (p.giftWrap ? row(str('checkout.giftWrapFee'), money(p.giftWrap)) : '') + (p.giftCard ? row(str('checkout.giftCard'), `−${money(p.giftCard.applied)}`) : '') + row(str('checkout.total'), money(p.total), true);
+        if (o.giftCardPurchase?.issuedCode) {
+          show('[data-gift]', true);
+          this.querySelector('[data-code]')!.textContent = o.giftCardPurchase.issuedCode;
+        }
+        const text = orderMessage(
+          {
+            title: `${str('wa.orderTitle')} ${o.id}`,
+            lines: o.lines.map((l: any) => ({ title: l.title[s.lang] || l.title.ar, options: l.labels.map((x: any) => ({ label: x.label[s.lang] || x.label.ar, value: x.value[s.lang] || x.value.ar })), qty: l.qty, unit: l.unit })),
+            total: p.total,
+            customer: { name: o.customer.name, phone: o.customer.phone },
+          },
+          { lang: s.lang, dialect: s.dialect as never, audience: s.audience as never, locale: s.locale, businessName: s.brand[s.lang] || s.brand.ar, ...(s.demo ? { demoBrand: s.brand.ar } : {}) },
+        );
+        this.querySelector<HTMLAnchorElement>('[data-wa]')!.href = waLink(s.whatsapp, text);
+        show('[data-found]', true);
+      } catch {
+        show('[data-missing]', true);
+      }
+      show('[data-loading]', false);
+    }
+  }
+  if (!customElements.get('aw-order')) customElements.define('aw-order', AwOrder);
+</script>

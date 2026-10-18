@@ -1,4 +1,10 @@
 ---
-import Shell from './_shell.astro';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import PayReturn from '@aw/ui/commerce/PayReturn.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
 ---
-<Shell titleKey="pay.checking" path="/pay/return/" />
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('pay.checking'), description: '', path: '/pay/return/', noindex: true }} hideFab>
+  <PayReturn ctx={ctx} />
+</BaseLayout>

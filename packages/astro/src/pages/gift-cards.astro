@@ -1,4 +1,10 @@
 ---
-import Shell from './_shell.astro';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import GiftCardForm from '@aw/ui/commerce/GiftCardForm.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
 ---
-<Shell titleKey="nav.giftCards" path="/gift-cards/" />
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('nav.giftCards'), description: '', path: '/gift-cards/', noindex: false }} hideFab>
+  <GiftCardForm ctx={ctx} />
+</BaseLayout>

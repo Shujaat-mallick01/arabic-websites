@@ -1,4 +1,10 @@
 ---
-import Shell from './_shell.astro';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import CheckoutForm from '@aw/ui/commerce/CheckoutForm.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
 ---
-<Shell titleKey="checkout.title" path="/checkout/" />
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('checkout.title'), description: '', path: '/checkout/', noindex: true }} hideFab>
+  <CheckoutForm ctx={ctx} />
+</BaseLayout>

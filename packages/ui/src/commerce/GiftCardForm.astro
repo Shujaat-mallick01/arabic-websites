@@ -1,0 +1,99 @@
+---
+// Buy a gift card: amount, recipient and message, then pay online. The code appears on the
+// order page, ready to forward on WhatsApp.
+import { money as mk, COUNTRY_INFO } from '@aw/core';
+import { availableMethods } from '@aw/payments';
+import type { PageContext } from '../context.ts';
+import { getSettings } from '../data.ts';
+
+interface Props {
+  ctx: PageContext;
+}
+const { ctx } = Astro.props;
+const cfg = ctx.site.commerce?.giftCards;
+const checkout = await getSettings('checkout');
+const denoms = cfg?.denominations ?? [];
+const cur = ctx.site.locale.currency;
+const dial = COUNTRY_INFO[ctx.site.locale.country].dialCode;
+const methods = ctx.site.payments ? availableMethods(cur, ctx.site.payments.provider ?? null, ctx.site.payments.methods) : [];
+const ar = ctx.lang === 'ar';
+---
+<aw-gift-card class="block container-page py-8 md:py-12 max-w-2xl" data-dial={dial} data-method={methods[0] ?? ''}>
+  <h1 class="text-h1 mb-2">{ctx.tr('nav.giftCards')}</h1>
+  {ctx.pick(checkout.giftCards?.terms) && <p class="m-0 mb-8 text-muted">{ctx.pick(checkout.giftCards.terms)}</p>}
+  <form novalidate class="flex flex-col gap-6">
+    <div data-errors class="hidden p-4 rounded-control border-2 border-danger" role="alert" tabindex="-1"><ul class="m-0 ps-5 text-small" data-errors-list></ul></div>
+    <fieldset class="m-0 p-0 border-0">
+      <legend class="aw-label mb-3">{ar ? 'المبلغ' : 'Amount'}</legend>
+      <div class="flex flex-wrap gap-2">
+        {denoms.map((d, i) => <label class="aw-chip price min-w-24"><input type="radio" name="amount" value={d} checked={i === 1} /><span>{ctx.money(mk(d, cur), { trimZeroFraction: true })}</span></label>)}
+      </div>
+    </fieldset>
+    <div class="aw-field">
+      <label class="aw-label" for="gc-recipient">{ar ? 'اسم المُهدى إليه' : 'Recipient’s name'}</label>
+      <input id="gc-recipient" name="recipient" class="aw-input" dir="auto" maxlength="60" required />
+    </div>
+    <div class="aw-field">
+      <label class="aw-label" for="gc-message">{ar ? 'رسالة' : 'Message'} <span class="text-muted font-normal">{ctx.tr('form.optional')}</span></label>
+      <textarea id="gc-message" name="message" class="aw-textarea" dir="auto" maxlength="200" rows="3"></textarea>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="aw-field">
+        <label class="aw-label" for="gc-name">{ar ? 'اسمك' : 'Your name'}</label>
+        <input id="gc-name" name="name" class="aw-input" dir="auto" autocomplete="name" required />
+      </div>
+      <div class="aw-field">
+        <label class="aw-label" for="gc-phone">{ctx.tr('form.phone')}</label>
+        <input id="gc-phone" name="phone" class="aw-input" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" required />
+      </div>
+    </div>
+    <div class="visually-hidden" aria-hidden="true"><label>Company website<input name="company_website" tabindex="-1" autocomplete="off" /></label></div>
+    <button type="submit" class="aw-btn aw-btn-primary">{ctx.tr('checkout.payNow')}</button>
+  </form>
+</aw-gift-card>
+
+<script>
+  import { siteBlob, str } from '../client/runtime.ts';
+  class AwGiftCard extends HTMLElement {
+    connectedCallback() {
+      const form = this.querySelector('form')!;
+      const s = siteBlob();
+      const started = Date.now();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const phone = String(fd.get('phone') ?? '').trim();
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            kind: 'gift_card',
+            lang: s.lang,
+            amount: Number(fd.get('amount')),
+            recipient: fd.get('recipient'),
+            message: fd.get('message'),
+            customer: { name: fd.get('name'), phone: phone.startsWith('+') ? phone : `+${this.dataset.dial}${phone.replace(/^0/, '')}` },
+            method: this.dataset.method || undefined,
+            company_website: fd.get('company_website') || undefined,
+            startedAt: started,
+          }),
+        });
+        const out = await res.json();
+        if (out.redirectUrl) {
+          location.href = out.redirectUrl;
+          return;
+        }
+        const box = this.querySelector<HTMLElement>('[data-errors]')!;
+        this.querySelector('[data-errors-list]')!.innerHTML = '';
+        for (const er of out.errors ?? [{ message: str('form.err.generic') }]) {
+          const li = document.createElement('li');
+          li.textContent = er.message;
+          this.querySelector('[data-errors-list]')!.append(li);
+        }
+        box.classList.remove('hidden');
+        box.focus();
+      });
+    }
+  }
+  if (!customElements.get('aw-gift-card')) customElements.define('aw-gift-card', AwGiftCard);
+</script>

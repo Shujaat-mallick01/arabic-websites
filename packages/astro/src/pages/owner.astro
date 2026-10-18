@@ -1,4 +1,10 @@
 ---
-import Shell from './_shell.astro';
+import BaseLayout from '@aw/ui/layout/BaseLayout.astro';
+import OwnerApp from '@aw/ui/owner/OwnerApp.astro';
+import { pageContext } from '@aw/ui/context';
+
+const ctx = pageContext(Astro.url);
 ---
-<Shell titleKey="owner.title" path="/owner/" />
+<BaseLayout ctx={ctx} meta={{ title: ctx.tr('owner.title'), description: '', path: '/owner/', noindex: true }} hideFab>
+  <OwnerApp ctx={ctx} />
+</BaseLayout>

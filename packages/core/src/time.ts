@@ -149,3 +149,11 @@ export function instantOf(date: LocalDate, minutes: number, tz: TimeZone | strin
   }
   return new Date(result);
 }
+
+/** Calendar months, clamped to the month's last day (2026-01-31 + 1 month = 2026-02-28). */
+export function addMonths(date: LocalDate, n: number): LocalDate {
+  const [y, m, d] = partsOfDate(date);
+  const target = new Date(Date.UTC(y, m - 1 + n, 1));
+  const last = new Date(Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0)).getUTCDate();
+  return fmtDate(target.getUTCFullYear(), target.getUTCMonth() + 1, Math.min(d, last));
+}

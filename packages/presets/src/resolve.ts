@@ -126,22 +126,22 @@ const RL = { windowLimit: 30, windowSize: 60 };
 
 const FUNCTIONS: Partial<Record<ModuleId, FunctionDef[]>> = {
   checkout: [
-    { name: 'quote', path: '/api/quote', method: 'POST', handler: { module: '@aw/commerce/server', factory: 'createQuoteHandler' }, rateLimit: { windowLimit: 60, windowSize: 60 } },
-    { name: 'checkout', path: '/api/checkout', method: 'POST', handler: { module: '@aw/commerce/server', factory: 'createCheckoutHandler' }, rateLimit: { windowLimit: 20, windowSize: 60 } },
-    { name: 'order', path: '/api/order', method: 'GET', handler: { module: '@aw/commerce/server', factory: 'createOrderHandler' }, rateLimit: RL },
+    { name: 'quote', path: '/api/quote', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createQuoteHandler' }, rateLimit: { windowLimit: 60, windowSize: 60 } },
+    { name: 'checkout', path: '/api/checkout', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createCheckoutHandler' }, rateLimit: { windowLimit: 20, windowSize: 60 } },
+    { name: 'order', path: '/api/order', method: 'GET', handler: { module: '@aw/ops/server', factory: 'createOrderHandler' }, rateLimit: RL },
   ],
   payments: [
     { name: 'pay-status', path: '/api/pay/status', method: 'GET', handler: { module: '@aw/ops/server', factory: 'createPayStatusFunction' }, rateLimit: { windowLimit: 60, windowSize: 60 } },
     { name: 'pay-webhook', path: '/api/pay/webhook/*', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createPayWebhookFunction' } },
-    { name: 'pay-mock', path: '/api/pay/mock/complete', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createPayMockFunction' }, rateLimit: RL },
+    { name: 'pay-mock', path: '/api/pay/mock/complete', method: 'GET,POST', handler: { module: '@aw/ops/server', factory: 'createPayMockFunction' }, rateLimit: RL },
   ],
-  stock: [{ name: 'stock', path: '/api/stock', method: 'GET', handler: { module: '@aw/commerce/server', factory: 'createStockHandler' }, rateLimit: { windowLimit: 120, windowSize: 60 } }],
-  giftCards: [{ name: 'giftcard', path: '/api/giftcard/check', method: 'POST', handler: { module: '@aw/commerce/server', factory: 'createGiftCardHandler' }, rateLimit: { windowLimit: 10, windowSize: 60 } }],
+  stock: [{ name: 'stock', path: '/api/stock', method: 'GET', handler: { module: '@aw/ops/server', factory: 'createStockHandler' }, rateLimit: { windowLimit: 120, windowSize: 60 } }],
+  giftCards: [{ name: 'giftcard', path: '/api/giftcard/check', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createGiftCardHandler' }, rateLimit: { windowLimit: 10, windowSize: 60 } }],
   bookingCalendar: [
-    { name: 'availability', path: '/api/availability', method: 'GET', handler: { module: '@aw/booking/server', factory: 'createAvailabilityHandler' }, rateLimit: { windowLimit: 120, windowSize: 60 } },
-    { name: 'booking', path: '/api/booking', method: 'GET,POST', handler: { module: '@aw/booking/server', factory: 'createBookingHandler' }, rateLimit: { windowLimit: 20, windowSize: 60 } },
+    { name: 'availability', path: '/api/availability', method: 'GET', handler: { module: '@aw/ops/server', factory: 'createAvailabilityHandler' }, rateLimit: { windowLimit: 120, windowSize: 60 } },
+    { name: 'booking', path: '/api/booking', method: 'GET,POST', handler: { module: '@aw/ops/server', factory: 'createBookingHandler' }, rateLimit: { windowLimit: 20, windowSize: 60 } },
   ],
-  referenceUpload: [{ name: 'upload', path: '/api/upload', method: 'POST', handler: { module: '@aw/booking/server', factory: 'createUploadHandler' }, rateLimit: { windowLimit: 10, windowSize: 60 } }],
+  referenceUpload: [{ name: 'upload', path: '/api/upload', method: 'POST', handler: { module: '@aw/ops/server', factory: 'createUploadHandler' }, rateLimit: { windowLimit: 10, windowSize: 60 } }],
   ownerDashboard: [{ name: 'owner', path: '/api/owner/*', method: 'GET,POST', handler: { module: '@aw/ops/server', factory: 'createOwnerHandler' }, rateLimit: { windowLimit: 120, windowSize: 60 } }],
 };
 

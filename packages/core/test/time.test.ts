@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   addDays,
+  addMonths,
   diffDays,
   formatHM,
   instantOf,
@@ -28,6 +29,8 @@ describe('calendar helpers', () => {
     expect(addDays('2026-12-31', 1)).toBe('2027-01-01');
     expect(addDays('2026-03-01', -1)).toBe('2026-02-28');
     expect(diffDays('2026-09-23', '2026-10-01')).toBe(8);
+    expect(addMonths('2026-01-31', 1)).toBe('2026-02-28');
+    expect(addMonths('2026-10-18', 12)).toBe('2027-10-18');
   });
 
   it('knows weekdays', () => {

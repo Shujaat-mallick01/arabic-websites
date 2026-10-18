@@ -146,7 +146,7 @@ export function awSite(opts: AwSiteOptions): AstroUserConfig {
     compressHTML: true,
     devToolbar: { enabled: false },
     i18n: { locales: ['ar', 'en'], defaultLocale: 'ar', routing: { prefixDefaultLocale: false } },
-    fonts: fontsFor(opts.tokens) as AstroUserConfig['fonts'],
+    fonts: fontsFor(opts.tokens) as unknown as AstroUserConfig['fonts'],
     security: {
       csp: {
         algorithm: 'SHA-256',

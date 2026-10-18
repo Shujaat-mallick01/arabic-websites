@@ -351,6 +351,30 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/ops:
+    dependencies:
+      '@aw/booking':
+        specifier: workspace:*
+        version: link:../booking
+      '@aw/commerce':
+        specifier: workspace:*
+        version: link:../commerce
+      '@aw/core':
+        specifier: workspace:*
+        version: link:../core
+      '@aw/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+      '@aw/payments':
+        specifier: workspace:*
+        version: link:../payments
+      '@aw/whatsapp':
+        specifier: workspace:*
+        version: link:../whatsapp
+      '@netlify/blobs':
+        specifier: ^11.1.0
+        version: 11.1.4
+
   packages/payments:
     dependencies:
       '@aw/core':

@@ -7,7 +7,7 @@ import { credits } from 'virtual:aw/config';
 const ctx = pageContext(Astro.url);
 const ar = ctx.lang === 'ar';
 const title = ar ? 'مصادر الصور' : 'Image credits';
-const unique = [...new Map(credits.map((c) => [c.landing, c])).values()];
+const unique = [...new Map((credits ?? []).map((c) => [c.landing, c])).values()];
 ---
 <BaseLayout ctx={ctx} meta={{ title, description: '', path: '/credits/' }}>
   <div class="container-page py-12 md:py-16 max-w-4xl">

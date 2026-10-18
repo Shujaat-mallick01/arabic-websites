@@ -95,7 +95,7 @@ const link = 'inline-flex min-h-10 items-center text-small text-deep-muted no-un
     <div class="mt-10 pt-6 border-t border-deep-muted/20 flex flex-col gap-2 text-small text-deep-muted md:flex-row md:flex-wrap md:justify-between md:gap-x-8">
       <p class="m-0">© {ctx.num(year)} {ctx.pick(name)}{cr && <> · {cr}</>}</p>
       {demo.enabled && demo.priceAsterisk && <p id="price-note" class="m-0">{ctx.tr('demo.priceNote')}</p>}
-      {credits.length > 0 && <p class="m-0"><a href={ctx.href('/credits/')} class="text-deep-muted hover:text-deep-accent">{ar ? 'مصادر الصور' : 'Image credits'}</a></p>}
+      {(credits ?? []).length > 0 && <p class="m-0"><a href={ctx.href('/credits/')} class="text-deep-muted hover:text-deep-accent">{ar ? 'مصادر الصور' : 'Image credits'}</a></p>}
       {creditText && <p class="m-0"><a href={ctx.studio.hubUrl} class="text-deep-accent">{creditText}</a></p>}
     </div>
   </div>
